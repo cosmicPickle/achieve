@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="achieveApp">
+    <head>
+        <title>{{title || 'Achieve'}}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/themes/default/app.css" />
+    </head>
+    <body>
+        <div ng-controller="AuthController"></div>
+        <div class="container-fluid container-main">
+            <div ng-view></div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="http://code.jquery.com/color/jquery.color.plus-names-2.1.2.min.js"></script>
+        <script src="assets/js/lib/roundProgress.min.js"></script>
+        <script src="assets/js/lib/ui-bootstrap-tpls-0.13.3.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script src="assets/js/controllers/achievement.js"></script>
+        <script src="assets/js/controllers/category.js"></script>
+        <script src="assets/js/controllers/task.js"></script>
+        <script src="assets/js/controllers/profile.js"></script>
+        <script src="assets/js/controllers/utils.js"></script>
+        <script src="assets/js/services/api.js"></script>
+        <script src="assets/js/services/arrays.js"></script>
+        <script src="assets/js/directives/ui-base.js"></script>
+    </body>
+</html>

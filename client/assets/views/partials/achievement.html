@@ -1,0 +1,71 @@
+<h2 class="page-header" ng-style="{color : achievement.color || achievement.category.color}">
+    {{title}}
+    <a ng-if="achievement.category" href="#/category/achievements/{{achievement.category.alias}}" class="pull-right grey">
+        <i class="fa fa-undo"></i>
+        Back
+    </a>    
+</h2>
+
+<div class="col-md-12 progress-wrap">
+    <div class="progress-previous col-md-2 col-md-offset-1 text-right" tooltip-placement="left" tooltip="Previous Level">
+        <div ng-if="!finished">
+            {{currentLevel.title}}<br />
+            <i class="fa {{currentLevel.image || 'fa-image'}} fa-3x"></i> <br />
+        </div>
+    </div>
+    <div class="progress-body col-md-6">
+        <div class="progress-lable" ng-if="!finished">
+            <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i> <br />
+            This level : {{historyNum}}/{{nextLevel.repetition}}<br />
+            <div ng-if="nextLevel.timeframe || currentLevel.timeframe">in the last {{nextLevel.timeframe}} days </div>
+            <span ng-style="{color : achievement.color || achievement.category.color}"> Overall : {{currentLevel.repetition + historyNum}}/{{totalRepNum}}</span><br />
+        </div>
+        <div class="progress-lable" ng-if="finished">
+            <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i> <br />
+            <span ng-style="{color : achievement.color || achievement.category.color}"> Overall : {{totalRepNum}}/{{totalRepNum}}</span><br />
+        </div>
+        <round-progress
+            max="progress.max"
+            current="progress.current"
+            color="{{colors.color}}"
+            bgcolor="{{colors.bg_color}}"
+            radius="100"
+            stroke="10"
+            semi="false"
+            rounded="false"
+            clockwise="true"
+            responsive="true"
+            duration="800"
+            animation="easeInOutQuart"></round-progress>
+    </div>
+    <div class="progress-next col-md-2" tooltip-placement="right" tooltip="Next Level">
+        <div ng-if="!finished">
+            {{nextLevel.title}}<br />
+            <i class="fa {{nextLevel.image || 'fa-image'}} fa-3x"></i> <br />
+        </div>
+        <div ng-if="finished" ng-style="{color : achievement.color || achievement.category.color}">
+            Finished <br />
+            <i class="fa {{achievement.image || 'fa-image'}} fa-3x"></i> <br />
+        </div>
+    </div>
+</div>
+
+
+<div class="col-md-4 col-md-offset-4 achievement-controls" ng-style="{color : achievement.color || achievement.category.color}">
+    <i class="fa {{fvIcons[favourited]}} fa-2x favourite" ng-click="setFavourite()" tooltip-placement="top" tooltip="Favourite"></i>
+    <a ng-href="#/task/{{achievement.task.alias}}" 
+       tooltip-placement="top" tooltip="Go to task" 
+       ng-style="{color : achievement.color || achievement.category.color}">
+        <i class="fa fa-tasks fa-2x"></i>
+    </a>
+    <i class="fa fa-plus-circle fa-2x add-task-history" 
+       tooltip-placement="top" tooltip="Add history" 
+       ng-style="{color : achievement.color || achievement.category.color}"
+       ng-click="openHistoryModal()"></i>
+</div>
+
+<div class="clearfix"></div>
+<h3 class="page-header">Earned achievements</h3>
+<div class="earned-levels col-md-12">
+    <earned ng-repeat="level in earnedLevels" item="level.level" color="achievement.color || achievement.category.color"></earned>
+</div>

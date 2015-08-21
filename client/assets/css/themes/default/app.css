@@ -1,0 +1,59 @@
+@font-face {
+    font-family: Sreda;
+    src: url('../../../fonts/Sreda.ttf');
+    src: url('../../../fonts/Sreda.otf');
+}
+
+body {
+    font-family: "Sreda", Verdana;
+    background: #fbfbfb; 
+    color:#515151;
+}
+
+.container-main {
+    max-width: 800px;
+    margin:0 auto;
+}
+
+.listing {
+    text-align:center;
+}
+
+a.list-item-a, a.grey {
+    color:#515151;
+}
+
+.progress-wrap {
+    position:relative;
+}
+
+.progress-lable {
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    height: 45%;
+    width: 45%;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.achievement-controls i {
+    cursor: pointer;
+}
+
+.achievement-controls {
+    margin-top:10px;
+    text-align:center;
+}
+
+.achievement-controls i
+{
+    margin-right:5px;
+}
+
+.earned-levels i {
+    margin-right:5px;
+    cursor:default;
+}

@@ -1,0 +1,22 @@
+<h2 class="page-header" ng-style="{color : category.color}">
+    {{title}}
+    <a ng-if="category.parent_category" href="#/category/{{listType}}/{{category.parent_category.alias}}" class="pull-right grey">
+        <i class="fa fa-undo"></i>
+        Back
+    </a>    
+</h2>
+
+<div ng-if="children.length"> 
+    <achv-listing items="children" type="category/{{listType}}" category="category">
+    </achv-listing>
+</div>
+
+<div ng-if="achievements.length"> 
+    <achv-listing items="achievements" type="achievement" category="category">
+    </achv-listing>
+</div>
+
+<div ng-if="tasks.length"> 
+    <achv-listing items="tasks" type="task" category="category">
+    </achv-listing>
+</div>
