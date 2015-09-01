@@ -12,11 +12,30 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap-theme.min.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/lib/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/flag-icon.min.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/themes/default/app.css" />
     </head>
     <body>
         <div ng-controller="AuthController"></div>
         <div class="container-fluid container-main">
+            <div class="locale-select" ng-controller="LocaleController">
+                <i ng-repeat="l in locales" class="flag flag-icon flag-icon-{{l.code}} {{l.active ? 'active' : ''}}" ng-click="changeLocale(l.code)"></i>
+            </div>
+            <ul class="navigation" ng-controller="NavigationController">
+                <li ng-repeat="m in menu" ng-click="toggleMenu(m)">
+                    <a ng-if="!m.items" ng-href="{{m.link}}">
+                        <i class="fa {{m.icon || 'fa-image'}} fa-2x" tooltip="{{m.lable | translate}}" tooltip-placement="bottom"></i>
+                    </a>
+                    <span ng-if="m.items"><i class="fa {{m.icon || 'fa-image'}} fa-2x" tooltip="{{m.lable | translate}}" tooltip-placement="bottom"></i></span>
+                    <ul class="subnav" ng-if="m.items" style="display: {{(m.open) ? 'block' : 'none'}}">
+                        <li ng-repeat="item in m.items">
+                            <a ng-href="{{item.link}}">
+                                <i class="fa {{item.icon || 'fa-image'}} fa-2x" tooltip="{{item.lable | translate}}" tooltip-placement="bottom"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
             <div ng-view></div>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
@@ -27,6 +46,8 @@ and open the template in the editor.
         <script src="http://code.jquery.com/color/jquery.color.plus-names-2.1.2.min.js"></script>
         <script src="assets/js/lib/roundProgress.min.js"></script>
         <script src="assets/js/lib/ui-bootstrap-tpls-0.13.3.min.js"></script>
+        <script src="assets/js/lib/angular-translate.min.js"></script>
+        <script src="assets/js/lib/angular-translate-loader-partial.min.js"></script>
         <script src="assets/js/app.js"></script>
         <script src="assets/js/controllers/achievement.js"></script>
         <script src="assets/js/controllers/category.js"></script>

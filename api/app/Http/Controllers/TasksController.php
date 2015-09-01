@@ -93,6 +93,11 @@ class TasksController extends AbstractController {
     protected function _simpleWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {
         $query->with([
+            'category' => function($query) {
+                $query->with(['locale' => function($query){
+                    $query->where('locale', app('translator')->getLocale());
+                }]);
+            },
             'locale' => function($query){
                 $query->where('locale', app('translator')->getLocale());
         }]);

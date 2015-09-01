@@ -17,6 +17,10 @@ class AuthController extends AbstractController
      */
     public function __construct(Request $request) {
         Auth::init();
+        
+        //We are not using the parent constructor so we must set the locale manually
+        if($request->cookie('locale'))
+            app('translator')->setLocale($request->cookie('locale'));
     }
     
     /**
@@ -58,7 +62,7 @@ class AuthController extends AbstractController
         Auth::setJWT($request->cookie('jwt'));
         
         if(!Auth::checkJWT())
-            $this->_fail(['Unauthorized']);
+            $this->_fail([trans('responses.unauthorized')]);
         
         $this->_success([]);
     }
@@ -74,11 +78,11 @@ class AuthController extends AbstractController
              
         if(!$request->email || !$request->password)
             //Wrong request
-            $this->_fail(['Unauthorized']);
+            $this->_fail([trans('responses.unauthorized')]);
         
         if(!Auth::buildJWT($request->email, $request->password))
             //Failed to build => wrong credentials
-            $this->_fail(['Unauthorized']);
+            $this->_fail([trans('responses.unauthorized')]);
         
         //Let's set the JWT in a cookie ... FOREVER (... well 5 years according
         //to Lumen's documentation)
@@ -100,7 +104,7 @@ class AuthController extends AbstractController
         
         //Let's set the JWT in a cookie ... FOREVER (... well 5 years according
         //to Lumen's documentation)
-        $response = new Response("<script type='text/javascript'>window.location = '../../../client/index.html#/profile/general' </script>");
+        $response = new Response("<script type='text/javascript'>window.location = '../../../client/index.html#/category/achievements/top' </script>");
         $response->withCookie(cookie()->forever('jwt', Auth::getJWT()));
         
         return $response;

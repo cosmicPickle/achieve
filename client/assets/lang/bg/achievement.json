@@ -1,0 +1,16 @@
+{
+    "achievementTitle": "Постижение: {{title}}",
+    "back": "Обратно",
+    "thisLevelProgress": "Това ниво : {{current}}/{{max}}",
+    "inTheLast": "през последните {{days}} дни",
+    "overallProgress": "Общо : {{current}}/{{max}}",
+    "prevLevel": "Предишно ниво",
+    "nextLevel": "Следващо ниво",
+    "finished": "Завършено",
+    "earnedAchievements": "Заслужени постижения",
+    "favourite": "Любимо",
+    "toTask": "Към задача",
+    "performTask": "Изпълни задача",
+    "save": "Запази",
+    "cancel": "Отказ"
+}

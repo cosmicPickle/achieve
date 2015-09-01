@@ -10,6 +10,14 @@
 | and give it the Closure to call when that URI is requested.
 |
 */
+
+$app->put('/locale', 'LangController@setLocale');
+$app->get('/slocale', 'LangController@setLocale');
+$app->get('/locale/view', 'LangController@getLocaleCurrent');
+$app->get('/locale/list', 'LangController@getLocaleList');
+
+$app->get('/translate/view', 'LangController@getPageTranslation');
+
 $app->post('/login', 'AuthController@login');
 $app->get('/logout', 'AuthController@logout');
 $app->get('/token/view', 'AuthController@token');

@@ -1,8 +1,12 @@
 var categoryControllers = angular.module('categoryControllers', []);
 
-categoryControllers.controller('CategoryMainCtrl', ['$rootScope', '$scope', '$q', '$location', '$routeParams', 'Categories', 'Achievements', 'Tasks',
-  function ($rootScope, $scope, $q, $location, $routeParams, Categories, Achievements, Tasks) {
+categoryControllers.controller('CategoryMainCtrl', 
+['$rootScope', '$scope', '$q', '$location', '$routeParams', '$translatePartialLoader', '$translate', 'Categories', 'Achievements', 'Tasks',
+  function ($rootScope, $scope, $q, $location, $routeParams, $translatePartialLoader, $translate, Categories, Achievements, Tasks) {
       
+        //Setting the translation configuration
+        $translatePartialLoader.addPart('category');
+        
         if($routeParams.type != 'achievements' && $routeParams.type != 'tasks')
             $location.path('/404');
 
@@ -26,8 +30,12 @@ categoryControllers.controller('CategoryMainCtrl', ['$rootScope', '$scope', '$q'
         
         //Setting the dynamic title of the page
         $scope.$watch('category', function(category){
-            $scope.title = "Category : " + category.title; 
-            $rootScope.title = $scope.title;
+            $translate('categoryTitle', {
+                title : ((angular.isDefined(category.locale) && category.locale[0].title) || category.title)
+            }).then(function(categoryTitle){
+                $scope.title = categoryTitle; 
+                $rootScope.title = categoryTitle;
+            });
         });
         
        

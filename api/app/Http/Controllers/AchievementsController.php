@@ -117,7 +117,11 @@ class AchievementsController extends AbstractController {
                     $query->where('locale', app('translator')->getLocale());
                 }]);
             },
-            'task',
+            'task' => function($query) {
+                $query->with(['locale' => function($query){
+                    $query->where('locale', app('translator')->getLocale());
+                }]);
+            },
             'locale' => function($query){
                 $query->where('locale', app('translator')->getLocale());
         }]);

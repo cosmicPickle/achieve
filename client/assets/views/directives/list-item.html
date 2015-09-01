@@ -3,6 +3,6 @@
         <div class="list-item-img">
             <i class="fa {{item.image || 'fa-image'}} fa-5x"></i>
         </div>
-        <div class="list-item-title">{{item.title}}</div>
+        <div class="list-item-title">{{item.locale[0].title || item.title}}</div>
     </a>
 </div>

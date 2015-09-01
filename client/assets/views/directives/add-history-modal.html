@@ -5,8 +5,8 @@
     .custom-buttons .btn-info:active:hover,
     .custom-buttons .btn-info.active:hover
     {
-        background: {{achievement.color || achievement.category.color}};
-        color: {{achievement.bg_color || achievement.category.bg_color}}
+        background: {{achievement.color || task.color || achievement.category.color || task.category.color}};
+        color: {{achievement.bg_color || task.bg_color || achievement.category.bg_color || task.category.bg_color}}
     }
     .custom-buttons .btn-link, 
     .custom-buttons .btn-link:active,
@@ -14,11 +14,11 @@
     .custom-buttons .btn-link:active:hover,
     .custom-buttons .btn-link.active:hover
     {
-        color: {{achievement.color || achievement.category.color}}
+        color: {{achievement.color || task.color || achievement.category.color || task.category.color}}
     }
 </style>
 <div class="modal-header custom-buttons">
-    <h3 class="modal-title">Complete task: {{achievement.task.title}}</h2>
+    <h3 class="modal-title">{{'performTask' | translate}} : {{(achievement.task.locale[0].title || achievement.task.title) || (task.locale[0].title || task.title)}}</h2>
 </div>
 <div class="modal-body custom-buttons">
     <div class="row">
@@ -27,6 +27,6 @@
     </div>
 </div>
 <div class="modal-footer custom-buttons">
-    <button class="btn btn-default btn-info" ng-click="saveHistory(dt)">Save</button>
-    <button class="btn btn-default btn-default" ng-click="dismissHistoryModal()">Cancel</button>
+    <button class="btn btn-default btn-info" ng-click="saveHistory(dt)">{{'save' | translate}}</button>
+    <button class="btn btn-default btn-default" ng-click="dismissHistoryModal()">{{'cancel' | translate}}</button>
 </div>

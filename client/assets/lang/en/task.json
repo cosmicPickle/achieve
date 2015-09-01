@@ -1,0 +1,10 @@
+{
+    "taskTitle": "Task: {{title}}",
+    "back": "Back",
+    "taskAchievements": "Achievements with this task",
+    "favourite": "Favourite",
+    "description": "Description",
+    "performTask": "Complete Task",
+    "save": "Save",
+    "cancel": "Cancel"
+}

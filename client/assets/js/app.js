@@ -9,14 +9,33 @@ var achieveApp = angular.module('achieveApp', [
     'utilsControllers',
     'taskControllers',
     'angular-svg-round-progress',
-    'ui.bootstrap']);
+    'ui.bootstrap',
+    'pascalprecht.translate']);
 
-achieveApp.config(['$routeProvider', function($routeProvider) {
+achieveApp.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
         
     $routeProvider
         .when('/category/:type/:alias?', {
             templateUrl : 'assets/views/partials/category.html',
-            controller : 'CategoryMainCtrl'
+            controller : 'CategoryMainCtrl',
+            menu : {
+                icon : 'fa-folder',
+                lable : 'categories',
+                link : '#category/achievements/',
+                nested : false,
+                items : {
+                    '/category/achievements/' : {
+                        link : '#category/achievements/',
+                        icon : 'fa-calendar-check-o',
+                        lable : 'categoryAchievements'
+                    },
+                    '/category/tasks/' : {
+                        link : '#category/tasks/',
+                        icon : 'fa-tasks',
+                        lable : 'categoryTasks'
+                    }
+                }
+            }
         })
         .when('/achievement/:alias', {
             templateUrl : 'assets/views/partials/achievement.html',
@@ -28,7 +47,29 @@ achieveApp.config(['$routeProvider', function($routeProvider) {
         })
         .when('/profile/:action/:user?', {
             templateUrl : 'assets/views/partials/profile.html',
-            controller : 'ProfileMainCtrl'
+            controller : 'ProfileMainCtrl',
+            menu : {
+                icon : 'fa-cog',
+                lable : 'profile',
+                nested : true,
+                items : {
+                    '/profile/general/' : {
+                        link : '#profile/general/',
+                        icon : 'fa-user',
+                        lable : 'generalProfile'
+                    },
+                    '/profile/stat/' : {
+                        link : '#profile/stat/',
+                        icon : 'fa-line-chart',
+                        lable : 'statProfile'
+                    },
+                    '/profile/history/' : {
+                        link : '#profile/history/',
+                        icon : 'fa-calendar',
+                        lable : 'historyProfile'
+                    }
+                }
+            }
         })
         .when('/404', {
             templateUrl : 'assets/views/partials/404.html',
@@ -36,4 +77,10 @@ achieveApp.config(['$routeProvider', function($routeProvider) {
         .otherwise({
             redirectTo : '/404'   
         });
+    
+    $translateProvider.useLoader('$translatePartialLoader', {
+        urlTemplate: 'assets/lang/{lang}/{part}.json'
+    });
+    
+    $translateProvider.preferredLanguage('en');
 }]);

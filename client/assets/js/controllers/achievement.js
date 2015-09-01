@@ -1,8 +1,11 @@
 var achievementControllers = angular.module('achievementControllers', []);
 
 achievementControllers.controller('AchievementMainCtrl', 
-['$rootScope', '$scope', '$q', '$routeParams', '$modal', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr',
-    function ($rootScope, $scope, $q, $routeParams, $modal, Favourites, Achievements, UserAchievements, History, objArr) {
+['$rootScope', '$scope', '$q', '$routeParams', '$modal', '$translatePartialLoader', '$translate', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr',
+    function ($rootScope, $scope, $q, $routeParams, $modal, $translatePartialLoader, $translate, Favourites, Achievements, UserAchievements, History, objArr) {
+        
+        //Setting the translation configuration
+        $translatePartialLoader.addPart('achievement');
         
         //Contains the errors
         $scope.errors = [];
@@ -44,13 +47,17 @@ achievementControllers.controller('AchievementMainCtrl',
         //The total number of repetitions needed for this achievement
         $scope.totalRepNum = 0;
         
-        //The modal which pop's up in order to add a new history item
+        //The modal which pops up in order to add a new history item
         $scope.historyModal = {};
         
         //Setting the dynamic title of the page
         $scope.$watch('achievement', function(achievement){
-            $scope.title = "Achievement : " + achievement.title; 
-            $rootScope.title = $scope.title;
+            $translate('achievementTitle', {
+                title : ((angular.isDefined(achievement.locale) && achievement.locale[0].title) || achievement.title)
+            }).then(function(achievementTitle){
+                $scope.title = achievementTitle; 
+                $rootScope.title = achievementTitle;
+            });
         });
         
         //We need to watch the progress in order to go to a new level should the

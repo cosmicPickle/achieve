@@ -129,11 +129,14 @@ class AbstractController extends BaseController
         //{
         //    var_dump($query, $bindings);
         //});
-
+        
+        //Let's first set the locale
+        if($request->cookie('locale'))
+            app('translator')->setLocale($request->cookie('locale'));
         
         //Nothing is going to work withouth a model name
         if(!$this->modelName)
-            $this->_fail(["Invalid Configuration."]);
+            $this->_fail([trans('responses.invalid_configuration')]);
         
         //Initializing the auth class
         Auth::init();
@@ -143,7 +146,7 @@ class AbstractController extends BaseController
             Auth::setJWT($request->cookie('jwt'));
         
         if(!Auth::authenticateJWT($request->path(), $request->method()))
-            $this->_fail(["Unauthorized"]);
+            $this->_fail([trans('responses.unauthorized')]);
             
         //We get the full model name with namespace and all
         $model = implode('\\', array(
@@ -153,6 +156,7 @@ class AbstractController extends BaseController
         
         //And we are ready
         $this->model = new $model();
+        
     }
     
     public function create(Request $request)
@@ -374,7 +378,7 @@ class AbstractController extends BaseController
         }
         else
             //Or maybe not...
-            $this->_fail (["Invalid id"]);
+            $this->_fail ([trans('responses.invalid_input')]);
     }
     
     public function delete(Request $request)
@@ -389,7 +393,7 @@ class AbstractController extends BaseController
         }
         //First, we have to check if the id is set
         if(!$request->id)
-            $this->_fail(['Invalid Input.']);
+            $this->_fail([trans('responses.invalid_input')]);
         
         if($request->force)
         {

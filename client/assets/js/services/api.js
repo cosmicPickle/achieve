@@ -95,6 +95,14 @@ var nodes = {
     Token : {
         path : 'token',
         actions : ['view']
+    },
+    Locale : {
+        path : 'locale',
+        actions : ['update', 'list', 'view']
+    },
+    Translate : {
+        path : 'translate',
+        actions : ['view']
     }
 };
 

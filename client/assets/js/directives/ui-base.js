@@ -65,11 +65,11 @@ uiBaseDirectives.directive('achvListing', function(){
         replace : true,
         scope : {
             item : '=',
-            color : '='
+            color : '=',
+            href : '@'
         },
         templateUrl : 'assets/views/directives/earned.html',
         link : function(scope, element, attr) {
-            
             var defColor = $(element).css('color');
             
             element.on('mouseenter', function(){

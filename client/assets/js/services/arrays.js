@@ -93,7 +93,7 @@ achieveArrays.factory('objArr', function(){
             });
             
             return sum;
-        }
+        };
         
         return this;
     })();
