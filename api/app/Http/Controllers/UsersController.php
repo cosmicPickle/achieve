@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 //Base dependencies
 use Illuminate\Http\Request;
+use App\Http\Middleware\AuthMiddleware as Auth;
 
 class UsersController extends AbstractController {
     
@@ -54,8 +55,17 @@ class UsersController extends AbstractController {
     
     protected function _viewFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {
-        if($request->id)
-            $query->where('id', $request->id);
+        if($request->user)
+        {
+            if($request->user == -1)
+            {
+                $all = $request->all();
+                $all['user'] = Auth::user('id');
+                $request->replace($all);
+            }
+            
+            $query->where('id', $request->user);
+        }
         else
             $query->where('id', NULL);
     }

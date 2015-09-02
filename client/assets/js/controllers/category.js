@@ -62,8 +62,10 @@ categoryControllers.controller('CategoryMainCtrl',
                     if(!resp.data || !resp.data.Categories.length)
                     {
                         //No category was returned
-                        reject('Invalid Category');
-                        $scope.errors = ['Invalid Category'];
+                        $translate('invalidCategory').then(function(err){
+                            $scope.errors = [err];
+                            reject(err);
+                        });
                         return;
                     }
                     

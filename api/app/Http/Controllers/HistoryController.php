@@ -127,6 +127,11 @@ class HistoryController extends AbstractController {
         if($request->task)
             $query->where('tasks_id', $request->task);
         
+        //We will have two way to limit the history. One will employ soft and 
+        //hard limits. It will be used to fetch history nessecery to determine
+        //the progress for an achievement. The other way will employ startDate 
+        //and endDates for operations that do not require precision like the profile
+        //calendar
         $limit = 0;
         $time = time();
         //The softLimit is a timeframe of the current level in seconds
@@ -139,7 +144,14 @@ class HistoryController extends AbstractController {
         
         if($limit)
             $query->whereBetween('date', [date('c', $limit), date('c', $time)]);
+        elseif($request->startDate || $request->endDate)
+        {
+            if($request->startDate)
+                $query->where('date', '<', date('c', $request->startDate));
+            if($request->endDate)
+                $query->where('date', '<', date('c', $request->endDate));
+        }
         else
-            $query->where('date' < date('c', $time));
+            $query->where('date', '<', date('c', $time));
     }
 }

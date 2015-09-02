@@ -59,7 +59,7 @@ achieveApp.config(['$routeProvider', '$translateProvider', function($routeProvid
                         lable : 'generalProfile'
                     },
                     '/profile/stat/' : {
-                        link : '#profile/stat/',
+                        link : '#profile/stats/',
                         icon : 'fa-line-chart',
                         lable : 'statProfile'
                     },

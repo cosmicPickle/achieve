@@ -87,4 +87,22 @@ uiBaseDirectives.directive('achvListing', function(){
             });
         }
     } 
+}).directive('directiveGenerator', function($compile) {
+    return {
+        scope: {
+            directive: '=',
+            params: '='
+        },
+        link: function(scope, element) {
+            
+            var generatedTemplate = '<' + scope.directive + ' ';
+            
+            angular.forEach(scope.params, function(param, i){
+                generatedTemplate += i + '="params.' + i + '" '
+            })
+            
+            generatedTemplate += '></' + scope.directive + '>';
+            element.append($compile(generatedTemplate)(scope));
+        }
+    };
 });

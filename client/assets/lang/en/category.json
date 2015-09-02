@@ -1,4 +1,5 @@
 {
     "categoryTitle": "Category: {{title}}",
-    "back": "Back"
+    "back": "Back",
+    "invalidCategory": "The category does not exist"
 }

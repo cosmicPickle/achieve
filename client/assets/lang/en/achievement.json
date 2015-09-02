@@ -12,5 +12,6 @@
     "toTask": "Go to task",
     "performTask": "Complete Task",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "invalidAchievement": "The achievement does not exist"
 }

@@ -1,4 +1,5 @@
 {
     "categoryTitle": "Категория: {{title}}",
-    "back": "Обратно"
+    "back": "Обратно",
+    "invalidCategory": "Категорията не съществува"
 }

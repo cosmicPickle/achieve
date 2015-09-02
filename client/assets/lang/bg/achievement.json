@@ -12,5 +12,6 @@
     "toTask": "Към задача",
     "performTask": "Изпълни задача",
     "save": "Запази",
-    "cancel": "Отказ"
+    "cancel": "Отказ",
+    "invalidAchievement": "Постижението не съществува"
 }

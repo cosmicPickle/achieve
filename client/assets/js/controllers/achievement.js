@@ -195,8 +195,10 @@ achievementControllers.controller('AchievementMainCtrl',
                     if(!resp.data || !resp.data.Achievements.length)
                     {
                         //No achievement was returned
-                        reject('Invalid Achievement');
-                        $scope.errors = ['Invalid Achievement'];
+                        $translate('invalidAchievement').then(function(err){
+                            $scope.errors = [err];
+                            reject(err);
+                        });
                         return;
                     }
                     

@@ -66,10 +66,13 @@ utilsControllers.controller('NavigationController', ['$scope', '$route', '$trans
         
         $scope.menu = {};
         $scope.toggleMenu = function(item) {
+            var open = item.open;
+            
             angular.forEach($scope.menu, function(r, i){
                 r.open = 0;
             }); 
-            item.open = !item.open;
+            
+            item.open = !open;
         }
 
         angular.forEach($route.routes, function(r, i){
