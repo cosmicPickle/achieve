@@ -10,7 +10,7 @@
     <div class="progress-previous col-md-2 col-md-offset-1 text-right" tooltip-placement="left" tooltip="{{'prevLevel' | translate}}">
         <div ng-if="!finished">
             {{currentLevel.locale[0].title || currentLevel.title}}<br />
-            <i class="fa {{currentLevel.image || 'fa-image'}} fa-3x"></i> <br />
+            <i class="fa {{currentLevel.image || 'fa-image'}} fa-4x"></i> <br />
         </div>
     </div>
     <div class="progress-body col-md-6">
@@ -20,7 +20,7 @@
             <div ng-if="nextLevel.timeframe || currentLevel.timeframe">
                 <span translate='inTheLast' translate-values='{days : nextLevel.timeframe}'></span>
             </div>
-            <span ng-style="{color : achievement.color || achievement.category.color}"translate='overallProgress' translate-values='{current : currentLevel.repetition + historyNum, max : totalRepNum}'></span><br />
+            <span ng-style="{color : achievement.color || achievement.category.color}"translate='overallProgress' translate-values='{current : totalRepCurrent + historyNum, max : totalRepNum}'></span><br />
         </div>
         <div class="progress-lable" ng-if="finished">
             <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i> <br />
@@ -42,11 +42,11 @@
     </div>
     <div ng-if="!finished" class="progress-next col-md-2" tooltip-placement="right" tooltip="{{'nextLevel' | translate}}">
             {{nextLevel.locale[0].title || nextLevel.title }}<br />
-            <i class="fa {{nextLevel.image || 'fa-image'}} fa-3x"></i> <br />
+            <i class="fa {{nextLevel.image || 'fa-image'}} fa-4x"></i> <br />
     </div>
     <div ng-if="finished" class="progress-next col-md-2" ng-style="{color : achievement.color || achievement.category.color}">
         {{'finished' | translate}}<br />
-        <i class="fa {{achievement.image || 'fa-image'}} fa-3x"></i> <br />
+        <i class="fa {{achievement.image || 'fa-image'}} fa-4x"></i> <br />
     </div>
 </div>
 

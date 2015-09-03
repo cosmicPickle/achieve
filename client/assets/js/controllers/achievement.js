@@ -44,6 +44,10 @@ achievementControllers.controller('AchievementMainCtrl',
         //The number of history entries after the current level
         $scope.historyNum = 0;
         
+        //The total number of times the task has been completed for this achievement
+        //across all levels (without the history from the last level)
+        $scope.totalRepCurrent = 0;
+        
         //The total number of repetitions needed for this achievement
         $scope.totalRepNum = 0;
         
@@ -53,7 +57,7 @@ achievementControllers.controller('AchievementMainCtrl',
         //Setting the dynamic title of the page
         $scope.$watch('achievement', function(achievement){
             $translate('achievementTitle', {
-                title : ((angular.isDefined(achievement.locale) && achievement.locale[0].title) || achievement.title)
+                title : ((angular.isDefined(achievement.locale) && angular.isDefined(achievement.locale[0]) && achievement.locale[0].title) || achievement.title)
             }).then(function(achievementTitle){
                 $scope.title = achievementTitle; 
                 $rootScope.title = achievementTitle;
@@ -133,7 +137,7 @@ achievementControllers.controller('AchievementMainCtrl',
             if($scope.historyModal != {})
                 $scope.historyModal = $modal.open({
                     animation: true,
-                    templateUrl: 'assets/views/directives/add-history-modal.html',
+                    templateUrl: 'assets/views/directives/addHistoryModal.html',
                     scope : $scope,
                     controller : ['$scope', function($scope) {
                        //Setting the date model
@@ -269,6 +273,9 @@ achievementControllers.controller('AchievementMainCtrl',
                     $scope.currentLevel = objArr.min($scope.achievement.levels, 'level_num');
                     
                     //Inserting the new level
+                    /**
+                     * TODO : CREATE THE USER ACHIEVEMENT WITH A PROMISE
+                     */
                     UserAchievements.create({
                         users_id : -1,
                         achievements_id : $scope.achievement.id,
@@ -288,6 +295,9 @@ achievementControllers.controller('AchievementMainCtrl',
                 //If we don't have a next level the achievement is finished
                 $scope.finished = !$scope.nextLevel;
                 
+                //We need the number of reps completed across all levels (without the history from the last level)
+                $scope.totalRepCurrent = objArr.sum($scope.earnedLevels,'level.repetition');
+               
                 //Next we need the total number of repetitions
                 $scope.totalRepNum = objArr.sum($scope.achievement.levels, 'repetition');
                         

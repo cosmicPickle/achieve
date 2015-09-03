@@ -1,6 +1,0 @@
-<h2 class="page-header">Profile</h2>
-<tabset>
-    <tab ng-repeat='(i,a) in actions' ng-if='a.visible' heading='{{a.title | translate}}' active='a.active' ng-click='changeAction(a,i)'>
-        <ng-include src='a.url'></ng-include>
-    </tab>
-</tabset>

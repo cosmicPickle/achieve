@@ -1,6 +1,13 @@
 {
+    "generalTitle": "General: {{name}}",
+    "statsTitle": "Statistics: {{name}}",
+    "historyTitle": "History: {{name}}",
     "general": "General",
     "stats": "Statistics",
     "history": "History",
-    "invalidUser": "The user does not exist."
+    "invalidUser": "The user does not exist.",
+    "noHistory": "There is no history in the selected period.",
+    "date": "Date",
+    "tasks": "Tasks",
+    "loadMore": "Load More"
 }

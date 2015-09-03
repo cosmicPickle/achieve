@@ -147,11 +147,23 @@ class HistoryController extends AbstractController {
         elseif($request->startDate || $request->endDate)
         {
             if($request->startDate)
-                $query->where('date', '<', date('c', $request->startDate));
+                $query->where('date', '>', date('c', $request->startDate));
             if($request->endDate)
                 $query->where('date', '<', date('c', $request->endDate));
         }
         else
             $query->where('date', '<', date('c', $time));
+    }
+    
+    protected function _listWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)
+    {
+        if($request->extended)
+            $query->with([
+                'task'  => function($query){
+                    $query->with(['locale' => function($query){
+                        $query->where('locale', app('translator')->getLocale());
+                    }]);
+                    $query->with(['category']);
+                }]);
     }
 }

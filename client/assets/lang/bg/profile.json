@@ -1,6 +1,13 @@
 {
-    "general": "Общ",
+    "generalTitle": "Общ Профил: {{name}}",
+    "statsTitle": "Статистика: {{name}}",
+    "historyTitle": "История: {{name}}",
+    "general": "Общ Профил",
     "stats": "Статистика",
     "history": "История",
-    "invalidUser": "Потребителят не съществува."
+    "invalidUser": "Потребителят не съществува.",
+    "noHistory": "Няма история за избрания период",
+    "date": "Дата",
+    "tasks": "Задача",
+    "loadMore": "Зареди Повече"
 }

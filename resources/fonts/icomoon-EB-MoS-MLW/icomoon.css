@@ -1,0 +1,97 @@
+@font-face {
+	font-family: 'icomoon';
+	src:url('fonts/icomoon.eot?-cr0ai1');
+	src:url('fonts/icomoon.eot?#iefix-cr0ai1') format('embedded-opentype'),
+		url('fonts/icomoon.ttf?-cr0ai1') format('truetype'),
+		url('fonts/icomoon.woff?-cr0ai1') format('woff'),
+		url('fonts/icomoon.svg?-cr0ai1#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'icomoon';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-busy-mind:before {
+	content: "\e600";
+}
+.icon-calming-mind:before {
+	content: "\e601";
+}
+.icon-meditate:before {
+	content: "\e602";
+}
+.icon-mind-like-water:before {
+	content: "\e603";
+}
+.icon-present-mind:before {
+	content: "\e604";
+}
+.icon-relaxed-mind:before {
+	content: "\e605";
+}
+.icon-trained-mind:before {
+	content: "\e606";
+}
+.icon-training-mind:before {
+	content: "\e607";
+}
+.icon-man-of-steel:before {
+	content: "\e608";
+}
+.icon-getting-the-fat-out:before {
+	content: "\e609";
+}
+.icon-beach-body:before {
+	content: "\e60a";
+}
+.icon-musle-maker:before {
+	content: "\e60b";
+}
+.icon-novice-trainee:before {
+	content: "\e60c";
+}
+.icon-semi-serious-athlete:before {
+	content: "\e60d";
+}
+.icon-serious-athlete:before {
+	content: "\e60e";
+}
+.icon-train:before {
+	content: "\e60f";
+}
+.icon-back-to-the-local-timezone:before {
+	content: "\e610";
+}
+.icon-early-bird:before {
+	content: "\e611";
+}
+.icon-first-rays-of-sunshine:before {
+	content: "\e612";
+}
+.icon-get-up-early:before {
+	content: "\e613";
+}
+.icon-good-morning:before {
+	content: "\e614";
+}
+.icon-morning-person:before {
+	content: "\e615";
+}
+.icon-night-owl:before {
+	content: "\e616";
+}
+.icon-not-so-morning-person:before {
+	content: "\e617";
+}

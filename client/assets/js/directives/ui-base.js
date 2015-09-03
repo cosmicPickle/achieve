@@ -26,7 +26,7 @@ uiBaseDirectives.directive('achvListing', function(){
             type : '=type',
             category : "="
         },
-        templateUrl : 'assets/views/directives/list-item.html',
+        templateUrl : 'assets/views/directives/listItem.html',
         link : function(scope, element, attr) {
             
             var color = scope.item.color || scope.category.color;
@@ -86,6 +86,58 @@ uiBaseDirectives.directive('achvListing', function(){
                 },200);
             });
         }
+    } 
+}).directive('profileNav', function(){
+    return {
+        restict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            action : "=",
+            uid : "="
+        },
+        templateUrl : 'assets/views/directives/profileNav.html',
+        controller : ['$scope', '$location', function($scope, $location){
+                //The profile actions
+            $scope.actions = {
+                general : {
+                    title : 'general',
+                    url : 'assets/views/partials/profileGeneral.html',
+                    public : 1,
+                },
+                stats : {
+                    title : 'stats',
+                    url : 'assets/views/partials/profileStats.html',
+                    public : 0,
+                },
+                history : {
+                    title : 'history',
+                    url : 'assets/views/partials/profileHistory.html',
+                    public : 0,
+                },
+            } 
+
+            //Determining whether all the actions wil be visible or not. If the user id 
+            //is -1 it means we are looking at the current user. Then everething is visible.
+            //If not only the public tabs are visible;
+            angular.forEach($scope.actions, function(a, i){
+               a.visible = + (a.public || (!a.public && $scope.uid == -1)); 
+               a.active = + (a.visible && i == $scope.action);
+            });
+
+            //Modifies the route when the tab is changed
+            $scope.changeAction = function(action, i) {
+
+                if(i == $scope.action)
+                    return; 
+
+                var path = '/profile/' + i;
+                if($scope.uid != -1)
+                    path += "/" + $scope.uid;
+                
+                $location.path(path);
+            }
+        }]
     } 
 }).directive('directiveGenerator', function($compile) {
     return {

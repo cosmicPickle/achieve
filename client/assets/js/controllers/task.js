@@ -1,8 +1,8 @@
 var taskControllers = angular.module('taskControllers', []);
 
 taskControllers.controller('TaskMainCtrl', 
-['$rootScope', '$scope', '$q', '$routeParams', '$modal', '$translatePartialLoader', '$translate', 'Tasks', 'Favourites', 'Achievements', 'History',
-    function ($rootScope, $scope, $q, $routeParams, $modal, $translatePartialLoader, $translate, Tasks, Favourites, Achievements, History) {
+['$rootScope', '$scope', '$q', '$routeParams', '$modal', '$translatePartialLoader', '$translate', '$sanitize', 'Tasks', 'Favourites', 'Achievements', 'History',
+    function ($rootScope, $scope, $q, $routeParams, $modal, $translatePartialLoader, $translate, $sanitize, Tasks, Favourites, Achievements, History) {
         
         //Setting the translation configuration
         $translatePartialLoader.addPart('task');
@@ -31,7 +31,7 @@ taskControllers.controller('TaskMainCtrl',
         //Setting the dynamic title of the page
         $scope.$watch('task', function(task){
             $translate('taskTitle', {
-                title : ((angular.isDefined(task.locale) && task.locale[0].title) || task.title)
+                title : ((angular.isDefined(task.locale) && angular.isDefined(task.locale[0]) && task.locale[0].title) || task.title)
             }).then(function(taskTitle){
                 $scope.title = taskTitle; 
                 $rootScope.title = taskTitle;
@@ -80,7 +80,7 @@ taskControllers.controller('TaskMainCtrl',
             if($scope.historyModal != {})
                 $scope.historyModal = $modal.open({
                     animation: true,
-                    templateUrl: 'assets/views/directives/add-history-modal.html',
+                    templateUrl: 'assets/views/directives/addHistoryModal.html',
                     scope : $scope,
                     controller : ['$scope', function($scope) {
                        //Setting the date model

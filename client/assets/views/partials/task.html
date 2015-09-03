@@ -22,8 +22,8 @@
 </div>
 <div class="row">
     <h3 class="page-header">{{'description' | translate}}</h3>
-    <div class="col-md-12 task-desc">
-        {{task.locale[0].description || task.description}}
+    <div class="col-md-12 task-desc" ng-bind-html='task.locale[0].description || task.description'>
+        
     </div>
 </div>
 <div class="row">

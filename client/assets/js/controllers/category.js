@@ -31,7 +31,7 @@ categoryControllers.controller('CategoryMainCtrl',
         //Setting the dynamic title of the page
         $scope.$watch('category', function(category){
             $translate('categoryTitle', {
-                title : ((angular.isDefined(category.locale) && category.locale[0].title) || category.title)
+                title : ((angular.isDefined(category.locale) && angular.isDefined(category.locale[0]) && category.locale[0].title) || category.title)
             }).then(function(categoryTitle){
                 $scope.title = categoryTitle; 
                 $rootScope.title = categoryTitle;

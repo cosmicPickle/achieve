@@ -1,5 +1,6 @@
 var achieveApp = angular.module('achieveApp', [
     'ngRoute', 
+    'ngSanitize',
     'achieveApi',
     'achieveArrays',
     'uiBaseDirectives',
@@ -45,9 +46,9 @@ achieveApp.config(['$routeProvider', '$translateProvider', function($routeProvid
             templateUrl : 'assets/views/partials/task.html',
             controller : 'TaskMainCtrl'
         })
-        .when('/profile/:action/:user?', {
-            templateUrl : 'assets/views/partials/profile.html',
-            controller : 'ProfileMainCtrl',
+        .when('/profile/general/:user?', {
+            templateUrl : 'assets/views/partials/profileGeneral.html',
+            controller : 'ProfileGeneralCtrl',
             menu : {
                 icon : 'fa-cog',
                 lable : 'profile',
@@ -70,6 +71,14 @@ achieveApp.config(['$routeProvider', '$translateProvider', function($routeProvid
                     }
                 }
             }
+        })
+        .when('/profile/stats/:user?', {
+            templateUrl : 'assets/views/partials/profileStats.html',
+            controller : 'ProfileStatsCtrl',
+        })
+        .when('/profile/history/:user?', {
+            templateUrl : 'assets/views/partials/profileHistory.html',
+            controller : 'ProfileHistoryCtrl',
         })
         .when('/404', {
             templateUrl : 'assets/views/partials/404.html',
