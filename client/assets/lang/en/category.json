@@ -1,5 +1,9 @@
 {
     "categoryTitle": "Category: {{title}}",
     "back": "Back",
-    "invalidCategory": "The category does not exist"
+    "invalidCategory": "The category does not exist",
+    "favAchievements": "Favourites Achievements",
+    "favTasks": "Favourite Tasks",
+    "newachievement" : "New Achievement",
+    "newtask" : "New Task"
 }

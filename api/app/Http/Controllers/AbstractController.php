@@ -123,6 +123,7 @@ class AbstractController extends BaseController
      */
     public function __construct(Request $request)
     {
+        //$this->_fail(["TEST FAIL"]);
         //Uncomment to enable DB debug/
         
         //\Event::listen('illuminate.query', function($query, $bindings)
@@ -146,7 +147,7 @@ class AbstractController extends BaseController
             Auth::setJWT($request->cookie('jwt'));
         
         if(!Auth::authenticateJWT($request->path(), $request->method()))
-            $this->_fail([trans('responses.unauthorized')]);
+            $this->_unauthorized();
             
         //We get the full model name with namespace and all
         $model = implode('\\', array(
@@ -444,6 +445,16 @@ class AbstractController extends BaseController
     protected function _fail($errors, $return = FALSE)
     {
         return $this->_respond(0, NULL, $errors, $return);
+    }
+    
+    /**
+     * This function sends an unauthorized error to  the client side
+     * 
+     */
+    
+    protected function _unauthorized($return = FALSE)
+    {
+        return $this->_respond(-1, NULL, [trans('responses.unauthorized')], $return);
     }
     
     /**

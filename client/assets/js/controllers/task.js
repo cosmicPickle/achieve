@@ -104,7 +104,7 @@ taskControllers.controller('TaskMainCtrl',
         //Saves a history entry and closes the modal
         $scope.saveHistory = function(dt) {
             //Converting to unix timestamp
-            var unix = Math.floor(dt.getTime()/1000);
+            var unix = moment(dt.getTime()).format('X');
             
             //Adding entry to history
             History.create({
@@ -153,7 +153,7 @@ taskControllers.controller('TaskMainCtrl',
         fetchTask().then(function(){
            
             //Fetch favourites
-            Favourites.list({task : $scope.task.id, user_id : -1}, function(resp){
+            Favourites.list({task_id : $scope.task.id, user_id : -1}, function(resp){
                 
                 if(resp.status == 0)
                     $scope.errors = resp.errors;

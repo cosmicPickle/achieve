@@ -7,16 +7,22 @@
 </h2>
 
 <div ng-if="children.length"> 
-    <achv-listing items="children" type="category/{{listType}}" category="category">
-    </achv-listing>
+    <div class="listing">
+        <achv-list-item ng-repeat="item in children" item="item" type="category/{{listType}}" color-default="category.color">
+        </achv-list-item>
+    </div>
 </div>
 
 <div ng-if="achievements.length"> 
-    <achv-listing items="achievements" type="achievement" category="category">
-    </achv-listing>
+    <div class="listing">
+        <achv-list-item ng-repeat="item in achievements" item="item" type="achievement" color-default="category.color">
+        </achv-list-item>
+    </div>
 </div>
 
 <div ng-if="tasks.length"> 
-    <achv-listing items="tasks" type="task" category="category">
-    </achv-listing>
+    <div class="listing">
+        <achv-list-item ng-repeat="item in tasks" item="item" type="task" color-default="category.color">
+        </achv-list-item>
+    </div>
 </div>

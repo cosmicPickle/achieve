@@ -1,36 +1,20 @@
 var uiBaseDirectives = angular.module('uiBaseDirectives',[]);
 
-uiBaseDirectives.directive('achvListing', function(){
-    return {
-        restrict : 'E',
-        transclude : true,
-        replace : true,
-        scope : {
-            items : '=',
-            type : '@',
-            category : "="
-        },
-        templateUrl : 'assets/views/directives/listing.html',
-        link : function(scope, element, attr) {
-            
-        }
-    };
-})
-.directive('achvListItem', function(){
+uiBaseDirectives.directive('achvListItem', function(){
     return {
         restict : 'E',
         transclude : true,
         replace : true,
         scope : {
-            item : '=item',
-            type : '=type',
-            category : "="
+            item : '=',
+            type : '@',
+            colorDefault : "="
         },
         templateUrl : 'assets/views/directives/listItem.html',
         link : function(scope, element, attr) {
             
-            var color = scope.item.color || scope.category.color;
-            var defColor = $(element).css('color');
+            var color = (scope.item && scope.item.color) || scope.colorDefault;
+;            var defColor = $(element).css('color');
             
             element.on('mouseenter', function(){
                 $(element).children('a').finish();
@@ -157,4 +141,89 @@ uiBaseDirectives.directive('achvListing', function(){
             element.append($compile(generatedTemplate)(scope));
         }
     };
+}).directive('stats', function(){
+    return {
+        restrict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            items : '=',
+            linkType : '@',
+        },
+        templateUrl : 'assets/views/directives/stats.html',
+    };
+})
+.directive('statsItem', function(){
+    return {
+        restict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            item : '=',
+            linkType : '=',
+        },
+        templateUrl : 'assets/views/directives/statsItem.html',
+        controller : ['$scope', function($scope){
+           $scope.link = '#/' + $scope.linkType + '/';
+           $scope.title = '';
+           $scope.image = '';
+           $scope.colors = {
+               color : '',
+               bg_color : '',
+           }
+           
+           if($scope.linkType == 'achievement')
+           {
+               $scope.link += $scope.item.achievement.alias;
+               $scope.title = $scope.item.achievement.locale[0].title || $scope.item.achievement.title;
+               $scope.image = $scope.item.achievement.image || 'fa-image';
+               
+               $scope.colors = {
+                   color : $scope.item.achievement.color || $scope.item.achievement.category.color,
+                   bg_color : $scope.item.achievement.bg_color || $scope.item.achievement.category.bg_color
+               }
+           }
+           if($scope.linkType == 'category')
+           {
+               $scope.link += $scope.item.achievement.category.alias;
+               $scope.title = $scope.item.achievement.category.locale[0].title || $scope.item.achievement.category.title;
+               $scope.image = $scope.item.achievement.category.image || 'fa-image';
+               
+               $scope.colors = {
+                   color : $scope.item.achievement.category.color,
+                   bg_color : $scope.item.achievement.category.bg_color
+               }
+           }
+           
+           if($scope.linkType == 'task')
+           {
+               $scope.link += $scope.item.task.alias;
+               $scope.title = $scope.item.task.locale[0].title || $scope.item.task.title;
+               $scope.image = $scope.item.task.image || 'fa-image';
+               
+               $scope.colors = {
+                   color : $scope.item.task.color || $scope.item.task.category.color,
+                   bg_color : $scope.item.task.bg_color || $scope.item.task.category.bg_color
+               }
+           }
+        }],
+        link : function(scope, element, attr) {
+            
+            var defColor = $(element).css('color');
+            
+            element.on('mouseenter', function(){
+                $(element).children('a').finish();
+                $(element).children('a').animate({
+                   color : scope.colors.color || defColor
+                },100);
+            });
+            
+            element.on('mouseleave', function(){
+                $(element).children('a').finish();
+                $(element).children('a').animate({
+                   color : defColor
+                },200);
+            });
+        }
+    } 
 });

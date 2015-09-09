@@ -1,0 +1,11 @@
+{
+    "createPersonal" : "Create your personal goal",
+    "createCategory" : "Create category",
+    "createTask" : "Create task",
+    "createAchievement" : "Create achievement",
+    "newcategory" : "Creating category: Step {{step}}",
+    "newtask" : "Creating task: Step {{step}}",
+    "newachievement" : "Creating achievement: Step {{step}}",
+    "selectCategory" : "Select category",
+    "noChildCategories" : "This category is empty."
+}

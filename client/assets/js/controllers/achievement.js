@@ -139,7 +139,7 @@ achievementControllers.controller('AchievementMainCtrl',
                     animation: true,
                     templateUrl: 'assets/views/directives/addHistoryModal.html',
                     scope : $scope,
-                    controller : ['$scope', function($scope) {
+                    controller : ['$scope', 'History', function($scope, History) {
                        //Setting the date model
                        $scope.dt = new Date();
                     }],
@@ -161,7 +161,7 @@ achievementControllers.controller('AchievementMainCtrl',
         //Saves a history entry and closes the modal
         $scope.saveHistory = function(dt) {
             //Converting to unix timestamp
-            var unix = Math.floor(dt.getTime()/1000);
+            var unix = moment(dt.getTime()).format('X');
             
             //Adding entry to history
             History.create({
@@ -246,7 +246,7 @@ achievementControllers.controller('AchievementMainCtrl',
             
         fetchAchievement().then(function(){
            
-            Favourites.list({achievement : $scope.achievement.id, user_id : -1}, function(resp){
+            Favourites.list({achievement_id : $scope.achievement.id, user_id : -1}, function(resp){
                 
                 if(resp.status == 0)
                     $scope.errors = resp.errors;
@@ -323,15 +323,26 @@ achievementControllers.controller('AchievementMainCtrl',
                     }
                     if($scope.achievement.type.alias == 'timed')
                     {
-                        //Need the timeframe of the achievement to be the timeframe of the next level minus the timeframe
-                        //of the current one
+                        //Need the timeframe of the achievement. It shows the number of days,
+                        //in which the user needs to complete the achievement
                         var timeframe = ($scope.nextLevel.timeframe)*24*60*60;
-
+                        //The timestamp of the last achieved level
+                        var lastAchievedTS = new Date(objArr.max($scope.earnedLevels, 'level.level_num').created_at.replace(" ", "T") + "+00:00").getTime();
+                        //the MomentJS of the last achieved level
+                        var lastAchieved = moment(lastAchievedTS);
+                        
+                        //We need the start date to be either now - the timeframe of the achievement,
+                        //or the time of the last achieved level, whichever comes first
+                        var start = moment().subtract(timeframe, 'days');
+                        if(lastAchieved.isAfter(start))
+                            start = lastAchieved;
+                        
+                        //The end is NOW!!!!
+                        var end = moment();
+                        
                         History.list({
-                            //Soft limit should be the timeframe allowed by the current achievement level. Unix timestamp
-                            softLimit : timeframe,
-                            //Hard limit should be the date of the last achieved level. String (as returned from the server)
-                            hardLimit : objArr.max($scope.earnedLevels, 'level.level_num').created_at,
+                            startDate : start.format('X'),
+                            endDate : end.format('X'),
                             task : $scope.achievement.task.id, 
                             user : -1,
                             paginate: 0

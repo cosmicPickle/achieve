@@ -3,19 +3,48 @@ var achieveApp = angular.module('achieveApp', [
     'ngSanitize',
     'achieveApi',
     'achieveArrays',
+    'achieveWizard',
     'uiBaseDirectives',
     'achievementControllers',
     'categoryControllers',
     'profileControllers',
     'utilsControllers',
     'taskControllers',
+    'personalControllers',
     'angular-svg-round-progress',
     'ui.bootstrap',
+    'ui-iconpicker',
+    'colorpicker.module',
     'pascalprecht.translate']);
 
-achieveApp.config(['$routeProvider', '$translateProvider', function($routeProvider, $translateProvider) {
+achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', function($routeProvider, $translateProvider, $httpProvider) {
         
     $routeProvider
+        .when('/favourites', {
+            templateUrl : 'assets/views/partials/favourites.html',
+            controller : 'FavouritesCtrl',
+            menu : {
+                icon : 'fa-home',
+                lable : 'myStuff',
+                nested : true,
+                items : {
+                    '/favourites/' : {
+                        link : '#favourites/',
+                        icon : 'fa-heart',
+                        lable : 'favourites'
+                    },
+                    '/personal/create/' : {
+                        link : '#personal/create',
+                        icon : 'fa-plus-circle',
+                        lable : 'createNew'
+                    },
+                }
+            }
+        })
+        .when('/personal/create/:type?', {
+            templateUrl : 'assets/views/partials/personalCreate.html',
+            controller : 'PersonalCreateCtrl',
+        })
         .when('/category/:type/:alias?', {
             templateUrl : 'assets/views/partials/category.html',
             controller : 'CategoryMainCtrl',
@@ -92,4 +121,46 @@ achieveApp.config(['$routeProvider', '$translateProvider', function($routeProvid
     });
     
     $translateProvider.preferredLanguage('en');
+    
+    //Registering the response interceptor to redirect to login if we get a request 
+    //that is unouthorized
+    $httpProvider.interceptors.push(['$q', '$location', '$rootScope', '$injector', function($q, $location, $rootScope, $injector) {
+        return {
+            'request': function (config) {
+                $rootScope.httpLoading = true;
+                return config || $q.when(config);
+            },
+            'requestError': function (rejection) {
+                $rootScope.http = $rootScope.http || $injector.get('$http');
+                if ($rootScope.http.pendingRequests.length < 1) {
+                    $rootScope.httpLoading = false;
+                }
+                return $q.reject(rejection);
+            },
+            'response' : function(response) {
+                
+                if(response.data.status == -1)
+                    window.location = $location.absUrl().split('index.html')[0] + 'login.html';
+                if(response.data.status == 0)
+                    $rootScope.errors = response.data.errors;
+                
+                $rootScope.http = $rootScope.http || $injector.get('$http');
+                
+                if ($rootScope.http.pendingRequests.length < 1) {
+                    $rootScope.httpLoading = false;
+                }
+                
+                return response || $q.when(response);
+            },
+            'responseError': function (rejection) {
+                $rootScope.http = $rootScope.http || $injector.get('$http');
+                
+                if ($rootScope.http.pendingRequests.length < 1) {
+                    $rootScope.httpLoading = false;
+                }
+                
+                return $q.reject(rejection);
+            }
+        };
+    }]);
 }]);

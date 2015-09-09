@@ -106,7 +106,7 @@ class AuthMiddleware
      * @param int $ttl - time to live
      * @return boolean
      */
-    public static function buildJWT($email, $password, $ttl = 3600)
+    public static function buildJWT($email, $password, $ttl = 0)
     {
         //Does the user exist?
         if(!self::_authenticateUser($email, $password))

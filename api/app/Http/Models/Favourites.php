@@ -15,11 +15,11 @@ class Favourites extends Model
     
     public function achievement() 
     {
-        return $this->belongsTo('App\Http\Models\Categories', 'achievements_id'); 
+        return $this->belongsTo('App\Http\Models\Achievements', 'achievements_id'); 
     }
     
     public function task()
     {
-        return $this->belongsTo('App\Http\Models\Tasks', 'task_id'); 
+        return $this->belongsTo('App\Http\Models\Tasks', 'tasks_id'); 
     }
 }

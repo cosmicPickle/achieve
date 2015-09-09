@@ -112,3 +112,60 @@ categoryControllers.controller('CategoryMainCtrl',
         });
             
   }]);
+  
+categoryControllers.controller('FavouritesCtrl', 
+['$scope', '$q', '$location', '$routeParams', '$translatePartialLoader', '$translate', 'Favourites',
+  function ($scope, $q, $location, $routeParams, $translatePartialLoader, $translate, Favourites) {
+      
+        //Setting the translation configuration
+        $translatePartialLoader.addPart('category');
+
+        //Contains any errors that come up
+        $scope.errors = [];
+
+        //Contains the favourite achievement of users
+        $scope.favAchievements = [];
+        
+        //The current page of achievements being loaded
+        $scope.pageAchv = 1;
+        
+        //Indicates if we need to show the "Load More" button for achievements
+        $scope.loadMoreAchv = 1;
+        
+        //Contains the favourite tasks of users
+        $scope.favTasks = [];
+        
+        //The current page of tasks being loaded
+        $scope.pageTasks = 1;
+        
+        //Indicates if we need to show the "Load More" button for tasks
+        $scope.loadMoreTasks = 1;
+        
+        $scope.loadMoreAchievements = function() {
+            Favourites.list({achievement : 1, extended : 1, page : $scope.pageAchv}, function(resp){
+                if(resp.data != null && resp.data.Favourites)
+                    angular.forEach(resp.data.Favourites, function(fav, i){
+                        $scope.favAchievements[$scope.favAchievements.length] = fav;
+                    })
+                if(resp.data == null || resp.data.ItemsNum < resp.data.itemsPerPage)
+                    $scope.loadMoreAchv = 0;
+            });   
+            $scope.pageAchv ++;
+        }
+        
+        $scope.loadMoreTasks = function() {
+            Favourites.list({task : 1, extended : 1, page : $scope.pageTasks}, function(resp){
+                if(resp.data != null && resp.data.Favourites)
+                    angular.forEach(resp.data.Favourites, function(fav, i){
+                        $scope.favTasks[$scope.favTasks.length] = fav;
+                    })
+                if(resp.data == null || resp.data.ItemsNum < resp.data.itemsPerPage)
+                    $scope.loadMoreTasks = 0;
+            });  
+            $scope.pageTasks ++;
+        }
+        
+        $scope.loadMoreAchievements();
+        $scope.loadMoreTasks();
+  }]);
+

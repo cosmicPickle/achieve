@@ -10,6 +10,31 @@ body {
     color:#515151;
 }
 
+.ui-overlay {
+    position:fixed;
+    top:0;
+    bottom:0;
+    left: 0;
+    right:0;
+    background: rgb(0, 0, 0); /* The Fallback */
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 100;
+}
+
+.ui-overlay div {
+    height:10%;
+    width:10%;
+    text-align: center;
+    margin: auto;
+    position: absolute;
+    top: 0; 
+    left: 0; 
+    bottom: 0; 
+    right: 0;
+    z-index:150;
+    color:#ffffff;
+}
+
 .container-main {
     max-width: 800px;
     margin:0 auto;
@@ -21,6 +46,7 @@ body {
 
 a.list-item-a, a.grey {
     color:#515151;
+    cursor: pointer;
 }
 
 .progress-wrap {
@@ -127,6 +153,11 @@ ul.subnav {
     padding:3px;
     position:absolute;
     background: #c1c1c1;
+    z-index:90;
+}
+
+ul.subnav li {
+    display:block;
 }
 
 ul.subnav li a {
@@ -135,4 +166,21 @@ ul.subnav li a {
 
 ul.subnav li a i span {
     font-size:11px;
+}
+
+.stats {
+    text-align:center;
+    margin:20px;
+}
+
+.stats-item {
+    margin-bottom: 10px;
+}
+
+a.stats-item-a, a.grey {
+    color:#515151;
+}
+
+.wizard-step {
+    display:none;
 }

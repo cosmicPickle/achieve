@@ -62,7 +62,7 @@ class AuthController extends AbstractController
         Auth::setJWT($request->cookie('jwt'));
         
         if(!Auth::checkJWT())
-            $this->_fail([trans('responses.unauthorized')]);
+            $this->_unauthorized();
         
         $this->_success([]);
     }
@@ -78,11 +78,11 @@ class AuthController extends AbstractController
              
         if(!$request->email || !$request->password)
             //Wrong request
-            $this->_fail([trans('responses.unauthorized')]);
+            $this->_unauthorized();
         
         if(!Auth::buildJWT($request->email, $request->password))
             //Failed to build => wrong credentials
-            $this->_fail([trans('responses.unauthorized')]);
+            $this->_unauthorized();
         
         //Let's set the JWT in a cookie ... FOREVER (... well 5 years according
         //to Lumen's documentation)

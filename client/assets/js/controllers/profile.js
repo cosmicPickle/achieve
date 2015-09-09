@@ -34,14 +34,23 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
 }]);
 
 profileControllers.controller('ProfileStatsCtrl', 
-['$rootScope', '$scope', '$q', '$routeParams', '$route', '$translatePartialLoader', '$translate', 'Users', 'UserAchievements', 'objArr',
-function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader, $translate, Users,  UserAchievements, objArr) {
+['$rootScope', '$scope', '$q', '$routeParams', '$route', '$translatePartialLoader', '$translate', 'Users', 'Statistics',
+function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader, $translate, Users, Statistics) {
     
     //Setting the translation configuration
     $translatePartialLoader.addPart('profile');
 
     //Contains the errors
     $scope.errors = [];
+    
+    //The statistics about the achievements with most levels achieved
+    $scope.achievementStats = [];
+    
+    //The statistics about the categories with most levels achieved
+    $scope.categoryStats = [];
+    
+    //The statistics showing the tasks most completed in the last month
+    $scope.taskStats = [];
     
     //Setting the user id
     $scope.uid = $routeParams.user || -1;
@@ -63,6 +72,50 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
             $rootScope.title = statsTitle;
         });
     });
+    
+    //Contains the promise of a fetched user
+    var fetchUser = function() {
+        return $q(function(resolve, reject){
+            Users.simple({user : $scope.uid}, function(resp) {
+                    
+                if(resp.status == 0)
+                {
+                    reject('Status : 0')
+                    $scope.errors = resp.errors;
+                    return;
+                }
+
+                if(!resp.data || !resp.data.Users.length)
+                {
+                    //No user was returned
+                    $translate('invalidUser').then(function(err){
+                        $scope.errors = [err];
+                        reject(err);
+                    });
+
+                    return;
+                }
+
+                resolve('');
+                $scope.user = resp.data.Users[0];
+            });
+        });
+    };
+    
+    fetchUser().then(function(){
+        Statistics.mostAchievements({ user : $scope.uid}, function(resp){
+            if(angular.isDefined(resp.data.achievedLevels))
+                $scope.achievementStats = resp.data.achievedLevels;
+        });
+        Statistics.mostCategories({ user : $scope.uid}, function(resp){
+            if(angular.isDefined(resp.data.achievedLevels))
+                $scope.categoryStats = resp.data.achievedLevels;
+        });
+        Statistics.mostTasks({ user : $scope.uid}, function(resp){
+            if(angular.isDefined(resp.data.completedTasks))
+                $scope.taskStats = resp.data.completedTasks;
+        });
+    })
     
 }]);
 
@@ -86,11 +139,12 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
     //The current action
     $scope.action = 'history';
     
-    var now = new Date();
+    var now = moment();
     //Load history from the beggining of the month
-    $scope.startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+    $scope.startDate = moment(now).startOf("month");
     //The upper limit will be the end of today
-    $scope.endDate = new Date(now.getFullYear(), now.getMonth(), now.getDay() - 1, 23, 59, 59);
+    $scope.endDate = moment(now).endOf("day");
+    
     //The raw history
     $scope.history = [];
     //Calendar: the history by days
@@ -138,11 +192,10 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
     
     //The function that is used to load history
     $scope.loadHistory = function() {
-        console.log(new Date($scope.startDate), new Date($scope.endDate));
         History.list({
             user : $scope.uid, 
-            startDate : Math.floor($scope.startDate/1000), 
-            endDate : Math.floor($scope.endDate/1000),
+            startDate : $scope.startDate.format('X'), 
+            endDate : $scope.endDate.format('X'),
             paginate : 0,
             extended: 1}, function(resp){
                 if(resp.status == 0)
@@ -156,7 +209,6 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
                     //No history was returned
                     $translate('noHistory').then(function(err){
                         $scope.errors = [err];
-                        reject(err);
                     });
                     return;
                 }
@@ -169,34 +221,34 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
     //The function that creates the calendar
     $scope.createCalendar = function() {
         
-        for(var time = new Date($scope.endDate).setHours(0,0,0); 
-                time >= $scope.startDate.getTime(); 
-                time -= 1000*60*60*24)
+        var time = moment($scope.endDate).startOf('day');
+        while(!time.isSame($scope.startDate))
         {
             var index = $scope.calendar.length;
             $scope.calendar[index] = {
-                timestamp : time,
+                timestamp : time.format("DD ddd MM YYYY"),
                 history : []
             };
-            
             angular.forEach($scope.history, function(h, i) {
-                var hdate = new Date(h.date.replace(" ", "T"));
-                console.log(new Date(time), new Date(time + 1000*60*60*24), hdate, hdate.getTime() >= time, hdate.getTime() <= time + 1000*60*60*24);
-                if(hdate.getTime() >= time && hdate.getTime() <= time + 1000*60*60*24)
+                var hdatem = moment(h.date.replace(" ", "T") + "+00:00");
+                var start = moment(time);
+                var end = moment(time).add(1, 'days');
+                if(hdatem.isBetween(start, end) || hdatem.isSame(start) || hdatem.isSame(end))
                 {
+                    h.date = hdatem.format("YYYY-MM-DD HH:mm:SS");
                     $scope.calendar[index].history[$scope.calendar[index].history.length] = h;
                 }
+               
             });
-            console.log("BREAK");
+            time = time.subtract(1, 'days');
         }
-        
-        console.log($scope.calendar);
     }
     
     //Loads more entries by moving the time limits and fetching history again
     $scope.loadMore = function() {
-        $scope.endDate = new Date($scope.startDate.getTime() - 1000);
-        $scope.startDate = new Date($scope.startDate.getTime() - 7*24*60*60*1000);
+        $scope.endDate = moment($scope.startDate).subtract(1, 'seconds');
+        $scope.startDate = moment($scope.startDate).subtract(7, 'days');
+
         $scope.loadHistory();
     }
     

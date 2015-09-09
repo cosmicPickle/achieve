@@ -9,5 +9,10 @@
     "noHistory": "There is no history in the selected period.",
     "date": "Date",
     "tasks": "Tasks",
-    "loadMore": "Load More"
+    "loadMore": "Load More",
+    "statMostAchievements" : "Top 3 achievements with most levels completed",
+    "statMostCategories" : "Top 3 categories with most levels completed",
+    "statMostTasks" : "Top 3 most performed tasks in the last 30 days",
+    "levelsCompleted" : "levels completed",
+    "completedTimes" : "Completed {{times}} times."
 }

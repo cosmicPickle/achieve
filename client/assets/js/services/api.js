@@ -103,6 +103,29 @@ var nodes = {
     Translate : {
         path : 'translate',
         actions : ['view']
+    },
+    Statistics : {
+        path: 'stats/most',
+        actions : {
+            mostAchievements : {
+                method : 'GET', 
+                params : {
+                    action : 'achievements'
+                }
+            },
+            mostCategories : {
+                method : 'GET', 
+                params : {
+                    action : 'categories'
+                }
+            },
+            mostTasks : {
+                method : 'GET', 
+                params : {
+                    action : 'tasks'
+                }
+            }
+        }
     }
 };
 
@@ -110,8 +133,13 @@ angular.forEach(nodes, function(node, lable){
     var methods = {};
     
     angular.forEach(node.actions, function(action, i){
-       if(typeof routeConfig[action] != 'undefined')
-           methods[action] = routeConfig[action];
+        if(angular.isString(action) && typeof routeConfig[action] != 'undefined')
+            methods[action] = routeConfig[action];
+        else if(angular.isObject(action))
+        {
+            //for oddities in the routes
+            methods[i] = action;
+        }
     });
     
     achieveApi.factory(lable, ['$resource',
@@ -119,9 +147,3 @@ angular.forEach(nodes, function(node, lable){
             return $resource('../api/public/index.php/' + node.path + '/:action', {}, methods);
     }]);
 });
-
-
-
-  
-
-

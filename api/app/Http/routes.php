@@ -120,3 +120,7 @@ $app->get('/users/view', 'UsersController@read');
 $app->get('/users/simple', 'UsersController@read');
 $app->put('/users/', 'UsersController@update');
 $app->delete('/users/', 'UsersController@delete');
+
+$app->get('/stats/most/achievements', 'StatisticsController@mostAchievements');
+$app->get('/stats/most/tasks', 'StatisticsController@mostTasks');
+$app->get('/stats/most/categories', 'StatisticsController@mostCategories');

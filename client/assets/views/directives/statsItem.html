@@ -1,0 +1,36 @@
+<div class="col-md-4 stats-item">
+    <a ng-if="linkType != 'task'" ng-href="{{link}}" class="stats-item-a" >
+        <div class="col-md-12 progress-wrap">
+            <div class="stats-item-title">{{title}}</div>
+            <div class="progress-body col-md-12">
+                <div class="progress-lable">
+                    <i class="fa {{image}} fa-3x"></i> <br />
+                    {{item.achieved_levels}}/{{item.num_levels}} {{'levelsCompleted' | translate}}
+                </div>
+                <round-progress
+                    max="item.num_levels"
+                    current="item.achieved_levels"
+                    color="{{colors.color}}"
+                    bgcolor="{{colors.bg_color}}"
+                    radius="100"
+                    stroke="10"
+                    semi="false"
+                    rounded="false"
+                    clockwise="true"
+                    responsive="true"
+                    duration="800"
+                    animation="easeInOutQuart"></round-progress>
+            </div>
+        </div>
+    </a>
+    
+    <a ng-if="linkType == 'task'" ng-href="{{link}}" class="stats-item-a" >
+        <div class="stats-item-title">{{title}}</div>
+        <div class="stats-item-img">
+            <i class="fa {{image}} fa-5x"></i>
+        </div>
+        <span translate='completedTimes' translate-values='{times : item.history_num}'></span>
+    </a>
+
+</div>
+

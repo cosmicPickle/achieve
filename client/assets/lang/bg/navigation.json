@@ -4,5 +4,9 @@
     "profile": "Профил",
     "generalProfile": "Общ",
     "statProfile": "Статистика",
-    "historyProfile": "История"
+    "historyProfile": "История",
+    "favourites": "Любими",
+    "personal": "Лични",
+    "createNew": "Създай Нов",
+    "myStuff": "Моите неща"
 }
