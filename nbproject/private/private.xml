@@ -4,16 +4,15 @@
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
             <file>file:/D:/wamp/www/dev/achieve/client/assets/js/services/api.js</file>
+            <file>file:/D:/wamp/www/dev/achieve/client/assets/views/partials/personalCreate.html</file>
             <file>file:/D:/wamp/www/dev/achieve/client/assets/js/controllers/achievement.js</file>
             <file>file:/D:/wamp/www/dev/achieve/client/index.html</file>
             <file>file:/D:/wamp/www/dev/achieve/client/assets/js/directives/ui-base.js</file>
-            <file>file:/D:/wamp/www/dev/achieve/client/assets/views/partials/profileStats.html</file>
+            <file>file:/D:/wamp/www/dev/achieve/client/assets/lang/en/personal.json</file>
             <file>file:/D:/wamp/www/dev/achieve/client/assets/css/themes/default/app.css</file>
-            <file>file:/D:/wamp/www/dev/achieve/client/assets/views/directives/stats.html</file>
+            <file>file:/D:/wamp/www/dev/achieve/client/assets/js/controllers/personal.js</file>
             <file>file:/D:/wamp/www/dev/achieve/client/assets/js/controllers/profile.js</file>
             <file>file:/D:/wamp/www/dev/achieve/client/assets/js/app.js</file>
-            <file>file:/D:/wamp/www/dev/achieve/client/assets/views/partials/profileHistory.html</file>
-            <file>file:/D:/wamp/www/dev/achieve/client/assets/views/partials/profileGeneral.html</file>
         </group>
     </open-files>
 </project-private>

@@ -41,9 +41,25 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', func
                 }
             }
         })
-        .when('/personal/create/:type?', {
+        .when('/personal/create/', {
             templateUrl : 'assets/views/partials/personalCreate.html',
             controller : 'PersonalCreateCtrl',
+        })
+        .when('/personal/create/achievement', {
+            templateUrl : 'assets/views/partials/personalAchievementCreate.html',
+            controller : 'PersonalAchievementCreateCtrl',
+        })
+        .when('/personal/create/category', {
+            templateUrl : 'assets/views/partials/personalCategoryCreate.html',
+            controller : 'PersonalCategoryCreateCtrl',
+        })
+        .when('/personal/create/task', {
+            templateUrl : 'assets/views/partials/personalTaskCreate.html',
+            controller : 'PersonalTaskCreateCtrl',
+        })
+        .when('/personal/create/level', {
+            templateUrl : 'assets/views/partials/personalLevelCreate.html',
+            controller : 'PersonalLevelCreateCtrl',
         })
         .when('/category/:type/:alias?', {
             templateUrl : 'assets/views/partials/category.html',

@@ -15,7 +15,7 @@ achieveWizard.factory('createWizard', ["objArr", function(objArr){
         
         
         var changeStep = function(toStep) {
-            if(angular.isDefined(current) && angular.isDefined(current.onsubmit))
+            if(angular.isDefined(current) && angular.isDefined(current.onsubmit) && currentNum < toStep)
             {
                 current.onsubmit();
             }

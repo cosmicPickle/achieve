@@ -1,0 +1,62 @@
+<h2 class='page-header'>
+    <span translate="newLevel" translate-values="{step : stepNum}" ng-if="!title"></span>
+    {{title}}
+    <button class="btn btn-success pull-right" ng-click='next()' ng-if="wizardConfig[type][stepNum]">{{'next' | translate}}</button>
+    <button class="btn btn-default pull-right"  style="margin-right:5px;" ng-click='previous()' ng-if="wizardConfig[type][stepNum - 2]">{{'previous' | translate}}</button>
+    <a ng-href="#/personal/create" class="btn btn-default pull-right"  style="margin-right:5px;" ng-if="!wizardConfig[type][stepNum - 2]">{{'back' | translate}}</a>
+</h2>
+
+<div class="col-md-12 wizard-step wizard-step-select-achievement">
+    <div class='listing col-md-12'>
+        <div class="col-md-4 list-item" ng-repeat='achievement in achievements'>
+            <a class="list-item-a" ng-style="{color : (achievement.selected) ? (achievement.color || achievement.category.color)  : ''}">
+                <div class="list-item-title">{{achievement.locale[0].title || achievement.title}}</div>
+                <div class="list-item-img">
+                    <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i>
+                </div>                
+            </a> 
+            <button class='btn btn-default' style="margin-top:5px;" ng-click="selectAchievement(achievement)">{{'selectAchievement' | translate}}</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 wizard-step wizard-step-details-achievement">
+    <div class='form-group'>
+        <label for='alias'>{{'alias' | translate}}</label>
+        <input type="text" name="alias" value="" class="form-control" id="alias" ng-model='formData.alias' />
+    </div>
+    <div class='form-group'>
+        <label for='title'>{{'title' | translate}}</label>
+        <input type="text" name="title" value="" class="form-control" id="title" ng-model='formData.title' />
+    </div>
+    <div class='form-group'>
+        <label for='level_num'>{{'levelNum' | translate}}</label>
+        <div class="form-control disabled" disabled id="level_num">{{formData.level_num}}</div>
+    </div>
+    <div class='form-group'>
+        <label for='repetition'>{{'repetition' | translate}}</label>
+        <input ng-if="selectedAchv.levels.length" type="text" name="repetition" value="" class="form-control" id="repetition" ng-model='formData.repetition'/>
+        <div ng-if="!selectedAchv.levels.length" class="form-control disabled" disabled id="level_num">{{formData.repetition}}</div>
+    </div>
+    <div class='form-group' ng-if="selectedAchv.type.alias == 'timed'">
+        <label for='timeframe'>{{'timeframe' | translate}}</label>
+        <input type="text" ng-if="selectedAchv.levels.length" name="timeframe" value="" class="form-control" id="timeframe" ng-model='formData.timeframe' />
+        <div ng-if="!selectedAchv.levels.length" class="form-control disabled" disabled id="level_num">{{formData.timeframe}}</div>
+    </div>
+    <div class='form-group'>
+        <label for='image'>{{'image' | translate}}</label>
+        <div class='input-group'>
+            <span class='input-group-btn'>
+                <ui-iconpicker name="image" dropdown groups="font-awesome" id="image" ng-model='iconModelRaw'></ui-iconpicker>
+            </span>
+            <input class="form-control" name="image" class="step-data-select-category" id="image" ng-model="formData.image" />
+        </div>
+    </div>
+</div>
+<div class="col-md-12 wizard-step wizard-step-done">
+    <div class="alert alert-success">
+        {{"success" | translate}}
+    </div>
+    <p ng-bind-html="'successMore' | translate">
+    </p>
+</div>

@@ -1,0 +1,70 @@
+<h2 class='page-header'>
+    <span translate="newTask" translate-values="{step : stepNum}" ng-if="!title"></span>
+    {{title}}
+    <button class="btn btn-success pull-right" ng-click='next()' ng-if="wizardConfig[type][stepNum]">{{'next' | translate}}</button>
+    <button class="btn btn-default pull-right"  style="margin-right:5px;" ng-click='previous()' ng-if="wizardConfig[type][stepNum - 2]">{{'previous' | translate}}</button>
+    <a ng-href="#/personal/create" class="btn btn-default pull-right"  style="margin-right:5px;" ng-if="!wizardConfig[type][stepNum - 2]">{{'back' | translate}}</a>
+</h2>
+
+<div class="col-md-12 wizard-step wizard-step-select-category">
+    <div class='listing col-md-12'>
+        <div class="col-md-4 list-item" ng-if="parent.id">
+            <a class="list-item-a" ng-click='changeParent({id : parent.parent_id})'">
+                <div class="list-item-title">{{'back' | translate}}</div>
+                <div class="list-item-img">
+                    <i class="fa fa-undo fa-5x"></i>
+                </div>                
+            </a>
+        </div>
+        <div class="col-md-4 list-item" ng-repeat='category in categories'>
+            <a class="list-item-a" ng-click='changeParent(category)' ng-style="{color : (category.selected) ? category.color : ''}">
+                <div class="list-item-title">{{category.locale[0].title || category.title}}</div>
+                <div class="list-item-img">
+                    <i class="fa {{category.image || 'fa-image'}} fa-5x"></i>
+                </div>                
+            </a>
+            <button class='btn btn-default' style="margin-top:5px;" ng-click="selectCategory(category)">{{'selectCategory' | translate}}</button>
+        </div>
+    </div>
+</div>
+
+<div class="col-md-12 wizard-step wizard-step-details-task">
+    <div class='form-group'>
+        <label for='alias'>{{'alias' | translate}}</label>
+        <input type="text" name="alias" value="" class="form-control" id="alias" ng-model='formData.alias' />
+    </div>
+    <div class='form-group'>
+        <label for='title'>{{'title' | translate}}</label>
+        <input type="text" name="title" value="" class="form-control" id="title" ng-model='formData.title' />
+    </div>
+    <div class='form-group'>
+        <label for='description'>{{'description' | translate}}</label>
+        <textarea name="description" class="form-control" id="description" ng-model='formData.description'>
+        </textarea>
+    </div>
+    <div class='form-group'>
+        <label for='image'>{{'image' | translate}}</label>
+        <div class='input-group'>
+            <span class='input-group-btn'>
+                <ui-iconpicker name="image" dropdown groups="font-awesome" id="image" ng-model='iconModelRaw'></ui-iconpicker>
+            </span>
+            <input class="form-control" name="image" class="step-data-select-category" id="image" ng-model="formData.image" />
+        </div>
+    </div>
+    <div class='form-group'>
+        <label for='color'>{{'color' | translate}}</label>
+        <input type="text" colorpicker name="color" value="" class="form-control" id="color" ng-model='formData.color' />
+    </div>
+    <div class='form-group'>
+        <label for='bg_color'>{{'bg_color' | translate}}</label>
+        <input type="text" colorpicker name="bg_color" value="" class="form-control" id="bg_color" ng-model='formData.bg_color' />
+    </div>
+</div>
+
+<div class="col-md-12 wizard-step wizard-step-done">
+    <div class="alert alert-success">
+        {{"success" | translate}}
+    </div>
+    <p ng-bind-html="'successMore' | translate">
+    </p>
+</div>

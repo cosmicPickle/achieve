@@ -14,15 +14,11 @@ class TasksController extends AbstractController {
             'categories_id' => 'required',
             'alias' => 'required|unique:tasks',
             'title' => 'required|unique:tasks',
-            'color' => 'required',
-            'bg_color' => 'required'
         ],
         'update' => [
             'categories_id' => 'required',
             'alias' => 'required|unique:tasks',
             'title' => 'required|unique:tasks',
-            'color' => 'required',
-            'bg_color' => 'required'
         ],
         'delete' => [
             'id' => 'required'
@@ -54,7 +50,10 @@ class TasksController extends AbstractController {
     {
         $query->with(['locale' => function($query){
             $query->where('locale', app('translator')->getLocale());
-        },'category']);
+        }]);
+        
+        if($request->withcategory)
+            $query->with(['category']);
     }
     
     protected function _viewFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)

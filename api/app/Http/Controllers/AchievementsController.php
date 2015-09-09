@@ -56,6 +56,13 @@ class AchievementsController extends AbstractController {
         $query->with(['locale' => function($query){
             $query->where('locale', app('translator')->getLocale());
         }]);
+        
+        if($request->withcategory)
+            $query->with(['category']);
+        if($request->withlevels)
+            $query->with(['levels']);
+        if($request->withtype)
+            $query->with(['type']);
     }
     
     protected function _viewFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)

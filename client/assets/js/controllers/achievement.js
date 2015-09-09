@@ -263,6 +263,13 @@ achievementControllers.controller('AchievementMainCtrl',
             //the progress
             fetchEarned().then(function(){
                 
+                if(!$scope.achievement.levels.length)
+                {
+                    $translate("noLevels").then(function(err){
+                        $rootScope.errors = [err];
+                    })
+                    return;
+                }
                 //Getting the current level. It is the one with max level_num from
                 //the earned levels
                 if(!$scope.earnedLevels.length)
@@ -271,7 +278,10 @@ achievementControllers.controller('AchievementMainCtrl',
                     //achievemenent has no requirements so we will insert that to
                     //them
                     $scope.currentLevel = objArr.min($scope.achievement.levels, 'level_num');
-                    
+                    $scope.earnedLevels = [{
+                        level : $scope.currentLevel,
+                        created_at : moment().format("YYYY-MM-DD HH:mm:SS")
+                    }];
                     //Inserting the new level
                     /**
                      * TODO : CREATE THE USER ACHIEVEMENT WITH A PROMISE
@@ -372,8 +382,11 @@ achievementControllers.controller('AchievementMainCtrl',
                     }
                     if($scope.achievement.type.alias == 'repetative')
                     {
+                        if(objArr.max($scope.earnedLevels, 'level.level_num').created_at)
+                            var start = moment(objArr.max($scope.earnedLevels, 'level.level_num').created_at);
+                        
                         History.list({
-                            hardLimit : objArr.max($scope.earnedLevels, 'level.level_num').created_at, 
+                            startDate : start.format('X'), 
                             task : $scope.achievement.task.id, 
                             user : -1,
                             paginate: 0

@@ -13,5 +13,6 @@
     "performTask": "Complete Task",
     "save": "Save",
     "cancel": "Cancel",
-    "invalidAchievement": "The achievement does not exist"
+    "invalidAchievement": "The achievement does not exist",
+    "noLevels" : "This achievement does not have any levels added"
 }

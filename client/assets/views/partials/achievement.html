@@ -58,7 +58,7 @@
        ng-style="{color : achievement.color || achievement.category.color}">
         <i class="fa fa-tasks fa-2x"></i>
     </a>
-    <i class="fa fa-plus-circle fa-2x add-task-history" 
+    <i ng-if="achievement.levels.length" class="fa fa-plus-circle fa-2x add-task-history" 
        tooltip-placement="top" tooltip="{{'performTask' | translate}}" 
        ng-style="{color : achievement.color || achievement.category.color}"
        ng-click="openHistoryModal()"></i>
