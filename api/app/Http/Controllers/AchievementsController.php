@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class AchievementsController extends AbstractController {
     
     protected $modelName = 'Achievements';
+    protected $allowUserCreation = 1;
     protected $validation = [
         'create' => [
             'achv_types_id' => 'required',
@@ -28,6 +29,10 @@ class AchievementsController extends AbstractController {
         ]
     ];
     
+    public function __construct(Request $request) {
+        parent::__construct($request);
+    }
+    
     protected function _listFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {
         if($request->category)
@@ -36,19 +41,6 @@ class AchievementsController extends AbstractController {
             $query->where('tasks_id', $request->task);
         if($request->search)
             $query->where('title', "LIKE", '%'. $request->search . '%');
-        
-        if($request->onlymy)
-            $query->where('user_defined', 1)
-                  ->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));
-        elseif($request->notmy)
-            $query->where('user_defined', 0);
-        else
-            $query->where(function($query){
-                $query->where(function($query){
-                    $query->where('user_defined', 1)
-                          ->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));
-                })->orWhere('user_defined', 0);
-            });
     }
     
     protected function _listWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)
@@ -73,13 +65,6 @@ class AchievementsController extends AbstractController {
             $query->where('id', $request->id);
         else
             $query->where('alias', NULL);
-        
-        $query->where(function($query){
-            $query->where(function($query){
-                $query->where('user_defined', 1)
-                      ->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));
-            })->orWhere('user_defined', 0);
-        });
     }
     
     protected function _viewWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)
@@ -100,11 +85,7 @@ class AchievementsController extends AbstractController {
                     $query->where('locale', app('translator')->getLocale());
                 }]);
             },
-            'user' => function($query) {
-                $query->with(['locale' => function($query){
-                    $query->where('locale', app('translator')->getLocale());
-                }]);
-            },
+            'user',
             'task'  => function($query){
                 $query->with(['history' => function($query){
                     $query->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));

@@ -6,5 +6,6 @@
     "description": "Description",
     "performTask": "Complete Task",
     "save": "Save",
-    "cancel": "Cancel"
+    "cancel": "Cancel",
+    "createachievement" : "Create Achievement"
 }

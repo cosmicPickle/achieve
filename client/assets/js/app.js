@@ -1,10 +1,12 @@
 var achieveApp = angular.module('achieveApp', [
     'ngRoute', 
     'ngSanitize',
+    'ngCookies',
     'achieveApi',
     'achieveArrays',
     'achieveWizard',
     'uiBaseDirectives',
+    'uiInputDirectives',
     'achievementControllers',
     'categoryControllers',
     'profileControllers',
@@ -17,7 +19,7 @@ var achieveApp = angular.module('achieveApp', [
     'colorpicker.module',
     'pascalprecht.translate']);
 
-achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', function($routeProvider, $translateProvider, $httpProvider) {
+achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', '$translatePartialLoaderProvider', function($routeProvider, $translateProvider, $httpProvider, $translatePartialLoaderProvider) {
         
     $routeProvider
         .when('/favourites', {
@@ -33,33 +35,21 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', func
                         icon : 'fa-heart',
                         lable : 'favourites'
                     },
-                    '/personal/create/' : {
-                        link : '#personal/create',
+                    '/personal/' : {
+                        link : '#personal',
                         icon : 'fa-plus-circle',
                         lable : 'createNew'
                     },
                 }
             }
         })
-        .when('/personal/create/', {
+        .when('/personal', {
+            templateUrl : 'assets/views/partials/personal.html',
+            controller : 'PersonalMainCtrl'
+        })
+        .when('/personal/create/:type/:id?', {
             templateUrl : 'assets/views/partials/personalCreate.html',
             controller : 'PersonalCreateCtrl',
-        })
-        .when('/personal/create/achievement', {
-            templateUrl : 'assets/views/partials/personalAchievementCreate.html',
-            controller : 'PersonalAchievementCreateCtrl',
-        })
-        .when('/personal/create/category', {
-            templateUrl : 'assets/views/partials/personalCategoryCreate.html',
-            controller : 'PersonalCategoryCreateCtrl',
-        })
-        .when('/personal/create/task', {
-            templateUrl : 'assets/views/partials/personalTaskCreate.html',
-            controller : 'PersonalTaskCreateCtrl',
-        })
-        .when('/personal/create/level', {
-            templateUrl : 'assets/views/partials/personalLevelCreate.html',
-            controller : 'PersonalLevelCreateCtrl',
         })
         .when('/category/:type/:alias?', {
             templateUrl : 'assets/views/partials/category.html',
@@ -137,7 +127,14 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', func
     });
     
     $translateProvider.preferredLanguage('en');
+    $translatePartialLoaderProvider.addPart('ui-base');
     
+    //Uncomment the following lines to allow cross domain requests. This will mainly
+    //be used for the mobile version in order to allow remote requests to the API
+    //$httpProvider.defaults.useXDomain = true;
+    //$httpProvider.defaults.withCredentials = true;
+    //delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
     //Registering the response interceptor to redirect to login if we get a request 
     //that is unouthorized
     $httpProvider.interceptors.push(['$q', '$location', '$rootScope', '$injector', function($q, $location, $rootScope, $injector) {
@@ -154,11 +151,14 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', func
                 return $q.reject(rejection);
             },
             'response' : function(response) {
-                
                 if(response.data.status == -1)
-                    window.location = $location.absUrl().split('index.html')[0] + 'login.html';
+                {
+                    window.location = window.location.origin + window.location.pathname.replace('index.html', '') + 'login.html';
+                }
                 if(response.data.status == 0)
+                {
                     $rootScope.errors = response.data.errors;
+                }
                 
                 $rootScope.http = $rootScope.http || $injector.get('$http');
                 
@@ -179,4 +179,65 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', func
             }
         };
     }]);
+}]).run(['$rootScope', '$modal', '$translatePartialLoader', '$cookies', '$location', function($rootScope, $modal, $translatePartialLoader, $cookies, $location){
+    
+    $translatePartialLoader.addPart('httpui');
+    $rootScope.errors = [];
+    $rootScope.errorsModal = {};
+    $rootScope.httpLoading = 0;
+    
+    $rootScope.$watch('errors', function(errors){
+        if(angular.isDefined(errors) && errors.length)
+            $rootScope.openErrorsModal();
+    });
+    
+    $rootScope.$watch('httpLoading', function(httpLoading){
+        $rootScope.httpLoading = httpLoading;
+    });
+    
+    //Opens up a modal with a date and time picker to input a new history
+    $rootScope.openErrorsModal = function() {
+        $rootScope.errorsModal = $modal.open({
+            animation: true,
+            templateUrl: 'assets/views/directives/errorsModal.html',
+            scope : $rootScope,
+            controller : ['$scope', function($scope) {
+            }],
+            resolve: {
+            }
+        });
+    };
+
+    //Dismisses a modal window
+    $rootScope.dismissErrorsModal = function() {
+        $rootScope.errors = [];
+        $rootScope.errorsModal.dismiss('closed')
+    }
+    
+    //Creating a history so we can have a nice back button
+    $rootScope.history = $cookies.getObject('history') || [];
+    
+    $rootScope.$on('$routeChangeSuccess', function(event, currentRoute, previousRoute) {
+        if(!previousRoute)
+            return;
+        
+        var repeated = -1;
+        if((repeated = $rootScope.history.indexOf($location.$$path)) < 0)
+            $rootScope.history.push($location.$$path);
+        else
+            do
+            {
+                $rootScope.history.pop();
+            }    
+            while($rootScope.history.length - 1 > repeated)
+        
+        $cookies.putObject('history', $rootScope.history)
+    });
+    
+    $rootScope.goBack = function(def) {
+        if($rootScope.history.length <= 1)
+            $location.path(def);
+        
+        $location.path($rootScope.history[$rootScope.history.length - 2]);
+    }
 }]);

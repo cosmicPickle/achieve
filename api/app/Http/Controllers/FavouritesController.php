@@ -24,7 +24,9 @@ class FavouritesController extends AbstractController {
             'id' => 'required'
         ]
     ];
-    
+    protected $allowUserCreation = 1;
+
+
     protected function _listFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {
         if($request->task)

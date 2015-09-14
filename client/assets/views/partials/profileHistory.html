@@ -5,14 +5,18 @@
     <tr>
         <th>{{"date" | translate}}</th>
         <th>{{"tasks" | translate}}</th>
+        <th>&nbsp;</th>
     </tr>
     <tr ng-repeat="day in calendar">
-        <td>{{day.timestamp | date}}</td>
+        <td>{{day.date}}</td>
         <td>
             <a ng-repeat="h in day.history" ng-href="#/task/{{h.task.alias}}" ng-style='{color : h.task.color || h.task.category.color}'>
-                <i class="fa fa-2x {{h.task.image || 'fa-image'}}" tooltip="{{h.task.locale[0].title}} : {{h.date}}"></i>
+                <i class="fa fa-2x {{h.task.image || 'fa-image'}}" tooltip="{{h.task.locale[0].title || h.task.title}} : {{h.date}}"></i>
             </a>
             <i ng-if="!day.history.length" class="fa fa-2x fa-close"></i>
+        </td>
+        <td class="achievement-controls">
+            <achv-perform-task init-date="day.timestamp" reload="1"></achv-perform-task>
         </td>
     </tr>
 </table>

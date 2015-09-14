@@ -1,45 +1,8 @@
 var utilsControllers = angular.module('utilsControllers',[]);
 
-utilsControllers.controller('HttpUiController', ['$scope', '$rootScope', '$modal', '$translatePartialLoader', function($scope, $rootScope, $modal, $translatePartialLoader){
-    
-    $translatePartialLoader.addPart('httpui');
-    $scope.errors = [];
-    $scope.errorsModal = {};
-    $scope.httpLoading = 0;
-    
-    $rootScope.$watch('errors', function(errors){
-        $scope.errors = errors;
-        if(angular.isDefined(errors) && errors.length)
-            $scope.openErrorsModal();
-    });
-    
-    $rootScope.$watch('httpLoading', function(httpLoading){
-        $scope.httpLoading = httpLoading;
-    });
-    
-    //Opens up a modal with a date and time picker to input a new history
-    $scope.openErrorsModal = function() {
-        if($scope.errorsModal != {})
-            $scope.errorsModal = $modal.open({
-                animation: true,
-                templateUrl: 'assets/views/directives/errorsModal.html',
-                scope : $scope,
-                controller : ['$scope', function($scope) {
-                }],
-                resolve: {
-                }
-            });
-    };
-
-    //Dismisses a modal window
-    $scope.dismissErrorsModal = function() {
-        if($scope.errorsModal == {})
-            return;
-        
-        $rootScope.errors = [];
-        $scope.errorsModal.dismiss('closed')
-    }
-}])
+utilsControllers.controller('AuthController', ['$scope', 'Token', function($scope, Token){
+    Token.view();
+}]);
 
 utilsControllers.controller('LocaleController', ['$scope', '$route', '$rootScope', '$translate', 'Locale','objArr' , function($scope, $route, $rootScope, $translate, Locale, objArr){
         

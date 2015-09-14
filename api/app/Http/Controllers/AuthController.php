@@ -94,19 +94,21 @@ class AuthController extends AbstractController
     
     protected function _loginHttp(Request $request) {
         
+        $referer = explode('client/', $request->server('HTTP_REFERER'))[0];
+
         if(!$request->email || !$request->password)
             //Wrong request
-            return redirect('../../../client/login.html#empty');
+            return redirect($referer . 'client/login.html#empty');
         
         if(!Auth::buildJWT($request->email, $request->password))
             //Failed to build => wrong credentials
-            return redirect('../../../client/login.html#invalid');
+            return redirect($referer . 'client/login.html#invalid');
         
         //Let's set the JWT in a cookie ... FOREVER (... well 5 years according
         //to Lumen's documentation)
-        $response = new Response("<script type='text/javascript'>window.location = '../../../client/index.html#/category/achievements/top' </script>");
+        $response = new Response("<script type='text/javascript'>window.location = '" . $referer . "client/index.html#/category/achievements/top' </script>");
         $response->withCookie(cookie()->forever('jwt', Auth::getJWT()));
-        
+
         return $response;
     }
 }

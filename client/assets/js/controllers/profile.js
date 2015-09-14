@@ -226,7 +226,8 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
         {
             var index = $scope.calendar.length;
             $scope.calendar[index] = {
-                timestamp : time.format("DD ddd MM YYYY"),
+                timestamp : time.format('YYYY-MM-DDTHH:mm:ss'),
+                date : time.format("DD ddd MM YYYY"),
                 history : []
             };
             angular.forEach($scope.history, function(h, i) {

@@ -42,8 +42,17 @@ body {
 
 .listing {
     text-align:center;
+    display:block;
 }
 
+.list-item {
+    margin-bottom:10px
+}
+
+.item-controls
+{
+    margin:0 5px;
+}
 a.list-item-a, a.grey {
     color:#515151;
     cursor: pointer;
@@ -183,4 +192,8 @@ a.stats-item-a, a.grey {
 
 .wizard-step {
     display:none;
+}
+
+.ic-pointer {
+    cursor: pointer;
 }

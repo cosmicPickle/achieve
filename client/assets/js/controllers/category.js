@@ -31,7 +31,8 @@ categoryControllers.controller('CategoryMainCtrl',
         //Setting the dynamic title of the page
         $scope.$watch('category', function(category){
             $translate('categoryTitle', {
-                title : ((angular.isDefined(category.locale) && angular.isDefined(category.locale[0]) && category.locale[0].title) || category.title)
+                title : ((angular.isDefined(category.locale) && angular.isDefined(category.locale[0]) && category.locale[0].title) || category.title),
+                type : $translate.instant($scope.listType)
             }).then(function(categoryTitle){
                 $scope.title = categoryTitle; 
                 $rootScope.title = categoryTitle;
@@ -92,10 +93,7 @@ categoryControllers.controller('CategoryMainCtrl',
             //Fetch the achievements or tasks depending on the list type
             if($routeParams.type == 'achievements')
                 Achievements.list({category : $scope.category.id}, function(resp){
-
-                    if(resp.status == 0)
-                        $scope.errors = resp.errors;
-
+                    
                     if(resp.data && resp.data.Achievements.length)
                         $scope.achievements = resp.data.Achievements;
                 });

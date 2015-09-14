@@ -8,13 +8,13 @@ use Illuminate\Http\Request;
 class AchievementLevelsController extends AbstractController {
     
     protected $modelName = 'AchievementLevels';
+    protected $allowUserCreation = 1;
     protected $validation = [
         "create" => [
             'alias' => 'required|unique:achv_levels',
             'title' => 'required|unique:achv_levels',
             'achievements_id' => 'required',
             'repetition' => 'required',
-            'timeframe' => 'required'
         ],
         "read" => [
             "list" => [
@@ -26,7 +26,6 @@ class AchievementLevelsController extends AbstractController {
             'title' => 'required|unique:achv_levels',
             'achievements_id' => 'required',
             'repetition' => 'required',
-            'timeframe' => 'required'
         ],
         "delete" => [
             'id' => 'required'
@@ -39,19 +38,6 @@ class AchievementLevelsController extends AbstractController {
             $query->where('achievements_id', $request->achievement);
         if($request->search)
             $query->where('title', "LIKE", '%' . $request->search . '%');
-        
-        if($request->onlymy)
-            $query->where('user_defined', 1)
-                  ->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));
-        elseif($request->notmy)
-            $query->where('user_defined', 0);
-        else
-            $query->where(function($query){
-                $query->where(function($query){
-                    $query->where('user_defined', 1)
-                          ->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));
-                })->orWhere('user_defined', 0);
-            });
     }
     
     protected function _listWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)
@@ -69,13 +55,6 @@ class AchievementLevelsController extends AbstractController {
             $query->where('id', $request->id);
         else
             $query->where('alias', NULL);
-        
-        $query->where(function($query){
-            $query->where(function($query){
-                $query->where('user_defined', 1)
-                      ->where('users_id', \App\Http\Middleware\AuthMiddleware::user('id'));
-            })->orWhere('user_defined', 0);
-        });
     }
     
     protected function _viewWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)
@@ -96,7 +75,7 @@ class AchievementLevelsController extends AbstractController {
     
     protected function _simpleFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {
-        $this->_viewWith($query, $request);
+        $this->_viewFilter($query, $request);
     }
     
     protected function _simpleWith(\Illuminate\Database\Eloquent\Builder $query, Request $request)

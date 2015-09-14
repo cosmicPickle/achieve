@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 class TasksController extends AbstractController {
     
     protected $modelName = 'Tasks';
+    protected $allowUserCreation = 1;
     protected $validation = [
         'create' => [
             'categories_id' => 'required',
@@ -81,11 +82,7 @@ class TasksController extends AbstractController {
                 $query->where('locale', app('translator')->getLocale());
             }]);
         },
-        'user' => function($query) {
-            $query->with(['locale' => function($query){
-                $query->where('locale', app('translator')->getLocale());
-            }]);
-        },
+        'user',
         'achievements'  => function($query){
             $query->with(['locale' => function($query){
                 $query->where('locale', app('translator')->getLocale());

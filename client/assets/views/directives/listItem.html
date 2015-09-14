@@ -1,5 +1,5 @@
-<div class="col-md-4 list-item">
-    <a ng-href="#/{{type}}/{{item.alias}}" class="list-item-a" >
+<div class="col-sm-4 list-item">
+    <a ng-href="#/{{linkType}}/{{item.alias}}" class="list-item-a" >
         <div class="list-item-img">
             <i class="fa {{item.image || 'fa-image'}} fa-5x"></i>
         </div>
@@ -11,4 +11,5 @@
             {{item.locale[0].title || item.title}} 
         </div>
     </a>
+    <achv-item-controls type='type' item='item' show-lable='1'></achv-item-controls>
 </div>

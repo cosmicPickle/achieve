@@ -1,6 +1,6 @@
 <h2 class="page-header" ng-style="{color : achievement.color || achievement.category.color}">
     {{title}}
-    <a ng-if="achievement.category" href="#/category/achievements/{{achievement.category.alias}}" class="pull-right grey">
+    <a ng-if="achievement.category" ng-click="goBack('/category/achievements/' + achievement.category.alias)" class="pull-right grey">
         <i class="fa fa-undo"></i>
         {{'back' | translate}}
     </a>    
@@ -58,10 +58,20 @@
        ng-style="{color : achievement.color || achievement.category.color}">
         <i class="fa fa-tasks fa-2x"></i>
     </a>
-    <i ng-if="achievement.levels.length" class="fa fa-plus-circle fa-2x add-task-history" 
-       tooltip-placement="top" tooltip="{{'performTask' | translate}}" 
-       ng-style="{color : achievement.color || achievement.category.color}"
-       ng-click="openHistoryModal()"></i>
+    <achv-perform-task ng-if="achievement.levels.length" 
+                       task="achievement.task" 
+                       color="achievement.color || achievement.category.color"
+                       bg-color="achievement.bg_color || achievement.category.bg_color"></achv-perform-task>
+    <achv-add-new ng-if="achievement.user_defined" type="level" full="0" data="{achievements_id : achievement.id}"></achv-add-new>
+</div>
+
+<div class="clearfix"></div>
+<h3 class="page-header" ng-if="achievement.user_defined">{{'allLevels' | translate}}</h3>
+<div class="earned-levels col-md-12" ng-if="achievement.user_defined">
+    <div class="col-xs-2" ng-repeat="level in achievement.levels">
+        <i tooltip-placement="top" tooltip="{{level.locale[0].title || level.title}}" class="fa {{level.image  || 'fa-image'}} fa-3x"></i>
+        <achv-item-controls type='"level"' item='level' show-lable='0'></achv-item-controls>
+    </div>
 </div>
 
 <div class="clearfix"></div>

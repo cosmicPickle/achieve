@@ -7,22 +7,23 @@ uiBaseDirectives.directive('achvListItem', function(){
         replace : true,
         scope : {
             item : '=',
+            linkType : '@',
             type : '@',
             colorDefault : "="
         },
         templateUrl : 'assets/views/directives/listItem.html',
         link : function(scope, element, attr) {
-            
+
             var color = (scope.item && scope.item.color) || scope.colorDefault;
-;            var defColor = $(element).css('color');
-            
+            var defColor = $(element).css('color');
+
             element.on('mouseenter', function(){
                 $(element).children('a').finish();
                 $(element).children('a').animate({
                    color : color || defColor
                 },100);
             });
-            
+
             element.on('mouseleave', function(){
                 $(element).children('a').finish();
                 $(element).children('a').animate({
@@ -31,8 +32,174 @@ uiBaseDirectives.directive('achvListItem', function(){
             });
         }
     } 
-})
-.directive('parseStyle', ["$interpolate", function($interpolate) {
+}).directive('achvItemControls', function(){
+    return {
+        restict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            item : '=',
+            type : '=',
+            showLable : '@'
+        },
+        template : '<div class="list-item-title">' +
+                   '<div ng-if="item.user_defined">' +
+                   '<a class="list-item-a item-controls" ng-href="#/personal/create/{{type}}/{{item.id}}" tooltip="{{\'edit\' | translate}}"><i class="fa fa-edit"></i><span ng-if="showLable == 1">{{"edit" | translate}}</span></a>' + 
+                   '<a class="list-item-a item-controls" ng-click="delete(item)" tooltip="{{\'delete\' | translate}}"><i class="fa fa-trash-o"></i><span ng-if="showLable == 1">{{"delete" | translate}}</span></a>' +
+                   '</div></div>',
+        controller : ['$scope', '$rootScope', '$modal', '$route', function($scope, $rootScope, $modal, $route){
+                
+            $scope.modalInstance = null;
+            
+            $scope.delete = function(item) {
+
+                $scope.modalInstance = $modal.open({
+                    animation: true,
+                    templateUrl: 'assets/views/directives/deleteConfirmModal.html',
+                    scope : $scope,
+                    size : 'lg',
+                    controller : ['$scope', function($scope) {
+                        //This is the configuration of available editable models. It maps a route
+                        //to provider
+                        $scope.providers = {
+                            category : 'Categories',
+                            task : 'Tasks',
+                            achievement : 'Achievements',
+                            level : 'AchievementLevels'
+                        };
+
+                        var injector = angular.injector(['ng', 'personalControllers']);
+                        var source = $scope.providers[$scope.type];
+                        var srcObject = injector.get(source);
+        
+                        //Dismisses a modal window
+                        $scope.dismissModal = function() {
+                            if($scope.modalInstance == {})
+                                return;
+
+                            $scope.modalInstance.dismiss('canceled')
+                        }
+
+                        $scope.confirmDelete = function() {
+                            srcObject.delete({id : item.id}, function(resp){
+                                if(!resp.status)
+                                {
+                                    $rootScope.errors = resp.errors;
+                                    $scope.$apply();
+                                    $scope.modalInstance.close();
+                                    
+                                }
+                                else
+                                    $route.reload();
+                                
+                            })
+                        }
+                    }]
+                });
+            }
+        }],
+    } 
+}).directive('achvPerformTask', function(){
+    return {
+        restict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            task : '=',
+            color : '=',
+            bgColor : '=',
+            initDate : '=',
+            reload : '@'
+        },
+        template : '<i class="fa fa-check-square-o fa-2x add-task-history"' +
+                    'tooltip-placement="top" tooltip="{{\'performTask\' | translate}}" ' +
+                    'ng-style="{color : color}"' +
+                    'ng-click="openHistoryModal()"></i>',
+        controller : ['$scope',  '$modal', '$route',  'History', function($scope, $modal, $route, History){
+            
+            $scope.historyModal = null;
+            
+            //Opens up a modal with a date and time picker to input a new history
+            $scope.openHistoryModal = function() {
+                
+                $scope.historyModal = $modal.open({
+                    animation: true,
+                    templateUrl: 'assets/views/directives/addHistoryModal.html',
+                    scope : $scope,
+                    controller : ['$scope', function($scope) {
+                        $scope.$watch('task', function(task){
+                            if(!task)
+                                return;
+                            $scope.color = task.color || task.category.color;
+                            $scope.bg_color = task.bg_color || task.category.bg_color;
+                        });
+                        
+                        //Setting the date model
+                        if(!$scope.initDate)
+                            $scope.dt = new Date();
+                        else
+                            $scope.dt = new Date($scope.initDate);
+                        
+                        //Setting the max date
+                        $scope.maxDate = new Date();
+                       
+                        //Dismisses a modal window
+                        $scope.dismissHistoryModal = function() {
+                            $scope.historyModal.dismiss('canceled')
+                        }
+
+                        //Saves a history entry and closes the modal
+                        $scope.saveHistory = function(dt) {
+                            //Converting to unix timestamp
+                            var unix = moment(dt.getTime()).format('X');
+                            //Adding entry to history
+                            History.create({
+                                users_id : -1,
+                                tasks_id : $scope.task.id,
+                                date : unix
+                            }, function(resp) {
+                                if(resp.status != 0)
+                                {
+                                    if($scope.$parent.$parent.$parent.historyNum)
+                                        $scope.$parent.$parent.$parent.historyNum ++;
+
+                                    if($scope.$parent.$parent.$parent.progress)
+                                        $scope.$parent.$parent.$parent.progress = {
+                                            current : $scope.$parent.$parent.$parent.progress.current + 1,
+                                            max : $scope.$parent.$parent.$parent.progress.max
+                                        };
+
+                                    $scope.historyModal.close();
+                                    
+                                    if($scope.reload)
+                                        $route.reload();
+                                }
+                            });
+
+                        }
+                    }]
+                }); 
+            };
+        }],
+    } 
+}).directive('achvAddNew', ['$cookies', function($cookies){
+    return {
+        restict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            data : '=',
+            type : '@',
+            full : '@'
+        },
+        templateUrl : 'assets/views/directives/achvAddNew.html',
+        link : function(scope, element, attr) {
+            element.children('a').on('click',function(){
+               $cookies.putObject('personalCreateContext', scope.data);
+            });
+        }
+    } 
+}]).directive('parseStyle', ["$interpolate", function($interpolate) {
     return function(scope, elem) {
         var exp = $interpolate(elem.html()),
             watchFunc = function () { return exp(scope); };
@@ -186,7 +353,7 @@ uiBaseDirectives.directive('achvListItem', function(){
            if($scope.linkType == 'category')
            {
                $scope.link += $scope.item.achievement.category.alias;
-               $scope.title = $scope.item.achievement.category.locale[0].title || $scope.item.achievement.category.title;
+               $scope.title = (angular.isDefined($scope.item.achievement.category.locale[0]) && $scope.item.achievement.category.locale[0].title) || $scope.item.achievement.category.title;
                $scope.image = $scope.item.achievement.category.image || 'fa-image';
                
                $scope.colors = {
@@ -198,7 +365,7 @@ uiBaseDirectives.directive('achvListItem', function(){
            if($scope.linkType == 'task')
            {
                $scope.link += $scope.item.task.alias;
-               $scope.title = $scope.item.task.locale[0].title || $scope.item.task.title;
+               $scope.title = ($scope.item.task.locale[0] && $scope.item.task.locale[0].title) || $scope.item.task.title;
                $scope.image = $scope.item.task.image || 'fa-image';
                
                $scope.colors = {
@@ -226,4 +393,27 @@ uiBaseDirectives.directive('achvListItem', function(){
             });
         }
     } 
-});
+}).directive('achvInclude', ['$compile', function($compile){
+    return {
+        restrict : 'E',
+        transclude : true,
+        replace : true,
+        scope : {
+            src : '=',
+        },
+        controller : ['$scope', '$http', function($scope, $http){
+            $http.get($scope.src).then(function(html){
+                $scope.html = html.data;
+            })
+        }],
+        link : function(scope, element, attrs) {
+            scope.$watch('html', function(html){
+                if(html)
+                {
+                    element.html(html);
+                    $compile(element.contents())(scope.$parent);
+                }
+            })
+        }
+    };
+}]);

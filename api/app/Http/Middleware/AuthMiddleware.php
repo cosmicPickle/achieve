@@ -22,9 +22,6 @@ class AuthMiddleware
     protected static $userData;
     //The JWT
     protected static $jwt;
-    //The group with this Id has full access to every route. Should be NULL in 
-    //production
-    protected static $developerGroup = 1;
     
     /**
      * The constructor 
@@ -56,7 +53,7 @@ class AuthMiddleware
      * 
      * @param string
      */
-    public static function user($key)
+    public static function user($key = NULL)
     {
         //Check if the token is valid
         $token = self::checkJWT();
@@ -65,8 +62,44 @@ class AuthMiddleware
             //We have invalid token
             return NULL;
         
+        if(!$key)
+            return $token->data->user;
+        
         return isset($token->data->user->{$key}) 
                ? $token->data->user->{$key} : NULL;
+    }
+    
+    /**
+     * Determines whether a user is developer
+     * 
+     * @return boolean
+     */
+    public static function isDeveloper()
+    {
+        //Check if the token is valid
+        $token = self::checkJWT();
+
+        if(!$token)
+            //We have invalid token
+            return FALSE;
+        
+        return $token->data->user->group->developer;
+    }
+    
+    /**
+     * Determines whether a user is administrator
+     * 
+     * @return boolean
+     */
+    public static function isAdmin()
+    {
+        //Check if the token is valid
+        $token = self::checkJWT();
+
+        if(!$token)
+            //We have invalid token
+            return FALSE;
+        return $token->data->user->group->administrator;
     }
     
     /**
@@ -86,7 +119,7 @@ class AuthMiddleware
             return FALSE;
         
         //We have a developer
-        if($token->data->user->user_groups_id == self::$developerGroup)
+        if(self::isDeveloper())
             return TRUE;
         
         //Check if the user's group has access to this route
@@ -181,6 +214,7 @@ class AuthMiddleware
         //Pretty standart
         $check = self::$user->where('email', $email)
                             ->where('password', self::_hash($password))
+                            ->with('group')
                             ->get();
         
         if($check->count())

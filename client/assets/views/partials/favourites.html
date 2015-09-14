@@ -1,7 +1,7 @@
 <div class="col-md-12">  
     <h3 class="page-header">{{"favAchievements" | translate}}</h3>
     <div class="listing">
-        <achv-list-item ng-repeat="item in favAchievements" item="item.achievement" type="achievement" color-default="item.achievement.category.color">
+        <achv-list-item ng-repeat="item in favAchievements" item="item.achievement" link-type="achievement" color-default="item.achievement.category.color">
         </achv-list-item>
     </div>
     
@@ -11,7 +11,7 @@
 <div class="col-md-12"> 
     <h3 class="page-header">{{"favTasks" | translate}}</h3>
     <div class="listing">
-        <achv-list-item ng-repeat="item in favTasks" item="item.task" type="task" color-default="item.task.category.color">
+        <achv-list-item ng-repeat="item in favTasks" item="item.task" link-type="task" color-default="item.task.category.color">
         </achv-list-item>
     </div>
     

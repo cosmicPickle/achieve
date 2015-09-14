@@ -20,12 +20,10 @@ and open the template in the editor.
     </head>
     <body>
         <div class="container-fluid container-main">
-            <div ng-controller="HttpUiController">
-                <div class="ui-overlay" ng-if="httpLoading">
-                    <div>
-                        <i class="fa fa-5x fa-pulse fa-spinner"></i>
-                    </div>
-                    
+            <div ng-controller="AuthController"></div>
+            <div class="ui-overlay" ng-if="httpLoading">
+                <div>
+                    <i class="fa fa-5x fa-pulse fa-spinner"></i>
                 </div>
             </div>
             <div class="locale-select" ng-controller="LocaleController">
@@ -54,6 +52,7 @@ and open the template in the editor.
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-cookies.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="http://code.jquery.com/color/jquery.color.plus-names-2.1.2.min.js"></script>
         <script src="assets/js/lib/roundProgress.min.js"></script>
@@ -75,5 +74,6 @@ and open the template in the editor.
         <script src="assets/js/services/arrays.js"></script>
         <script src="assets/js/services/wizard.js"></script>
         <script src="assets/js/directives/ui-base.js"></script>
+        <script src="assets/js/directives/ui-input.js"></script>
     </body>
 </html>

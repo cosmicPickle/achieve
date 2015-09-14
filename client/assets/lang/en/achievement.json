@@ -14,5 +14,7 @@
     "save": "Save",
     "cancel": "Cancel",
     "invalidAchievement": "The achievement does not exist",
-    "noLevels" : "This achievement does not have any levels added"
+    "noLevels" : "This achievement does not have any levels added",
+    "createlevel" : "Create level",
+    "allLevels" : "All levels"
 }

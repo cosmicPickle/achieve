@@ -51,9 +51,6 @@ achievementControllers.controller('AchievementMainCtrl',
         //The total number of repetitions needed for this achievement
         $scope.totalRepNum = 0;
         
-        //The modal which pops up in order to add a new history item
-        $scope.historyModal = {};
-        
         //Setting the dynamic title of the page
         $scope.$watch('achievement', function(achievement){
             $translate('achievementTitle', {
@@ -132,58 +129,6 @@ achievementControllers.controller('AchievementMainCtrl',
                 })
         }
         
-        //Opens up a modal with a date and time picker to input a new history
-        $scope.openHistoryModal = function() {
-            if($scope.historyModal != {})
-                $scope.historyModal = $modal.open({
-                    animation: true,
-                    templateUrl: 'assets/views/directives/addHistoryModal.html',
-                    scope : $scope,
-                    controller : ['$scope', 'History', function($scope, History) {
-                       //Setting the date model
-                       $scope.dt = new Date();
-                    }],
-                    resolve: {
-                      items: function () {
-                        return $scope.items;
-                      }
-                    }
-                });
-        };
-        
-        //Dismisses a modal window
-        $scope.dismissHistoryModal = function() {
-            if($scope.historyModal == {})
-                return;
-            $scope.historyModal.dismiss('canceled')
-        }
-        
-        //Saves a history entry and closes the modal
-        $scope.saveHistory = function(dt) {
-            //Converting to unix timestamp
-            var unix = moment(dt.getTime()).format('X');
-            
-            //Adding entry to history
-            History.create({
-                users_id : -1,
-                tasks_id : $scope.achievement.task.id,
-                date : unix
-            }, function(resp) {
-                if(resp.status == 0)
-                    $scope.errors = resp.errors;
-                else
-                {
-                    $scope.historyNum ++;
-                    $scope.progress = {
-                        current : $scope.progress.current + 1,
-                        max : $scope.progress.max
-                    };
-                    $scope.historyModal.close();
-                }
-            });
-            
-        }
-        
         //The promise that fetches the achievement
         var fetchAchievement = function() {
             return $q(function(resolve, reject){
@@ -208,6 +153,9 @@ achievementControllers.controller('AchievementMainCtrl',
                     
                     resolve('');
                     $scope.achievement = resp.data.Achievements[0];
+                    
+                    //Setting the category to the task mainly for directives
+                    $scope.achievement.task.category = $scope.achievement.category;
                     $scope.colors = {
                         color : $scope.achievement.color || $scope.achievement.category.color,
                         bg_color : $scope.achievement.bg_color || $scope.achievement.category.bg_color

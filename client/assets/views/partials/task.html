@@ -1,6 +1,6 @@
 <h2 class="page-header" ng-style="{color : task.color || task.category.color}">
     {{title}}
-    <a ng-if="task.category" href="#/category/tasks/{{task.category.alias}}" class="pull-right grey">
+    <a ng-if="task.category" ng-click="goBack('/category/tasks/' + task.category.alias)" class="pull-right grey">
         <i class="fa fa-undo"></i>
         {{'back' | translate}}
     </a>    
@@ -14,10 +14,10 @@
 <div class="row">
     <div class="col-md-4 col-md-offset-4 task-controls" ng-style="{color : task.color || task.category.color}">
         <i class="fa {{fvIcons[favourited]}} fa-2x favourite" ng-click="setFavourite()" tooltip-placement="top" tooltip="{{'favourite' | translate}}"></i>
-        <i class="fa fa-plus-circle fa-2x add-task-history" 
-           tooltip-placement="top" tooltip="{{'performTask' | translate}}" 
-           ng-style="{color : task.color || task.category.color}"
-           ng-click="openHistoryModal()"></i>
+        <achv-perform-task task="task" 
+                           color="task.color || task.category.color"
+                           bg-color="task.bg_color || task.category.bg_color"></achv-perform-task>
+        <achv-add-new ng-if="task.user_defined" type="'achievement'" full="0" data="{tasks_id : task.id}"></achv-add-new>
     </div>
 </div>
 <div class="row">

@@ -1,20 +1,13 @@
 {
-    "createPersonal" : "Create your personal goal",
+    "personalHead" : "Create your own goal",
+    "createPersonal" : "Creating {{type}}",
+    "editPersonal" : "Editing \"{{title}}\"",
     "createCategory" : "Create category",
     "createTask" : "Create task",
     "createLevel" : "Create level",
     "createAchievement" : "Create achievement",
-    "newCategory" : "Creating category: Step {{step}}",
-    "newTask" : "Creating task: Step {{step}}",
-    "newLevel" : "Creating level: Step {{step}}",
-    "newAchievement" : "Creating achievement: Step {{step}}",
-    "selectCategory" : "Select category",
-    "selectTask" : "Select task",
-    "selectAchievement" : "Select achievement",
-    "noChildCategories" : "This category is empty.",
-    "next" : "Next",
-    "previous" : "Previous",
-    "back" : "Back",
+    "select" : "Select",
+    "noChildren" : "This entity is empty.",
     "alias" : "Alias",
     "title" : "Title",
     "levelNum" : "Number of the level",
@@ -24,6 +17,5 @@
     "color" : "The theme color",
     "bg_color" : "The background color. Normally white",
     "type" : "Type",
-    "success" : "Success!",
-    "successMore" : "Good job. You will be able to view your personal tasks, achievements and categories by browsing like normal. They will appear with a special icon next to their name. You can continue creating your path <a href='index.html#/personal/create'>here</a>"
-}
+    "saveSuccess" : "Changes successfully saved."
+ }

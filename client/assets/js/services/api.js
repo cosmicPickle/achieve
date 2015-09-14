@@ -1,5 +1,11 @@
 var achieveApi = angular.module('achieveApi',['ngResource']);
 
+/**The location of the API server. If left null relative path will be used
+/* ex. var achvApiServer = "http://192.168.1.100/dev/achieve/api/public/index.php/";
+*/
+var achvApiServer = "";
+
+
 var routeConfig = {
     list : {
         method : 'GET', params : {
@@ -144,6 +150,6 @@ angular.forEach(nodes, function(node, lable){
     
     achieveApi.factory(lable, ['$resource',
         function($resource){
-            return $resource('../api/public/index.php/' + node.path + '/:action', {}, methods);
+            return $resource( (achvApiServer || '../api/public/index.php/') + node.path + '/:action', {}, methods);
     }]);
 });

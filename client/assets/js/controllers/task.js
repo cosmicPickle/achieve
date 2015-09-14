@@ -25,9 +25,6 @@ taskControllers.controller('TaskMainCtrl',
         //The list of achievements you can get by doing this task
         $scope.achievements = [];
         
-        //The modal which pops up in order to add a new history item
-        $scope.historyModal = {};
-        
         //Setting the dynamic title of the page
         $scope.$watch('task', function(task){
             $translate('taskTitle', {
@@ -73,53 +70,6 @@ taskControllers.controller('TaskMainCtrl',
                         $scope.favouriteId = 0;
                     }
                 })
-        }
-        
-        //Opens up a modal with a date and time picker to input a new history
-        $scope.openHistoryModal = function() {
-            if($scope.historyModal != {})
-                $scope.historyModal = $modal.open({
-                    animation: true,
-                    templateUrl: 'assets/views/directives/addHistoryModal.html',
-                    scope : $scope,
-                    controller : ['$scope', function($scope) {
-                       //Setting the date model
-                       $scope.dt = new Date();
-                    }],
-                    resolve: {
-                      items: function () {
-                        return $scope.items;
-                      }
-                    }
-                });
-        };
-        
-        //Dismisses a modal window
-        $scope.dismissHistoryModal = function() {
-            if($scope.historyModal == {})
-                return;
-            $scope.historyModal.dismiss('canceled')
-        }
-        
-        //Saves a history entry and closes the modal
-        $scope.saveHistory = function(dt) {
-            //Converting to unix timestamp
-            var unix = moment(dt.getTime()).format('X');
-            
-            //Adding entry to history
-            History.create({
-                users_id : -1,
-                tasks_id : $scope.task.id,
-                date : unix
-            }, function(resp) {
-                if(resp.status == 0)
-                    $scope.errors = resp.errors;
-                else
-                {
-                    $scope.historyModal.close();
-                }
-            });
-            
         }
         
         //This is the promisefunction which loads the task first. All subsequent

@@ -80,6 +80,12 @@ class AbstractController extends BaseController
     //Contains the names of the columns that the read method is allowed to fetch
     protected $readable = [];
     
+    //Shows whether entities of this model can be created by a regular user. 
+    //Effects whether the model can use "onlymy", "notmy" filters. It assumes
+    //that if this option is enebled the table contains the following fields:
+    //user_defined, users_id
+    protected $allowUserCreation = 0;
+    
     //The ordering of the returned list. The default is ['id', 'asc']
     protected $order = ['id', 'asc'];
     
@@ -116,21 +122,32 @@ class AbstractController extends BaseController
     //Defaults to all
     protected $writable = [];
     
+    protected $debug = 1;
+    
+    //This is the debug data if debug mode is enabled
+    protected $debugData = [];
+    
     /**
      * Constructor
      * 
      * @return NULL
      */
     public function __construct(Request $request)
-    {
-        //$this->_fail(["TEST FAIL"]);
-        //Uncomment to enable DB debug/
-        
-        //\Event::listen('illuminate.query', function($query, $bindings)
-        //{
-        //    var_dump($query, $bindings);
-        //});
-        
+    {        
+        //Debug mode is enabled
+        if($this->debug){
+            $this->debugData['database'] = [];
+            
+            //We are gonna log all queries
+            \Event::listen('illuminate.query', function($query, $bindings)
+            {
+                $this->debugData['database'][] = [
+                    'query' => $query,
+                    'bindings' => $bindings
+                ];
+            });
+        }
+
         //Let's first set the locale
         if($request->cookie('locale'))
             app('translator')->setLocale($request->cookie('locale'));
@@ -145,6 +162,12 @@ class AbstractController extends BaseController
         //Checking if the cookie contains the JWT
         if($request->cookie('jwt'))
             Auth::setJWT($request->cookie('jwt'));
+        
+        if($this->debug)
+        {
+            //We are also gonna add the current user
+            $this->debugData['user'] = Auth::user();
+        }
         
         if(!Auth::authenticateJWT($request->path(), $request->method()))
             $this->_unauthorized();
@@ -270,6 +293,21 @@ class AbstractController extends BaseController
         //Then we go to the controller-specific filters function
         $this->_readFilter($query, $request);
         
+        //We add the "onlymy" and "notmy" filters if the model can be user defined
+        if($this->allowUserCreation)
+            if($request->onlymy)
+                $query->where('user_defined', 1)
+                      ->where('users_id', Auth::user('id'));
+            elseif($request->notmy)
+                $query->where('user_defined', 0);
+            else
+                $query->where(function($query){
+                    $query->where(function($query){
+                        $query->where('user_defined', 1)
+                              ->where('users_id', Auth::user('id'));
+                    })->orWhere('user_defined', 0);
+                });
+        
         //Then we add the ordering
         //Validating the order array
         if(is_array($request->order) && count($request->order) == 2 
@@ -334,6 +372,19 @@ class AbstractController extends BaseController
         //We need to prep the data for use
         $this->_prepData($request, __FUNCTION__);
         
+        if($this->allowUserCreation)
+        {
+            //This model allows user creation. We need to be careful not to allow
+            //users mess with other users' stuff...
+            if($this->model->find($request->id)->users_id != Auth::user('id') && !Auth::isAdmin())
+            //... unless this is an administrator
+                $this->_fail([trans('responses.unauthorized')]);
+        }
+        else
+            //We are gonna have no user creation here
+            if(!Auth::isAdmin())
+                $this->_fail([trans('responses.unauthorized')]);
+        
         //If the editable array is empty we populate it with all the columns of 
         //the table
         if(!$this->editable)
@@ -396,11 +447,21 @@ class AbstractController extends BaseController
         if(!$request->id)
             $this->_fail([trans('responses.invalid_input')]);
         
+        $model = $this->model->find($request->id);
+        if($this->allowUserCreation)
+        {
+            if($model->users_id != Auth::user('id') && !Auth::isAdmin())
+                $this->_fail([trans('responses.unauthorized')]);
+                
+        }
+        else
+            //We are gonna have no user delete stuff here
+            if(!Auth::isAdmin())
+                $this->_fail([trans('responses.unauthorized')]);
         if($request->force)
         {
             try 
             {
-                $model = $this->model->find($request->id);
                 if($model)
                     $model->forceDelete();
             } 
@@ -469,6 +530,10 @@ class AbstractController extends BaseController
             'errors' => $errors
         ];
         
+        if($this->debug);
+        {
+            $resp['debug'] = $this->debugData;
+        }
         if(!in_array($status, [0,1]))
            $resp['status'] = -1;
         
@@ -548,15 +613,22 @@ class AbstractController extends BaseController
         if($request->users_id && $request->users_id == -1)
         {
             $all['users_id'] = Auth::user('id');
-            $request->replace($all);
         }
         
         if($request->user_groups_id && $request->user_groups_id == -1)
         {
             $all['user_groups_id'] = Auth::user('user_groups_id');
-            $request->replace($all);
         }
         
+        if($this->allowUserCreation && !Auth::isAdmin()) 
+        {
+            //This model allows user creation and this is not an admin, let's put 
+            //that users_id
+            $all['user_defined'] = 1;
+            $all['users_id'] = Auth::user('id');
+        }
+        
+        $request->replace($all);
         //Calling the user function
         $method = "_prep".ucfirst($func)."Data";
         if(method_exists($this, $method))

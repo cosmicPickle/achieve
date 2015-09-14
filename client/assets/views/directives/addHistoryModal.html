@@ -5,8 +5,8 @@
     .custom-buttons .btn-info:active:hover,
     .custom-buttons .btn-info.active:hover
     {
-        background: {{achievement.color || task.color || achievement.category.color || task.category.color}};
-        color: {{achievement.bg_color || task.bg_color || achievement.category.bg_color || task.category.bg_color}}
+        background: {{color}};
+        color: {{bg_color}}
     }
     .custom-buttons .btn-link, 
     .custom-buttons .btn-link:active,
@@ -14,19 +14,30 @@
     .custom-buttons .btn-link:active:hover,
     .custom-buttons .btn-link.active:hover
     {
-        color: {{achievement.color || task.color || achievement.category.color || task.category.color}}
+        color: {{color}}
     }
 </style>
 <div class="modal-header custom-buttons">
-    <h3 class="modal-title">{{'performTask' | translate}} : {{(achievement.task.locale[0].title || achievement.task.title) || (task.locale[0].title || task.title)}}</h2>
+    <h3 class="modal-title">{{'performTask' | translate}} : {{task.locale[0].title || task.title}}</h2>
 </div>
 <div class="modal-body custom-buttons">
     <div class="row">
-        <datepicker ng-model="dt" show-weeks="true" class="well well-sm col-md-7 col-md-offset-1"></datepicker>
+        <div class="col-md-4">
+            <achv-modal-select 
+                lable="{{'selectTask' | translate}}"
+                source="Categories.Tasks"
+                link="category"
+                deep-select="1" 
+                onlymy="0"
+                dest-obj='task'></achv-modal-select>
+        </div>
+    </div>
+    <div class="row">
+        <datepicker ng-model="dt" init-date="initDate" max-date="maxDate" starting-day="1" show-weeks="true" class="well well-sm col-md-7 col-md-offset-1"></datepicker>
         <timepicker ng-model="dt" class="col-md-offset-1 col-md-2" hour-step="1" minute-step="1" show-meridian="ismeridian"></timepicker>
     </div>
 </div>
 <div class="modal-footer custom-buttons">
-    <button class="btn btn-default btn-info" ng-click="saveHistory(dt)">{{'save' | translate}}</button>
+    <button class="btn btn-default btn-info" ng-show="task" ng-click="saveHistory(dt)">{{'save' | translate}}</button>
     <button class="btn btn-default btn-default" ng-click="dismissHistoryModal()">{{'cancel' | translate}}</button>
 </div>

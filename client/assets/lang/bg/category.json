@@ -1,9 +1,11 @@
 {
-    "categoryTitle": "Категория: {{title}}",
+    "categoryTitle": "Категория: {{title}} ({{type}})",
     "back": "Обратно",
     "invalidCategory": "Категорията не съществува",
     "favAchievements": "Любими постижения",
     "favTasks": "Любими задачи",
     "newachievement" : "Ново постижение",
-    "newtask" : "Нова задача"
+    "newtask" : "Нова задача",
+    "achievements" : "Постижения",
+    "tasks" : "Задачи"
 }

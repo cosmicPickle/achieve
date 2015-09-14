@@ -1,0 +1,51 @@
+<div class="modal-header">
+    <h3 class="modal-title">{{lable}}</h2>
+</div>
+<div class="modal-body">
+    <div class="listing row">
+        <div class="col-md-4 list-item" ng-if="parentId">
+            <a class="list-item-a" ng-click="back()">
+                <div class="list-item-img">
+                    <i class="fa fa-undo fa-5x"></i>
+                </div>
+                <div class="list-item-title">
+                    {{'back' | translate}} 
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 list-item" ng-repeat="item in parentSelection">
+            <a class="list-item-a" ng-click="childSelection(item)">
+                <div class="list-item-img">
+                    <i class="fa {{item.image || 'fa-image'}} fa-5x"></i>
+                </div>
+                <div ng-if="item.user_defined" class="list-item-title">
+                    <i class="fa fa-user-plus fa-2x"></i>
+                    {{'personal' | translate}}
+                </div>
+                <div class="list-item-title">
+                    {{item.locale[0].title || item.title}} 
+                </div>
+            </a>
+        </div>
+        <div class="col-md-4 list-item" ng-repeat="item in selection">
+            <a class="list-item-a" ng-click="childSelection(item, 1)">
+                <div class="list-item-img">
+                    <i class="fa {{item.image || 'fa-image'}} fa-5x"></i>
+                </div>
+                <div ng-if="item.user_defined" class="list-item-title">
+                    <i class="fa fa-user-plus fa-2x"></i>
+                    {{'personal' | translate}}
+                </div>
+                <div class="list-item-title">
+                    {{item.locale[0].title || item.title}} 
+                </div>
+            </a>
+            <div class="list-item-title">
+                <span class="ic-pointer" ng-click='selectItem(item)'><i class="fa fa-plus-square-o"></i> {{'select' | translate}}</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer custom-buttons">
+    <button class="btn btn-default btn-default" ng-click="dismissModal()">{{'cancel' | translate}}</button>
+</div>
