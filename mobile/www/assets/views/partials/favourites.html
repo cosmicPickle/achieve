@@ -1,0 +1,19 @@
+<div class="col-md-12">  
+    <h3 class="page-header">{{"favAchievements" | translate}}</h3>
+    <div class="listing">
+        <achv-list-item ng-repeat="item in favAchievements" item="item.achievement" link-type="achievement" color-default="item.achievement.category.color">
+        </achv-list-item>
+    </div>
+    
+    <button ng-if="loadMoreAchv" class="btn btn-block btn-primary" ng-click='loadMoreAchievements()'>{{'loadMore' | translate}}</button>
+</div>
+
+<div class="col-md-12"> 
+    <h3 class="page-header">{{"favTasks" | translate}}</h3>
+    <div class="listing">
+        <achv-list-item ng-repeat="item in favTasks" item="item.task" link-type="task" color-default="item.task.category.color">
+        </achv-list-item>
+    </div>
+    
+    <button ng-if="loadMoreTasks" class="btn btn-block btn-primary" ng-click='loadMoreTasks()'>{{'loadMore' | translate}}</button>
+</div>

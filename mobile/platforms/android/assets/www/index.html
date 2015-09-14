@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html ng-app="achieveApp">
+    <head>
+        <title>{{title || 'Achieve'}}</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap-theme.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/font-awesome.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/icomoon.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/flag-icon.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/ui-iconpicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/colorpicker.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/themes/default/app.css" />
+    </head>
+    <body>
+        <div class="container-fluid container-main">
+            <div ng-controller="AuthController"></div>
+            <div class="ui-overlay" ng-if="httpLoading">
+                <div>
+                    <i class="fa fa-5x fa-pulse fa-spinner"></i>
+                </div>
+            </div>
+            <div class="locale-select" ng-controller="LocaleController">
+                <i ng-repeat="l in locales" class="flag flag-icon flag-icon-{{l.code}} {{l.active ? 'active' : ''}}" ng-click="changeLocale(l.code)"></i>
+            </div>
+            <ul class="navigation" ng-controller="NavigationController">
+                <li ng-repeat="m in menu" ng-click="toggleMenu(m)">
+                    <a ng-if="!m.items" ng-href="{{m.link}}">
+                        <i class="fa {{m.icon || 'fa-image'}} fa-2x" tooltip="{{m.lable | translate}}" tooltip-placement="bottom"></i>
+                    </a>
+                    <span ng-if="m.items"><i class="fa {{m.icon || 'fa-image'}} fa-2x" tooltip="{{m.lable | translate}}" tooltip-placement="bottom"></i></span>
+                    <ul class="subnav" ng-if="m.items" style="display: {{(m.open) ? 'block' : 'none'}}">
+                        <li ng-repeat="item in m.items">
+                            <a ng-href="{{item.link}}">
+                                <i class="fa {{item.icon || 'fa-image'}} fa-2x" tooltip="{{item.lable | translate}}" tooltip-placement="bottom"></i> 
+                                {{item.lable | translate}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            <div ng-view></div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-animate.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-sanitize.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-cookies.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script src="http://code.jquery.com/color/jquery.color.plus-names-2.1.2.min.js"></script>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="assets/js/lib/roundProgress.min.js"></script>
+        <script src="assets/js/lib/ui-bootstrap-tpls-0.13.3.min.js"></script>
+        <script src="assets/js/lib/angular-translate.min.js"></script>
+        <script src="assets/js/lib/angular-translate-loader-partial.min.js"></script>
+        <script src="assets/js/lib/moment.js"></script>
+        <script src="assets/js/lib/moment.timezone.js"></script>
+        <script src="assets/js/lib/ui-iconpicker.min.js"></script>
+        <script src="assets/js/lib/bootstrap-colorpicker-module.min.js"></script>
+        <script src="assets/js/app.js"></script>
+        <script src="assets/js/controllers/achievement.js"></script>
+        <script src="assets/js/controllers/category.js"></script>
+        <script src="assets/js/controllers/task.js"></script>
+        <script src="assets/js/controllers/profile.js"></script>
+        <script src="assets/js/controllers/personal.js"></script>
+        <script src="assets/js/controllers/utils.js"></script>
+        <script src="assets/js/services/api.js"></script>
+        <script src="assets/js/services/arrays.js"></script>
+        <script src="assets/js/services/wizard.js"></script>
+        <script src="assets/js/directives/ui-base.js"></script>
+        <script src="assets/js/directives/ui-input.js"></script>
+    </body>
+</html>

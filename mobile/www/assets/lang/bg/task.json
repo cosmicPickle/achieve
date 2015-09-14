@@ -1,0 +1,10 @@
+{
+    "taskTitle": "Задача: {{title}}",
+    "back": "Обратно",
+    "taskAchievements": "Постижения с тази задача",
+    "favourite": "Любимо",
+    "description" : "Описание",
+    "performTask": "Изпълни задача",
+    "save": "Запази",
+    "cancel": "Отказ"
+}

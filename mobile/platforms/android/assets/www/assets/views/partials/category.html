@@ -1,0 +1,37 @@
+<h2 class="page-header row" ng-style="{color : category.color}">
+    <span class="col-md-9">{{title}}</span>
+    <span class="col-md-3">
+        <a ng-if="category.parent_category" ng-click="goBack('/category/' + listType + '/' + category.parent_category.alias)" class="pull-right grey">
+            <i class="fa fa-undo"></i>
+            {{"back" | translate}}
+        </a>    
+    </span>
+</h2>
+
+<div ng-if="children.length"> 
+    <div class="listing row">
+        <achv-list-item ng-repeat="item in children" item="item" link-type="category/{{listType}}" type='category' color-default="category.color">
+        </achv-list-item>
+    </div>
+</div>
+
+<div ng-if="achievements.length"> 
+    <div class="listing row">
+        <achv-list-item ng-repeat="item in achievements" item="item" link-type="achievement" type="achievement" color-default="category.color">
+        </achv-list-item>
+    </div>
+</div>
+
+<div ng-if="tasks.length"> 
+    <div class="listing row">
+        <achv-list-item ng-repeat="item in tasks" item="item" link-type="task" type="task" color-default="category.color">
+        </achv-list-item>
+    </div>
+</div>
+
+<h3 class="page-header">{{'new' | translate}}</h3>
+<div class="listing" class="row">
+    <achv-add-new type="category" full="1" data="{parent_id : category.id}"></achv-add-new>
+    <achv-add-new type="achievement" full="1" data="{categories_id : category.id}"></achv-add-new>
+    <achv-add-new type="task" full="1" data="{categories_id : category.id}"></achv-add-new>
+</div>

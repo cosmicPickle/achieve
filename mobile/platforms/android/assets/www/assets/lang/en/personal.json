@@ -1,0 +1,21 @@
+{
+    "personalHead" : "Create your own goal",
+    "createPersonal" : "Creating {{type}}",
+    "editPersonal" : "Editing \"{{title}}\"",
+    "createCategory" : "Create category",
+    "createTask" : "Create task",
+    "createLevel" : "Create level",
+    "createAchievement" : "Create achievement",
+    "select" : "Select",
+    "noChildren" : "This entity is empty.",
+    "alias" : "Alias",
+    "title" : "Title",
+    "levelNum" : "Number of the level",
+    "repetition" : "Number of task repetition required for this level",
+    "timeframe" : "Number of days in which the level should be completed",
+    "image" : "Image",
+    "color" : "The theme color",
+    "bg_color" : "The background color. Normally white",
+    "type" : "Type",
+    "saveSuccess" : "Changes successfully saved."
+ }

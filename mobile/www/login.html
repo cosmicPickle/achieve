@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Achieve Login</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap.min.css" />
+        <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap-theme.min.css" />
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="col-md-4 col-md-offset-4">
+                <h2 class="page-header">Login</h2>
+                <form action="http://95.87.205.55/dev/achieve/api/public/index.php/login" method="POST" id='login-form'>
+                <!--<form action="../api/public/index.php/login" method="POST">-->
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="E-mail" name="email" id='email'>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Password" name="password" id='password'>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Login" id='submit-form' class="btn btn-primary btn-block btn-lg" />
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script type="text/javascript" src="cordova.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+        <script type='text/javascript'>
+            $(document).ready(function(){
+                $('#login-form').on('submit', function(e){
+                   e.preventDefault(); 
+                   var self = $(this);
+                   $.ajax({
+                        url : self.attr('action'),
+                        method : "POST",
+                        data : {
+                            email : $('#email').val(),
+                            password : $('#password').val()
+                        },
+                        success : function(resp){
+                            resp = $.parseJSON(resp);
+                            if(resp.status != -1 && resp.status != 0)
+                                window.location = window.location.origin + window.location.pathname.replace('login.html', '') + 'index.html#/category/achievements';
+                        }
+                   })
+                });
+            })
+        </script>
+    </body>
+</html>

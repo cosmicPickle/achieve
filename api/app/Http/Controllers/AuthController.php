@@ -45,6 +45,9 @@ class AuthController extends AbstractController
      */
     public function logout(Request $request)
     {
+        if(!cookie('jwt'))
+            $this->_unauthorized();
+        
         //Let's NULL the JWT in that 4 years and 268 days old cookie
         $response = new Response($this->_success([], TRUE));
         $response->withCookie(cookie('jwt', ''));

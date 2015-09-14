@@ -1,0 +1,20 @@
+{
+    "achievementTitle": "Achievement: {{title}}",
+    "back": "Back",
+    "thisLevelProgress": "This level : {{current}}/{{max}}",
+    "inTheLast": "in the last {{days}} days",
+    "overallProgress": "Overall : {{current}}/{{max}}",
+    "prevLevel": "Previous Level",
+    "nextLevel": "Next Level",
+    "finished": "Finished",
+    "earnedAchievements": "Earned Achievements",
+    "favourite": "Favourite",
+    "toTask": "Go to task",
+    "performTask": "Complete Task",
+    "save": "Save",
+    "cancel": "Cancel",
+    "invalidAchievement": "The achievement does not exist",
+    "noLevels" : "This achievement does not have any levels added",
+    "createlevel" : "Create level",
+    "allLevels" : "All levels"
+}

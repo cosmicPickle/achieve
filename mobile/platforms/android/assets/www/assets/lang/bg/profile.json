@@ -1,0 +1,18 @@
+{
+    "generalTitle": "Общ Профил: {{name}}",
+    "statsTitle": "Статистика: {{name}}",
+    "historyTitle": "История: {{name}}",
+    "general": "Общ Профил",
+    "stats": "Статистика",
+    "history": "История",
+    "invalidUser": "Потребителят не съществува.",
+    "noHistory": "Няма история за избрания период",
+    "date": "Дата",
+    "tasks": "Задача",
+    "loadMore": "Зареди Повече",
+    "statMostAchievements" : "Топ 3 постижения с най-много завършени нива",
+    "statMostCategories" : "Топ 3 категории с най-много завършени нива",
+    "statMostTasks" : "Топ 3 задачи с най-много изпълнения за последните 30 дни",
+    "levelsCompleted" : "нива завършени",
+    "completedTimes" : "Изпълнена {{times}} пъти."
+}

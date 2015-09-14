@@ -1,0 +1,16 @@
+<span>
+    <div class="col-sm-4 list-item" ng-show="full == 1">
+        <a ng-href="#/personal/create/{{type}}" class="list-item-a">
+            <div class="list-item-img">
+                <i class="fa fa-plus-circle fa-5x"></i>
+            </div>
+            <div class="list-item-title">
+                {{type | translate}} 
+            </div>
+        </a>
+    </div>
+    <a ng-href="#/personal/create/{{type}}" class="list-item-a">
+        <i class="fa fa-plus-circle fa-2x add-task-history" ng-hide="full == 1"
+            tooltip-placement="top" tooltip="{{'create' + type | translate}}"></i>
+    </a>
+</span>

@@ -1,0 +1,15 @@
+<div class='col-md-12'>
+    <h2 class='page-header row'>
+        <span class="col-md-9">
+            <span ng-if='!entity' translate='createPersonal' translate-values="{type : (type | translate)}"></span>
+            <span ng-if='entity'  translate='editPersonal' translate-values="{title : (entity.locale[0].title || entity.title)}"></span>
+        </span>
+        <span class="col-md-3">
+            <button class="btn btn-success pull-right" ng-click="save()">{{'save' | translate}}</button>
+            <a ng-click="goBack()" class="btn btn-default pull-right"  style="margin-right:5px;">{{'cancel' | translate}}</a>
+        </span>
+    </h2>
+    <alert type='success' close="bCloseAlert=1" ng-hide="bCloseAlert" ng-if='success'>
+        {{'saveSuccess' | translate}}
+    </alert>
+    <achv-include src="'assets/views/partials/personal' + providers[type] + 'Create.html'"></achv-include>

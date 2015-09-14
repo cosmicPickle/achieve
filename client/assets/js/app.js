@@ -118,6 +118,20 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', '$tr
         .when('/404', {
             templateUrl : 'assets/views/partials/404.html',
         })
+        .when('/logout', {
+            controller : 'LogoutController',
+            template : "",
+            menu : {
+                nested : false,
+                items : {
+                    '/logout' : {
+                        link : '#logout',
+                        icon : 'fa-sign-out',
+                        lable : 'logout'
+                    }
+                }
+            }
+        })
         .otherwise({
             redirectTo : '/404'   
         });
@@ -240,4 +254,5 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', '$tr
         
         $location.path($rootScope.history[$rootScope.history.length - 2]);
     }
+
 }]);

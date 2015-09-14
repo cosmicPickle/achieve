@@ -102,6 +102,14 @@ var nodes = {
         path : 'token',
         actions : ['view']
     },
+    Logout : {
+      path : 'logout',
+      actions : {
+          doLogout : {
+              method : 'GET'
+          }
+      }
+    },
     Locale : {
         path : 'locale',
         actions : ['update', 'list', 'view']

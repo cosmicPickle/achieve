@@ -1,0 +1,15 @@
+<div class="col-sm-4 list-item">
+    <a ng-href="#/{{linkType}}/{{item.alias}}" class="list-item-a" >
+        <div class="list-item-img">
+            <i class="fa {{item.image || 'fa-image'}} fa-5x"></i>
+        </div>
+        <div ng-if="item.user_defined" class="list-item-title">
+            <i class="fa fa-user-plus fa-2x"></i>
+            {{'personal' | translate}}
+        </div>
+        <div class="list-item-title">
+            {{item.locale[0].title || item.title}} 
+        </div>
+    </a>
+    <achv-item-controls type='type' item='item' show-lable='1'></achv-item-controls>
+</div>

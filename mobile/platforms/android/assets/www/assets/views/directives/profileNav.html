@@ -1,0 +1,6 @@
+<div class='navigation'>
+    <tabset>
+        <tab ng-repeat='(i,a) in actions' ng-if='a.visible' heading='{{a.title | translate}}' active='a.active' ng-click='changeAction(a,i)'>
+        </tab>
+    </tabset>
+</div>
