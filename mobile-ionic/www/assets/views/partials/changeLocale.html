@@ -1,0 +1,10 @@
+<ion-view view-title="{{'changeLanguage' | translate}}">
+    <ion-content>
+        <div class="list card" ng-repeat="l in locales" ng-click='changeLocale(l.code)'>
+            <div class="item item-icon-left {{l.active ? 'active' : ''}}">
+                <i class='icon flag flag-icon flag-icon-{{l.code}}'></i>
+                <span class="padding-left">{{l.lable}}</span>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

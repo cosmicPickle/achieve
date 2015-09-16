@@ -1,0 +1,59 @@
+<style parse-style>
+    .custom-buttons .btn-info, 
+    .custom-buttons .btn-info:active,
+    .custom-buttons .btn-info.active,
+    .custom-buttons .btn-info:active:hover,
+    .custom-buttons .btn-info.active:hover
+    {
+        background: {{color}};
+        color: {{bg_color}}
+    }
+    .custom-buttons .btn-link, 
+    .custom-buttons .btn-link:active,
+    .custom-buttons .btn-link.active,
+    .custom-buttons .btn-link:active:hover,
+    .custom-buttons .btn-link.active:hover
+    {
+        color: {{color}}
+    }
+</style>
+<ion-modal-view>
+    <ion-header-bar class="bar bar-positive">
+        <div class="buttons">
+            <button class="button col" ng-click="dismissHistoryModal()">{{'cancel' | translate}}</button>
+        </div>
+        <div class="title">{{'performTask' | translate}} : {{task.locale[0].title || task.title}}</div>
+        <div class="buttons">
+            <button class="button button-positive col" ng-show="task" ng-click="saveHistory(dt)">{{'save' | translate}}</button>
+        </div>
+    </ion-header-bar>
+    <div class="margin-top-50">
+        <achv-modal-select 
+            lable="{{'selectTask' | translate}}"
+            source="Categories.Tasks"
+            link="category"
+            deep-select="1" 
+            onlymy="0"
+            dest-obj='task'
+            callback="selectTask"></achv-modal-select>
+        <ionic-datepicker date="dt" max="maxDate" callback="selectDate">
+            <div class="card">
+                <div class="item item-divider">
+                    {{'selectDate' | translate}}
+                </div>
+                <div class="item item-text-wrap">
+                    {{ dt | date:'MMMM/dd/yyyy' }}
+                </div>
+            </div>
+        </ionic-datepicker>
+        <!--<datepicker ng-model="dt" init-date="initDate" max-date="maxDate" starting-day="1" show-weeks="true"></datepicker>-->
+        <div class="card">
+            <div class="item item-divider">
+                 {{'selectTime' | translate}}
+            </div>
+            <div class="item item-text-wrap">
+                <timepicker ng-model="dt" hour-step="1" minute-step="1" show-meridian="ismeridian"></timepicker>
+            </div>
+        </div>
+    </div>
+</ion-modal-view>

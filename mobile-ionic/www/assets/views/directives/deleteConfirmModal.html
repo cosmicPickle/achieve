@@ -1,0 +1,12 @@
+<ion-modal-view class="custom-buttons">
+    <ion-header-bar class="bar bar-assertive">
+        <div class="buttons">
+            <button class="button button-light" ng-click="dismissModal()">{{'cancel' | translate}}</button>
+        </div>
+        <div class="title"><span translate='deleteConfirmHead' translate-values="{title : (item.title.locale[0].title || item.title)}"></span></div>
+    </ion-header-bar>
+    <div class="margin-top-50 card">
+        <div class="item item-text-wrap" translate='deleteConfirm' translate-values="{title : (item.title.locale[0].title || item.title)}"></div>
+    </div>
+    <button class="button button-bar button-assertive" ng-click="confirmDelete()">{{'deleteConfirmButton' | translate}}</button>
+</ion-modal-view>

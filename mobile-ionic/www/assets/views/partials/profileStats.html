@@ -1,0 +1,23 @@
+<ion-view view-title="{{title}}">
+    <ion-content class="padding">
+        <ion-slide-box disable-scroll="false" menu-close>
+            <ion-slide>
+                <h3 class='page-header'>{{'statMostAchievements' | translate}}</h3>
+                <stats-item ng-repeat="item in achievementStats" item="item" link-type='"achievement"'>
+                </stats-item>
+            </ion-slide>
+            <ion-slide>
+                <h3 class='page-header'>{{'statMostCategories' | translate}}</h3>
+                <stats-item ng-repeat="item in categoryStats" item="item" link-type='"category"'>
+                </stats-item>
+            </ion-slide>
+            <ion-slide>
+                <h3 class='page-header'>{{'statMostTasks' | translate}}</h3>
+                <stats-item ng-repeat="item in taskStats" item="item" link-type='"task"'>
+                </stats-item>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+</ion-view>
+
+

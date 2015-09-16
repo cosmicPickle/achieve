@@ -1,0 +1,38 @@
+<div class="padding-horizontal">
+    <a ng-href="{{link}}">
+        <div class="list card">
+            <div class="item item-divider">
+                {{title}}
+            </div>
+            <div ng-if="linkType != 'task'" class="item item-body">
+                <div class="progress-wrap row">
+                    <div class="progress-body col-80 col-offset-10">
+                        <div class="progress-lable">
+                            <i class="fa {{image}} fa-3x"></i> <br />
+                            {{item.achieved_levels}}/{{item.num_levels}} {{'levelsCompleted' | translate}}
+                        </div>
+                        <round-progress
+                            max="item.num_levels"
+                            current="item.achieved_levels"
+                            color="{{colors.color}}"
+                            bgcolor="{{colors.bg_color}}"
+                            radius="100"
+                            stroke="10"
+                            semi="false"
+                            rounded="false"
+                            clockwise="true"
+                            responsive="true"
+                            duration="800"
+                            animation="easeInOutQuart"></round-progress>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="linkType == 'task'" class="item item-body text-center">
+                <i class="fa {{image}} fa-5x"></i>
+            </div>
+            <div ng-if="linkType == 'task'" class="item item-divider">
+                <span translate='completedTimes' translate-values='{times : item.history_num}'></span>
+            </div>
+        </div>
+    </a>
+</div>

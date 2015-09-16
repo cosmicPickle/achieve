@@ -1,0 +1,8 @@
+<div class="list card" >
+    <a class="item item-icon-left" href="#/{{linkType}}/{{item.alias}}">
+        <i class="icon fa {{item.image || 'fa-image'}} fa-3x" ng-style="{color : item.color || colorDefault}"></i>
+        {{item.locale[0].title || item.title}} 
+    </a>
+    <achv-item-controls ng-if="item.user_defined" type='type' item='item'></achv-item-controls>
+</div>
+

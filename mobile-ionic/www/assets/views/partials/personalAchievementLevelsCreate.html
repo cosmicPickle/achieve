@@ -1,0 +1,78 @@
+<achv-modal-select 
+        lable="{{'selectAchievement' | translate}}"
+        source="Categories.Achievements"
+        link="category"
+        deep-select="1" 
+        onlymy="0" 
+        dest='formData.achievements_id'
+        dest-obj='selected.achievement'></achv-modal-select>
+<div ng-show="formData.achievements_id">
+    <div class="list">
+        <label class="item item-input item-floating-label">
+            <span class="input-label">{{'title' | translate}}</span>
+            <input type="text" name="title" value="" id="title" placeholder="{{'title' | translate}}" ng-model='formData.title' />
+        </label>
+        <label class="item item-input item-floating-label">
+            <span class="input-label">{{'levelNum' | translate}}</span>
+            <div id="level_num" class="assertive">{{(entity) ? formData.level_num : (formData.level_num = selected.achievement.levels.length + 1)}}</div>
+        </label>
+        <label class="item item-input item-stacked-label">
+            <span class="input-label">{{'repetition' | translate}}</span>
+            <input ng-if="(!entity && selected.achievement.levels.length) || (entity && formData.level_num != 1)" 
+                   type="text" 
+                   name="repetition" 
+                   id="repetition" 
+                   placeholder="{{'repetition' | translate}}" ng-model='formData.repetition' />
+            <div ng-if="(!entity && !selected.achievement.levels.length) || (entity && formData.level_num == 1)" id="level_num" class="assertive">{{formData.repetition = 0}}</div>
+        </label>
+        <label class="item item-input item-stacked-label" ng-if="selected.achievement.type.alias == 'timed'">
+            <span class="input-label">{{'timeframe' | translate}}</span>
+            <input ng-if="(!entity && selected.achievement.levels.length) || (entity && formData.level_num != 1)" 
+                   type="text" 
+                   name="timeframe" 
+                   id="repetition" 
+                   placeholder="{{'timeframe' | translate}}" ng-model='formData.timeframe' />
+            <div ng-if="(!entity && !selected.achievement.levels.length) || (entity && formData.level_num == 1)" id="level_num"  class="assertive">{{formData.timeframe = 0}}</div>
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'image' | translate}}</span>
+            <button class="button icon-left"
+                    achv-input-icons
+                    icon-current="formData.image"
+                    callback="selectImage"
+                    ng-model="formData.image">
+                {{formData.image || 'select' | translate}}
+            </button>
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'color' | translate}}</span>
+            <button class="button" 
+                    color-picker 
+                    ng-model="formData.color" 
+                    modal-title="{{'color' | translate}}" 
+                    color-box="{{formData.color}}" 
+                    modal-class="vcc" 
+                    header-footer-class="bar-positive"
+                    ok-button="{{'save' | translate}}"
+                    cancel-button="{{'cancel' | translate}}"
+                    hide-reset="true">
+              {{ formData.color || 'select' | translate }} 
+            </button>
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'bg_color' | translate}}</span>
+            <button class="button" 
+                    color-picker 
+                    ng-model="formData.bg_color" 
+                    modal-title="{{'bg_color' | translate}}" 
+                    color-box="{{formData.bg_color}}" 
+                    modal-class="vcc" 
+                    header-footer-class="bar-positive"
+                    ok-button="{{'save' | translate}}"
+                    cancel-button="{{'cancel' | translate}}"
+                    hide-reset="true">
+              {{ formData.bg_color || 'select' | translate }} 
+            </button>
+        </label>
+    </div>
+</div>

@@ -1,0 +1,19 @@
+<ion-view view-title="{{title}}">
+    <ion-content>
+        <ion-list>
+            <ion-item class="item" ng-repeat="day in calendar">
+               {{day.date}} 
+               <a ng-repeat="h in day.history" ng-href="#/task/{{h.task.alias}}" ng-style='{color : h.task.color || h.task.category.color}'>
+                    <i class="icon fa fa-2x {{h.task.image || 'fa-image'}} pull-right" tooltip="{{h.task.locale[0].title || h.task.title}} : {{h.date}}"></i>
+                </a>
+                <i ng-if="!day.history.length" class="fa fa-2x fa-close pull-right"></i>
+            </ion-item>
+        </ion-list>
+        <button class="button button-bar button-positive" ng-click='loadMore()'>{{'loadMore' | translate}}</button>
+    </ion-content>
+    <ion-footer-bar class="bar-assertive">
+        <div class="button-bar">
+            <achv-perform-task reload="1"></achv-perform-task>
+        </div>
+    </ion-footer-bar>
+</ion-view>

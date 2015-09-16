@@ -1,0 +1,6 @@
+<ion-view view-title="{{title}}">
+    <ion-content class="padding">
+        <achv-add-new ng-if="task.user_defined" type="achievement" data="{tasks_id : task.id}"></achv-add-new>
+        <earned ng-repeat="a in achievements" item="a" color="a.color || task.category.color" href="#/achievement/{{a.alias}}"></earned>
+    </ion-content>
+</ion-view>

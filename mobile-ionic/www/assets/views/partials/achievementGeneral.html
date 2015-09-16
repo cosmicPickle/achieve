@@ -1,0 +1,63 @@
+<ion-view view-title="{{title}}">
+    <ion-content class="padding">
+        <div class="row">
+            <div class="progress-previous col">
+                <div ng-if="!finished">
+                    {{currentLevel.locale[0].title || currentLevel.title}}<br />
+                    <i class="fa {{currentLevel.image || 'fa-image'}} fa-4x"></i> <br />
+                </div>
+            </div>
+            <div ng-if="!finished" class="progress-next col text-right">
+                    {{nextLevel.locale[0].title || nextLevel.title }}<br />
+                    <i class="fa {{nextLevel.image || 'fa-image'}} fa-4x"></i> <br />
+            </div>
+            <div ng-if="finished" class="progress-next col text-right" ng-style="{color : achievement.color || achievement.category.color}">
+                {{'finished' | translate}}<br />
+                <i class="fa {{achievement.image || 'fa-image'}} fa-4x"></i> <br />
+            </div>
+        </div>
+        <div class="progress-wrap row"> 
+            <div class="progress-body col-80 col-offset-10">
+                <div class="progress-lable" ng-if="!finished">
+                    <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i> <br />
+                    <span translate='thisLevelProgress' translate-values='{ current : historyNum, max : nextLevel.repetition }'></span><br />
+                    <div ng-if="nextLevel.timeframe || currentLevel.timeframe">
+                        <span translate='inTheLast' translate-values='{days : nextLevel.timeframe}'></span>
+                    </div>
+                    <span ng-style="{color : achievement.color || achievement.category.color}"translate='overallProgress' translate-values='{current : totalRepCurrent + historyNum, max : totalRepNum}'></span><br />
+                </div>
+                <div class="progress-lable" ng-if="finished">
+                    <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i> <br />
+                    <span translate='overallProgress' translate-values='{current : totalRepNum, max : totalRepNum}' ng-style="{color : achievement.color || achievement.category.color}"></span></span><br />
+                </div>
+                <round-progress
+                    max="progress.max"
+                    current="progress.current"
+                    color="{{colors.color}}"
+                    bgcolor="{{colors.bg_color}}"
+                    radius="100"
+                    stroke="10"
+                    semi="false"
+                    rounded="false"
+                    clockwise="true"
+                    responsive="true"
+                    duration="800"
+                    animation="easeInOutQuart"></round-progress>
+            </div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-assertive">
+        <div class="button-bar">
+            <div class="button button-clear button-icon" ng-click="setFavourite()" >
+                <i class="icon fa {{fvIcons[favourited]}} fa-3x favourite" tooltip-placement="top" tooltip="{{'favourite' | translate}}"></i>
+            </div>
+            <a class="button button-clear button-icon"
+               ng-href="#/task/{{achievement.task.alias}}" 
+               tooltip-placement="top" tooltip="{{'toTask' | translate}}">
+               <i class="icon fa fa-tasks fa-3x"></i>
+            </a>
+            <achv-perform-task ng-if="achievement.levels.length" 
+                               task="achievement.task"></achv-perform-task>
+        </div>
+    </ion-footer-bar>
+</ion-view>

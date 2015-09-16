@@ -1,0 +1,21 @@
+<ion-view view-title="{{title}}">
+    <ion-content class="padding">
+        <div class="list card">
+            <div class="item item-text-wrap">
+                <h2>{{task.locale[0].title || task.title}}</h2>
+            </div>
+            <div class="item item-text-wrap text-center">
+                <i class="fa {{task.image || 'fa-image'}} fa-4x"></i>
+            </div>
+            <div class="item item-body" ng-bind-html='task.locale[0].description || task.description'></div>
+        </div>
+    </ion-content>
+    <ion-footer-bar class="bar-assertive">
+        <div class="button-bar">
+            <div class="button button-clear button-icon" ng-click="setFavourite()" >
+                <i class="fa {{fvIcons[favourited]}} fa-2x favourite"></i>
+            </div>
+            <achv-perform-task task="task"></achv-perform-task>
+        </div>
+    </ion-footer-bar>
+</ion-view>

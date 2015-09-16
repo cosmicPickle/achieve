@@ -1,0 +1,53 @@
+<achv-modal-select 
+    lable="{{'selectParent' | translate}}" 
+    source="Categories" 
+    deep-select="1" 
+    dest='formData.parent_id'></achv-modal-select>
+<div ng-show="formData.parent_id">
+    <div class="list">
+        <label class="item item-input item-floating-label">
+            <span class="input-label">{{'title' | translate}}</span>
+            <input type="text" name="title" value="" id="title" placeholder="{{'title' | translate}}" ng-model='formData.title' />
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'image' | translate}}</span>
+            <button class="button icon-left"
+                    achv-input-icons
+                    icon-current="formData.image"
+                    callback="selectImage"
+                    ng-model="formData.image">
+                {{formData.image || 'select' | translate}}
+            </button>
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'color' | translate}}</span>
+            <button class="button" 
+                    color-picker 
+                    ng-model="formData.color" 
+                    modal-title="{{'color' | translate}}" 
+                    color-box="{{formData.color}}" 
+                    modal-class="vcc" 
+                    header-footer-class="bar-positive"
+                    ok-button="{{'save' | translate}}"
+                    cancel-button="{{'cancel' | translate}}"
+                    hide-reset="true">
+              {{ formData.color || 'select' | translate }} 
+            </button>
+        </label>
+        <label class="item item-input">
+            <span class="input-label">{{'bg_color' | translate}}</span>
+            <button class="button" 
+                    color-picker 
+                    ng-model="formData.bg_color" 
+                    modal-title="{{'bg_color' | translate}}" 
+                    color-box="{{formData.bg_color}}" 
+                    modal-class="vcc" 
+                    header-footer-class="bar-positive"
+                    ok-button="{{'save' | translate}}"
+                    cancel-button="{{'cancel' | translate}}"
+                    hide-reset="true">
+              {{ formData.bg_color || 'select' | translate }} 
+            </button>
+        </label>
+    </div>
+</div>

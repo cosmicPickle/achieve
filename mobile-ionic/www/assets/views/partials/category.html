@@ -1,0 +1,23 @@
+<ion-view view-title="{{title}}">
+
+    <ion-content class="padding">
+        <div ng-if="children.length"> 
+            <achv-list-item ng-repeat="item in children" item="item" link-type="list/category/{{listType}}" type='category' color-default="category.color">
+            </achv-list-item>
+        </div>
+        <div ng-if="achievements.length"> 
+            <achv-list-item ng-repeat="item in achievements" item="item" link-type="achievement" type="achievement" color-default="category.color">
+            </achv-list-item>
+        </div>
+
+        <div ng-if="tasks.length"> 
+            <achv-list-item ng-repeat="item in tasks" item="item" link-type="task" type="task" color-default="category.color">
+            </achv-list-item>
+        </div>
+        
+        <h3>{{'new' | translate}}</h3>
+        <achv-add-new type="category" data="{parent_id : category.id}"></achv-add-new>
+        <achv-add-new type="achievement" data="{categories_id : category.id}"></achv-add-new>
+        <achv-add-new type="task" data="{categories_id : category.id}"></achv-add-new>
+    </ion-content>
+</ion-view>

@@ -1,0 +1,15 @@
+<ion-view view-title="{{title}}">
+    <ion-content>
+        <div class="card" ng-if="success">
+            <div class="item item-text-wrap balanced">
+                {{'saveSuccess' | translate}}
+            </div>
+        </div>
+        <achv-include src="'assets/views/partials/personal' + providers[type] + 'Create.html'"></achv-include>
+    </ion-content>
+    <ion-footer-bar class="bar-assertive">
+        <div class="button-bar">
+            <button class="button button-clear" ng-click="save()">{{'save' | translate}}</button>
+        </div>
+    </ion-footer-bar>
+</ion-view>

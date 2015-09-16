@@ -1,0 +1,13 @@
+<ion-modal-view class="custom-buttons">
+    <ion-header-bar class="bar bar-positive">
+        <div class="buttons">
+            <button class="button" ng-click="dismissErrorsModal()">{{'cancel' | translate}}</button>
+        </div>
+        <div class="title">{{'errors' | translate}}</div>
+    </ion-header-bar>
+    <div class="margin-top-50">
+        <div class="card" ng-repeat="err in errors">
+            <div class="item item-text-wrap assertive padding">{{err}}</div>
+        </div>
+    </div>
+</ion-modal-view>

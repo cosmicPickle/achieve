@@ -1,0 +1,6 @@
+<label class="item item-input item-select">
+    <span class="input-label">{{lable}}</span>
+    <select ng-model="dest">
+        <option ng-repeat="item in items" value="{{item.id}}">{{item.locale[0].title || item.title}}</option>
+    </select>
+</label>

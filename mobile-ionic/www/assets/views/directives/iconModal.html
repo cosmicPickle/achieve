@@ -1,0 +1,24 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-positive">
+        <div class="buttons">
+            <button class="button" ng-click="dismissModal()">{{'cancel' | translate}}</button>
+        </div>
+        <div class="title">{{'selectIcon' | translate}}</div>
+    </ion-header-bar>
+    <ion-content>
+        <div class="margin-top-50">
+            <div ng-if="iconCurrent" class="item item-divider">{{'selected' | translate}}</div>
+            <div ng-if="iconCurrent" class="item item-icon-left">
+                 <i class="icon fa {{iconCurrent}}"></i>
+                 {{iconCurrent}}
+            </div>
+            <div ng-repeat="set in iconSets" class="list">
+                <div class="item item-divider">{{set.lable}}</div>
+                <div class="item item-icon-left" ng-repeat="icon in set.icons" ng-click="selectIcon(icon)">
+                    <i class="icon fa {{icon}}"></i>
+                    {{icon}}
+                </div>
+            </div>
+        </div>
+    </ion-content>
+</ion-modal-view>

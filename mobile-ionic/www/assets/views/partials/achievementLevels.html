@@ -1,0 +1,16 @@
+<ion-view view-title="{{title}}">
+    <ion-content class="padding">
+        <h3 class="positive" ng-if="achievement.user_defined">{{'allLevels' | translate}}</h3>
+        <achv-add-new ng-if="achievement.user_defined" type="level" data="{achievements_id : achievement.id}"></achv-add-new>
+        <div ng-if="achievement.user_defined" class="list card" ng-repeat="item in achievement.levels">
+            <a class="item item-icon-left">
+                <i class="icon fa {{item.image || 'fa-image'}} fa-3x" ng-style="{color : achievement.color || achievement.category.color}"></i>
+                {{item.locale[0].title || item.title}} 
+            </a>
+            <achv-item-controls type='"level"' item='item' show-lable="1" ng-if="item.user_defined"></achv-item-controls>
+        </div>
+
+        <h3 class="positive">{{'earnedAchievements' | translate}}</h3>
+        <earned ng-repeat="level in earnedLevels" item="level.level" color="achievement.color || achievement.category.color"></earned>
+    </ion-content>
+</ion-view>
