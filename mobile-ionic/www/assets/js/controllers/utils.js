@@ -4,10 +4,10 @@ utilsControllers.controller('AuthController', ['$scope', 'Token', function($scop
     Token.view();
 }]);
 
-utilsControllers.controller('LogoutController', ['$scope', '$cookies', '$route', 'Logout', function($scope, $cookies, $route, Logout){
+utilsControllers.controller('LogoutController', ['$scope', '$cookies', '$location', 'Logout', function($scope, $cookies, $location, Logout){
     Logout.doLogout({}, function(resp){
         if(resp.status)
-            window.location.reload();
+            $location.path('/login');
     });
 }]);
 
@@ -23,7 +23,7 @@ utilsControllers.controller('LoginController', ['$scope', '$rootScope', '$locati
             if(resp.status < 0)
                 $rootScope.errors = resp.errors;
             else
-                $location.path('/category/achievements');
+                $location.path('/list/category/achievements');
         });
     }
 }]);

@@ -9,8 +9,6 @@ angular.module('achieveApp', [
     'ionic', 
     'ionic-datepicker',
     'ionic-color-picker',
-    'starter.controllers', 
-    'starter.services',
     'ngRoute', 
     'ngSanitize',
     'ngCookies',
@@ -251,9 +249,19 @@ angular.module('achieveApp', [
             }
         }
     })
+    .state('login', {
+        url : "/login",
+        templateUrl : "assets/views/partials/login.html",
+        controller : "LoginController"
+    })
+    .state('logout', {
+        url : "/logout",
+        template : "",
+        controller : "LogoutController"
+    })
 
     // if none of the above states are matched, use this as the fallback
-    //$urlRouterProvider.otherwise('/list/category/achievements/');
+    $urlRouterProvider.otherwise('/list/category/achievements/');
     
     $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: 'assets/lang/{lang}/{part}.json'

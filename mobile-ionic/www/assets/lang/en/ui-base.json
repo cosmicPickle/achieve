@@ -45,5 +45,9 @@
     "levelsAchievement": "Levels",
     "save" : "Save",
     "cancel" : "Cancel",
-    "errors" : "Errors"
+    "errors" : "Errors",
+    "login" : "Login",
+    "logout" : "Logout",
+    "email" : "E-mail",
+    "password" : "Password"
 }

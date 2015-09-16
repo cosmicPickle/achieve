@@ -1,17 +1,14 @@
-<div class="container-fluid">
-    <div class="col-md-8 col-md-offset-2">
-        <h2 class="page-header">Login</h2>
-        <form method="POST" id='login-form'>
-        <!--<form action="../api/public/index.php/login" method="POST">-->
-            <div class="form-group">
-                <input type="text" class="form-control" placeholder="E-mail" name="email" ng-model="formData.email">
-            </div>
-            <div class="form-group">
-                <input type="password" class="form-control" placeholder="Password" name="password" ng-model="formData.password">
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Login" id='submit-form' class="btn btn-primary btn-block btn-lg" ng-click="login()"/>
-            </div>
-        </form>
-    </div>
-</div>
+
+<ion-view view-title="{{'login' | translate}}">
+    <ion-content>
+        <label class="item item-input item-floating-label">
+            <span class="input-label">{{'email' | translate}}</span>
+            <input type="text" placeholder="{{'email' | translate}}" ng-model='formData.email' />
+        </label>
+        <label class="item item-input item-floating-label">
+            <span class="input-label">{{'password' | translate}}</span>
+            <input type="password" placeholder="{{'password' | translate}}" ng-model='formData.password' />
+        </label>
+        <button class="button button-bar button-positive" ng-click="login()">{{'login' | translate}}</button>
+    </ion-content>
+</ion-view>
