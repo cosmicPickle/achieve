@@ -1,4 +1,5 @@
-<ion-view view-title="{{title}}">
+<ion-view>
+    <ion-nav-title>{{title}}</ion-nav-title>
     <ion-content class="padding">
         <div class="row">
             <div class="progress-previous col">
@@ -45,19 +46,29 @@
                     animation="easeInOutQuart"></round-progress>
             </div>
         </div>
+        <div class='achievement-controls'>
+            <button class="button icon ion-android-more-vertical" ng-click="openPopover($event)"></button>
+            </button>
+        </div>
     </ion-content>
-    <ion-footer-bar class="bar-assertive">
-        <div class="button-bar">
-            <div class="button button-clear button-icon" ng-click="setFavourite()" >
-                <i class="icon fa {{fvIcons[favourited]}} fa-3x favourite" tooltip-placement="top" tooltip="{{'favourite' | translate}}"></i>
-            </div>
-            <a class="button button-clear button-icon"
-               ng-href="#/task/{{achievement.task.alias}}" 
-               tooltip-placement="top" tooltip="{{'toTask' | translate}}">
-               <i class="icon fa fa-tasks fa-3x"></i>
+    
+    <script id="my-popover.html" type="text/ng-template">
+        <ion-popover-view>
+        <ion-content>
+          <div class="list">
+            <a class="item item-icon item-icon-left" ng-click="setFavourite()">
+                <i class="icon fa {{fvIcons[favourited]}} favourite"></i>
+                {{'favourite' | translate}}
+            </a>
+            <a class="item item-icon item-icon-left"
+                ng-href="#/categories/{{catAlias}}/{{achvAlias}}/{{achievement.task.alias}}">
+                <i class="icon fa fa-tasks"></i>
+                {{'toTask' | translate}}
             </a>
             <achv-perform-task ng-if="achievement.levels.length" 
-                               task="achievement.task"></achv-perform-task>
-        </div>
-    </ion-footer-bar>
+                           task="achievement.task"></achv-perform-task>
+          </div>
+        </ion-content>
+      </ion-popover-view>
+    </script>
 </ion-view>

@@ -79,7 +79,7 @@ angular.module('achieveApp', [
     
     $stateProvider
     // setup an abstract state for the tabs directive
-    .state('list', {
+    /*.state('list', {
         url: '/list',
         abstract: true,
         cache: false,
@@ -165,7 +165,43 @@ angular.module('achieveApp', [
                 controller: 'TaskMainCtrl'
             }
         }
+    })*/
+    .state('achievements', {
+        url: '',
+        templateUrl: 'assets/views/partials/categoryTabs.html'
     })
+    .state('achievements.categories', {
+        url: '/categories/:catAlias',
+        cache: false,
+        views: {
+            'category-achievements': {
+              templateUrl: 'assets/views/partials/category.html',
+              controller: 'CategoryMainCtrl'
+            }
+        }
+    })
+    .state('achievements.categories-achievement', {
+        url: '/categories/:catAlias/:achvAlias',
+        cache: false,
+        views: {
+            'category-achievements': {
+              templateUrl: 'assets/views/partials/achievementGeneral.html',
+              controller: 'AchievementMainCtrl'
+            }
+        }
+    })
+    .state('achievements.favourites', {
+        url: '/categories/:catAlias',
+        cache: false,
+        views: {
+            'favourite-achievements': {
+              templateUrl: 'assets/views/partials/favourites.html',
+              controller: 'FavouritesCtrl'
+            }
+        }
+    })
+    
+    
     .state('profile', {
         url: '/profile',
         abstract: true,
@@ -265,7 +301,7 @@ angular.module('achieveApp', [
     })
 
     // if none of the above states are matched, use this as the fallback
-    $urlRouterProvider.otherwise('/list/category/achievements/');
+    //$urlRouterProvider.otherwise('/categories/');
     
     $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: 'assets/lang/{lang}/{part}.json'

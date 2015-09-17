@@ -1,12 +1,12 @@
-<ion-view view-title="{{title}}">
-
+<ion-view>
+    <ion-nav-title>{{title}}</ion-nav-title>
     <ion-content class="padding">
         <div ng-if="children.length"> 
-            <achv-list-item ng-repeat="item in children" item="item" link-type="list/category/{{listType}}" type='category' color-default="category.color">
+            <achv-list-item ng-repeat="item in children" item="item" link-type="categories" type='category' color-default="category.color">
             </achv-list-item>
         </div>
         <div ng-if="achievements.length"> 
-            <achv-list-item ng-repeat="item in achievements" item="item" link-type="achievement" type="achievement" color-default="category.color">
+            <achv-list-item ng-repeat="item in achievements" item="item" link-type="categories/{{catAlias}}" type="achievement" color-default="category.color">
             </achv-list-item>
         </div>
 

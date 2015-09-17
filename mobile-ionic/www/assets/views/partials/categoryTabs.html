@@ -1,0 +1,18 @@
+<!--
+Create tabs with an icon and label, using the tabs-positive style.
+Each tab's child <ion-nav-view> directive will have its own
+navigation history that also transitions its views in and out.
+-->
+<ion-tabs class="tabs-icon-top tabs-color-active-positive">
+
+
+    <ion-tab title="{{'categories' | translate}}" icon-off="ion-android-checkmark-circle" icon-on="ion-android-checkmark-circle" href="#/categories/">
+        <ion-nav-view name="category-achievements"></ion-nav-view>
+    </ion-tab>
+
+    <ion-tab title="{{'favourites' | translate}}" icon-off="ion-android-favorite-outline" icon-on="ion-android-favorite" href="#/favourites/">
+        <ion-nav-view name="favourite-achievements"></ion-nav-view>
+    </ion-tab>
+
+
+</ion-tabs>

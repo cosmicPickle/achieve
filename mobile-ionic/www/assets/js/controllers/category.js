@@ -8,7 +8,8 @@ categoryControllers.controller('CategoryMainCtrl',
 ['$rootScope', '$scope', '$q', '$location', '$stateParams', '$translatePartialLoader', '$translate', 'Categories', 'Achievements', 'Tasks',
   function ($rootScope, $scope, $q, $location, $stateParams, $translatePartialLoader, $translate, Categories, Achievements, Tasks) {
         //The type of listing
-        $scope.listType = $location.path().split('/')[3];
+        $scope.listType = "achievements";
+        $scope.catAlias = $stateParams.catAlias;
 
         //Contains any errors that come up
         $scope.errors = [];
@@ -42,10 +43,10 @@ categoryControllers.controller('CategoryMainCtrl',
         var fetchCategory = function() {
             //We construct the promise
             return $q(function(resolve, reject) {
-                //If we dont have a category alias defined we need to fetch the 
+                //If we dont have a category catAlias defined we need to fetch the 
                 //top category
-                var method = $stateParams.alias ? 'simple' : 'list';
-                var params = $stateParams.alias ? {alias : $stateParams.alias} : {};
+                var method = $stateParams.catAlias ? 'simple' : 'list';
+                var params = $stateParams.catAlias ? {alias : $stateParams.catAlias} : {};
 
                 //Trying to fetch the current category
                 Categories[method](params, function(resp){

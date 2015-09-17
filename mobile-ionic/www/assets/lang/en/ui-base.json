@@ -49,5 +49,6 @@
     "login" : "Login",
     "logout" : "Logout",
     "email" : "E-mail",
-    "password" : "Password"
+    "password" : "Password",
+    "actions" : "Actions"
 }

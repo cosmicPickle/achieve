@@ -117,9 +117,8 @@ uiBaseDirectives.directive('achvListItem', function(){
             initDate : '=',
             reload : '@'
         },
-        template : '<button class="button button-clear button-icon" ng-click="openHistoryModal()">' +
-                    '<i class="icon fa fa-check-square-o fa-3x add-task-history"' +
-                    'tooltip-placement="top" tooltip="{{\'performTask\' | translate}}"></i></button>',
+        template : '<a class="item item-icon item-icon-left" ng-click="openHistoryModal()">' +
+                    '<i class="icon fa fa-check-square-o add-task-history"></i>{{\'performTask\' | translate}}</a>',
         controller : ['$scope',  '$ionicModal', '$route',  'History', function($scope, $ionicModal, $route, History){
                 
             $scope.historyModal = null;

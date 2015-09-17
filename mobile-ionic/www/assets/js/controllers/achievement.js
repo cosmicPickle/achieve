@@ -6,15 +6,19 @@ achievementControllers.config(['$translatePartialLoaderProvider', function($tran
 
 achievementControllers.controller('AchievementTabsCtrl', 
 ['$scope','$stateParams', function ($scope, $stateParams) {
-    $scope.alias = $stateParams.alias;
+    $scope.alias = $stateParams.achvAlias;
 }]);
         
 achievementControllers.controller('AchievementMainCtrl', 
-['$rootScope', '$scope', '$q', '$stateParams', '$modal', '$translatePartialLoader', '$translate', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr',
-    function ($rootScope, $scope, $q, $stateParams, $modal, $translatePartialLoader, $translate, Favourites, Achievements, UserAchievements, History, objArr) {
+['$rootScope', '$scope', '$q', '$stateParams', '$modal', '$translatePartialLoader','$ionicPopover', '$translate', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr',
+    function ($rootScope, $scope, $q, $stateParams, $modal, $translatePartialLoader, $ionicPopover, $translate, Favourites, Achievements, UserAchievements, History, objArr) {
         
         //Setting the translation configuration
         $translatePartialLoader.addPart('achievement');
+        
+        $scope.catAlias = $stateParams.catAlias;
+        
+        $scope.achvAlias = $stateParams.achvAlias;
         
         //Contains the errors
         $scope.errors = [];
@@ -70,6 +74,21 @@ achievementControllers.controller('AchievementMainCtrl',
             });
         });
         
+        //setting the menu pop-over
+        $ionicPopover.fromTemplateUrl('my-popover.html', {
+            scope: $scope
+        }).then(function(popover) {
+            $scope.popover = popover;
+        });
+
+
+        $scope.openPopover = function($event) {
+            $scope.popover.show($event);
+        };
+        $scope.closePopover = function() {
+            $scope.popover.hide();
+        };
+  
         //We need to watch the progress in order to go to a new level should the
         //progress reaches 100%
         $scope.$watch('progress', function(progress){
@@ -141,7 +160,7 @@ achievementControllers.controller('AchievementMainCtrl',
         //The promise that fetches the achievement
         var fetchAchievement = function() {
             return $q(function(resolve, reject){
-                Achievements.simple({alias : $stateParams.alias}, function(resp) {
+                Achievements.simple({alias : $stateParams.achvAlias}, function(resp) {
                     
                     if(resp.status == 0)
                     {

@@ -1,5 +1,5 @@
 {
-    "categoryTitle": "Category: {{title}} ({{type}})",
+    "categoryTitle": "Category: {{title}}",
     "back": "Back",
     "invalidCategory": "The category does not exist",
     "favAchievements": "Favourites Achievements",
