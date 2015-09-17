@@ -5,8 +5,8 @@ personalControllers.config(['$translatePartialLoaderProvider', function($transla
 }]);
 
 personalControllers.controller('PersonalCreateCtrl', 
-['$scope', '$rootScope', '$stateParams', '$translatePartialLoader', '$cookies', '$translate', '$location', '$state',
-  function ($scope, $rootScope, $stateParams, $translatePartialLoader, $cookies, $translate, $location, $state) {
+['$scope', '$rootScope', '$stateParams', '$translatePartialLoader', '$cookies', '$translate', '$location', '$state', '$ionicNavBarDelegate',
+  function ($scope, $rootScope, $stateParams, $translatePartialLoader, $cookies, $translate, $location, $state, $ionicNavBarDelegate) {
         $scope.type = $location.path().split('/')[3];
         
         $scope.success = false;
@@ -23,6 +23,7 @@ personalControllers.controller('PersonalCreateCtrl',
                         type : type
                     }).then(function(title){
                          $scope.title = title;
+                         $ionicNavBarDelegate.title(title);
                     })
                 })
             else
@@ -30,6 +31,7 @@ personalControllers.controller('PersonalCreateCtrl',
                         title : (entity.locale[0] && entity.locale[0].title) || entity.title
                 }).then(function(title){
                      $scope.title = title;
+                     $ionicNavBarDelegate.title(title);
                 });
         });
         

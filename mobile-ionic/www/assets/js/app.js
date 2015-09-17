@@ -211,12 +211,16 @@ angular.module('achieveApp', [
     })
     .state('personal.create', {
         url : "",
-        templateUrl : 'assets/views/partials/personal.html',
+        views: {
+            'personal-create': {
+              templateUrl : 'assets/views/partials/personal.html',
+            }
+        }
     })
     .state('personal.create-category', {
         url : "/category/:id",
         views: {
-            'personal-create-category': {
+            'personal-create': {
               templateUrl: 'assets/views/partials/personalCreate.html',
               controller: 'PersonalCreateCtrl'
             }
@@ -225,7 +229,7 @@ angular.module('achieveApp', [
     .state('personal.create-task', {
         url : "/task/:id",
         views: {
-            'personal-create-task': {
+            'personal-create': {
               templateUrl: 'assets/views/partials/personalCreate.html',
               controller: 'PersonalCreateCtrl'
             }
@@ -234,7 +238,7 @@ angular.module('achieveApp', [
     .state('personal.create-achievement', {
         url : "/achievement/:id",
         views: {
-            'personal-create-achievement': {
+            'personal-create': {
               templateUrl: 'assets/views/partials/personalCreate.html',
               controller: 'PersonalCreateCtrl'
             }
@@ -243,7 +247,7 @@ angular.module('achieveApp', [
     .state('personal.create-level', {
         url : "/level/:id",
         views: {
-            'personal-create-level': {
+            'personal-create': {
               templateUrl: 'assets/views/partials/personalCreate.html',
               controller: 'PersonalCreateCtrl'
             }
