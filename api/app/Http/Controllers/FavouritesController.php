@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 
 class FavouritesController extends AbstractController {
-    protected $ipp = 9;
+    protected $ipp = 10;
     protected $modelName = 'Favourites';
     protected $validation = [
         "create" => [

@@ -1,6 +1,18 @@
 <ion-view>
     <ion-nav-title>{{title}}</ion-nav-title>
-    <ion-content class="padding">
+    <ion-content class='stable'>
+        <div class='achievement-content' ng-style='{background : "linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url(" + imagesDir + achievement.bg_image + ") center center"}'></div>
+        <div ng-if="!achievement.levels.length" class="card">
+            <div class="item item-divider">
+                {{"hint" | translate}}
+            </div>
+            <div class="item item-text-wrap">
+                {{'noLevels' | translate}}
+                <a ng-href="#/personal/create/level/?achvId={{achievement.id}}" class="button button-block button-dark">
+                    {{'createLevel' | translate}}
+                </a>
+            </div>
+        </div>
         <div class="row">
             <div class="progress-previous col">
                 <div ng-if="!finished">
@@ -42,12 +54,12 @@
                     rounded="false"
                     clockwise="true"
                     responsive="true"
-                    duration="800"
+                    duration="2000"
                     animation="easeInOutQuart"></round-progress>
             </div>
         </div>
         <div class='achievement-controls'>
-            <button class="button icon ion-android-more-vertical" ng-click="openPopover($event)"></button>
+            <button class="button icon ion-android-more-vertical" ng-click="openPopover($event)">
             </button>
         </div>
     </ion-content>
@@ -56,17 +68,31 @@
         <ion-popover-view>
         <ion-content>
           <div class="list">
-            <a class="item item-icon item-icon-left" ng-click="setFavourite()">
+            <a ng-if="!achievement.user_defined" class="item item-icon item-icon-left" ng-click="setFavourite()">
                 <i class="icon fa {{fvIcons[favourited]}} favourite"></i>
                 {{'favourite' | translate}}
             </a>
             <a class="item item-icon item-icon-left"
-                ng-href="#/categories/{{catAlias}}/{{achvAlias}}/{{achievement.task.alias}}">
+                ng-href="{{baseLink}}task/{{achievement.task.alias}}"
+                ng-click="closePopover()">
                 <i class="icon fa fa-tasks"></i>
                 {{'toTask' | translate}}
             </a>
-            <achv-perform-task ng-if="achievement.levels.length" 
-                           task="achievement.task"></achv-perform-task>
+            <a achv-perform-task 
+               ng-if="achievement.levels.length"
+               ng-click="closePopover()"
+               task="achievement.task"
+               callback="addHistoryCallback"
+               class="item item-icon item-icon-left">
+                <i class="icon fa fa-check-square-o add-task-history"></i>
+                {{'performTask' | translate}}
+            </a>
+            <a class="item item-icon item-icon-left"
+               ng-href="{{baseLink}}levels"
+               ng-click="closePopover()">
+               <i class="icon ion-ribbon-b"></i>
+               {{'toLevels' | translate}}
+            </a>
           </div>
         </ion-content>
       </ion-popover-view>

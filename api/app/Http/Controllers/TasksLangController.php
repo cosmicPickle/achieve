@@ -10,12 +10,12 @@ class TasksLangController extends AbstractController {
     protected $modelName = 'TasksLang';
     protected $validation = [
         "create" => [
-            'title' => 'required|unique:tasks_lang',
+            'title' => 'required',
             'tasks_id' => 'required',
             'locale' => 'required',
         ],
         "update" => [
-            'title' => 'required|unique:tasks_lang',
+            'title' => 'required',
             'tasks_id' => 'required',
             'locale' => 'required',
         ],

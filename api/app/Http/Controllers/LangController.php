@@ -16,11 +16,13 @@ class LangController extends AbstractController
     protected $locales = [
         'en' => [
             'code' => 'en',
-            'active' => 0
+            'active' => 0,
+            'lable' => 'English'
         ],
         'bg' => [
             'code' => 'bg',
-            'active' => 0
+            'active' => 0,
+            'lable' => 'Български'
         ],
     ];
     

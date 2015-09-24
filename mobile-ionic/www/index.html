@@ -6,15 +6,12 @@
     <title></title>
 
     <link href="assets/css/themes/default/app.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap-theme.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/lib/bootstrap-ionic.css" />
     <link href="assets/css/lib/ionic.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="assets/css/lib/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/lib/icomoon.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/lib/flag-icon.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/lib/colorpicker.min.css" />
-    <link rel="stylesheet" type="text/css" href="assets/css/lib/ionic-datepicker.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/lib/ionic-color-picker.min.css" />
     <link rel="stylesheet" type="text/css" href="assets/css/themes/default/app.css" />
     <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
@@ -28,14 +25,13 @@
     <ion-side-menus>
         <!-- Left menu -->
         <ion-side-menu side="right">
-            <ion-header-bar class="bar bar-header bar-assertive">
+            <ion-header-bar class="bar bar-header bar-stable">
                 <div class="title">{{'navigation' | translate}}</div>
             </ion-header-bar>
             <ion-content has-header="true">
                 <ul class="list">
-                    <a ui-sref="list.category-achievements" class="item" menu-close>{{'achievements' | translate}}</a>
+                    <a ui-sref="achievements.categories" class="item" menu-close>{{'achievements' | translate}}</a>
                     <a ui-sref="profile.general" class="item" menu-close>{{'profile' | translate}}</a>
-                    <a ui-sref="personal.create" class="item" menu-close>{{'personal' | translate}}</a>
                     <a ui-sref="locale" class="item" menu-close>{{'changeLanguage' | translate}}</a>
                     <a ui-sref="logout" class="item" menu-close>{{'logout' | translate}}</a>
                 </ul>
@@ -43,7 +39,7 @@
         </ion-side-menu>
 
         <ion-side-menu-content>
-            <ion-nav-bar class="bar-positive">
+            <ion-nav-bar class="custom-nav-bar bar-positive" ng-style="headerCss">
                 <ion-nav-buttons side="right">
                     <!-- Toggle left side menu -->
                     <button menu-toggle="right" class="button button-icon icon ion-navicon"></button>
@@ -64,8 +60,7 @@
     
     
      <!-- ionic/angularjs js -->
-    <script src="assets/js/lib/ionic.bundle.js"></script>
-    
+    <script src="http://code.ionicframework.com/1.1.0/js/ionic.bundle.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-route.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular-animate.js"></script>
@@ -75,15 +70,12 @@
     <script src="http://code.jquery.com/color/jquery.color.plus-names-2.1.2.min.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
     <script src="assets/js/lib/roundProgress.min.js"></script>
-    <script src="assets/js/lib/ui-bootstrap-tpls-0.13.3.min.js"></script>
     <script src="assets/js/lib/angular-translate.min.js"></script>
     <script src="assets/js/lib/angular-translate-loader-partial.min.js"></script>
     <script src="assets/js/lib/moment.js"></script>
     <script src="assets/js/lib/moment.timezone.js"></script>
     <script src="assets/js/lib/ionic-color-picker-tinycolor.min.js"></script>
-    <script src="assets/js/lib/bootstrap-colorpicker-module.min.js"></script>
-    <script src="assets/js/lib/ionic-datepicker.min.js"></script>
-    <script src="assets/js/lib/ionic-datepicker.templates.min.js"></script>
+    <script src="assets/js/lib/angular-file-upload.min.js"></script>
     <script src="assets/js/app.js"></script>
     <script src="assets/js/controllers/achievement.js"></script>
     <script src="assets/js/controllers/category.js"></script>
@@ -92,8 +84,8 @@
     <script src="assets/js/controllers/personal.js"></script>
     <script src="assets/js/controllers/utils.js"></script>
     <script src="assets/js/services/api.js"></script>
+    <script src="assets/js/services/base64.js"></script>
     <script src="assets/js/services/arrays.js"></script>
-    <script src="assets/js/services/wizard.js"></script>
     <script src="assets/js/directives/ui-base.js"></script>
     <script src="assets/js/directives/ui-input.js"></script>
   </body>

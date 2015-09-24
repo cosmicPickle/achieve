@@ -11,6 +11,23 @@ utilsControllers.controller('LogoutController', ['$scope', '$cookies', '$route',
     });
 }]);
 
+utilsControllers.controller('LoginController', ['$scope', '$rootScope', '$location', 'Login', function($scope, $rootScope, $location, Login){
+    $scope.formData = {
+        email : null,
+        password : null,
+        isAjax : 1
+    }
+    
+    $scope.login = function() {
+        Login.doLogin($scope.formData, function(resp){
+            if(resp.status < 0)
+                $rootScope.errors = resp.errors;
+            else
+                $location.path('/category/achievements');
+        });
+    }
+}]);
+
 utilsControllers.controller('LocaleController', ['$scope', '$route', '$rootScope', '$translate', 'Locale','objArr' , function($scope, $route, $rootScope, $translate, Locale, objArr){
         
         //Monitoring the $routeScope for structure change in order to refresh the frontend translations

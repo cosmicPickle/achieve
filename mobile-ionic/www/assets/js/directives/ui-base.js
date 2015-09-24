@@ -1,6 +1,6 @@
 var uiBaseDirectives = angular.module('uiBaseDirectives',[]);
 
-uiBaseDirectives.directive('achvListItem', function(){
+uiBaseDirectives.directive('achvListItem', ['$rootScope', 'base64', function($rootScope, base64){
     return {
         restict : 'E',
         transclude : true,
@@ -9,11 +9,15 @@ uiBaseDirectives.directive('achvListItem', function(){
             item : '=',
             linkType : '@',
             type : '@',
-            colorDefault : "="
+            colorDefault : "=",
         },
         templateUrl : 'assets/views/directives/listItem.html',
         link : function(scope, element, attr) {
-
+            
+            scope.imagesDir = achieveServerUrl + "resources/files/images/" 
+                              + (scope.item.user_defined ? base64.encode($rootScope.currentUser.email) : 'system')
+                              + "/";
+                      
             var color = (scope.item && scope.item.color) || scope.colorDefault;
             var defColor = $(element).css('color');
 
@@ -32,7 +36,7 @@ uiBaseDirectives.directive('achvListItem', function(){
             });
         }
     } 
-}).directive('achvItemControls', function(){
+}]).directive('achvItemControls', function(){
     return {
         restict : 'E',
         transclude : true,
@@ -107,18 +111,16 @@ uiBaseDirectives.directive('achvListItem', function(){
     } 
 }).directive('achvPerformTask', function(){
     return {
-        restict : 'E',
-        transclude : true,
-        replace : true,
+        restict : 'AE',
         scope : {
             task : '=',
             color : '=',
             bgColor : '=',
             initDate : '=',
-            reload : '@'
+            reload : '@',
+            callback : '='
         },
-        template : '<a class="item item-icon item-icon-left" ng-click="openHistoryModal()">' +
-                    '<i class="icon fa fa-check-square-o add-task-history"></i>{{\'performTask\' | translate}}</a>',
+        template : '',
         controller : ['$scope',  '$ionicModal', '$route',  'History', function($scope, $ionicModal, $route, History){
                 
             $scope.historyModal = null;
@@ -138,8 +140,8 @@ uiBaseDirectives.directive('achvListItem', function(){
                     if(!task)
                         return;
 
-                    $scope.color = task.color || task.category.color;
-                    $scope.bg_color = task.bg_color || task.category.bg_color;
+                    $scope.color = task.color || (task.category && task.category.color);
+                    $scope.bg_color = task.bg_color || (task.bg_category && task.category.bg_color);
                 });
 
                 //Setting the date model
@@ -177,17 +179,20 @@ uiBaseDirectives.directive('achvListItem', function(){
                     }, function(resp) {
                         if(resp.status != 0)
                         {
-                            if($scope.initialTask && $scope.task.id == $scope.initialTask.id)
-                            {
-                                if($scope.$parent.$parent.historyNum)
-                                    $scope.$parent.$parent.historyNum ++;
+                            if($scope.callback)
+                                $scope.callback($scope.task.id);
+                            
+                            //if($scope.initialTask && $scope.task.id == $scope.initialTask.id)
+                            //{
+                                //if($scope.$parent.$parent.$parent.$parent.$parent.historyNum)
+                                //    $scope.$parent.$parent.$parent.$parent.$parent.historyNum ++;
 
-                                if($scope.$parent.$parent.progress)
-                                    $scope.$parent.$parent.progress = {
-                                        current : $scope.$parent.$parent.progress.current + 1,
-                                        max : $scope.$parent.$parent.progress.max
-                                    };
-                            }
+                                //if($scope.$parent.$parent.$parent.$parent.$parent.progress)
+                                //    $scope.$parent.$parent.$parent.$parent.$parent.progress = {
+                                //        current : $scope.$parent.$parent.$parent.$parent.$parent.progress.current + 1,
+                                //        max : $scope.$parent.$parent.$parent.$parent.$parent.progress.max
+                                //    };
+                            //}
                             $scope.historyModal.hide();
 
                             if($scope.reload)
@@ -199,6 +204,11 @@ uiBaseDirectives.directive('achvListItem', function(){
             });
             
         }],
+        link : function(scope, element, attrs) {
+            element.on('click', function(){
+                scope.openHistoryModal();
+            });
+        }
     } 
 }).directive('achvAddNew', ['$cookies', function($cookies){
     return {
@@ -207,6 +217,7 @@ uiBaseDirectives.directive('achvListItem', function(){
         replace : true,
         scope : {
             data : '=',
+            lable : '@',
             type : '@',
         },
         templateUrl : 'assets/views/directives/achvAddNew.html',
@@ -333,7 +344,7 @@ uiBaseDirectives.directive('achvListItem', function(){
            if($scope.linkType == 'achievement')
            {
                $scope.link += $scope.item.achievement.alias;
-               $scope.title = $scope.item.achievement.locale[0].title || $scope.item.achievement.title;
+               $scope.title = ($scope.item.achievement.locale[0] && $scope.item.achievement.locale[0].title) || $scope.item.achievement.title;
                $scope.image = $scope.item.achievement.image || 'fa-image';
                
                $scope.colors = {

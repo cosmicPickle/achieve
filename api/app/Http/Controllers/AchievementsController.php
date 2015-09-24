@@ -13,16 +13,15 @@ class AchievementsController extends AbstractController {
     protected $validation = [
         'create' => [
             'achv_types_id' => 'required',
-            'categories_id' => 'required',
             'tasks_id' => 'required',
             'alias' => 'required|unique:achievements',
-            'title' => 'required|unique:achievements',
+            'title' => 'required',
         ],
         'update' => [
             'achv_types_id' => 'required',
             'categories_id' => 'required',
             'alias' => 'required|unique:achievements',
-            'title' => 'required|unique:achievements',
+            'title' => 'required',
         ],
         'delete' => [
             'id' => 'required'
@@ -76,6 +75,7 @@ class AchievementsController extends AbstractController {
                 }]);
             },
             'levels' => function($query) {
+                $query->orderBy('level_num', 'asc');
                 $query->with(['locale' => function($query){
                     $query->where('locale', app('translator')->getLocale());
                 }]);
@@ -116,6 +116,7 @@ class AchievementsController extends AbstractController {
                 }]);
             },
             'levels' => function($query) {
+                $query->orderBy('level_num', 'asc');
                 $query->with(['locale' => function($query){
                     $query->where('locale', app('translator')->getLocale());
                 }]);

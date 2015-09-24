@@ -1,0 +1,192 @@
+<ion-view>
+    <ion-nav-title>{{title}}</ion-nav-title>
+    <ion-content>
+        <ion-slide-box show-pager="false" on-slide-changed='slideChanged($index)'>
+            <ion-slide>
+                <div class="card">
+                    <div class="item item-divider">
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickTaskTitleHint' | translate}}
+                    </div>
+                </div>
+                <div class="list">
+                    <label class="item item-input item-floating-label">
+                        <span class="input-label">{{'title' | translate}}</span>
+                        <input type="text" name="title" value="" id="title" placeholder="{{'title' | translate}}" ng-model='formData.title' />
+                    </label>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="card">
+                    <div class="item item-divider">
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickTaskDescriptionHint' | translate}}
+                    </div>
+                </div>
+                <div class="list">
+                    <label class="item item-input text item-floating-label">
+                        <span class="input-label">{{'description' | translate}}</span>
+                        <textarea name="description" value="" id="title" placeholder="{{'description' | translate}}" ng-model='formData.description'></textarea>
+                    </label>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="card">
+                    <div class="item item-divider">
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickTaskImageHint' | translate}}
+                    </div>
+                </div>
+                <div class="list">
+                    <label class="item item-input">
+                        <span class="input-label">{{'image' | translate}}</span>
+                        <button class="button icon-left"
+                                achv-input-icons
+                                icon-current="formData.image"
+                                ng-model="formData.image">
+                            {{formData.image || 'select' | translate}}
+                        </button>
+                    </label>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="card">
+                    <div class="item item-divider">
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickTaskBgImageHint' | translate}}
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="item item-divider">
+                        {{'selectBgImage' | translate}}
+                    </div>
+                    <div class='item item-image'>
+                        <img />
+                        <button class="button button-bar button-dark icon-left"
+                                achv-input-images
+                                image-current="formData.bg_image"
+                                ng-model="formData.bg_image">
+                                {{'viewGallery' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="list">
+                    <div class="card">
+                        <div class="item item-divider">
+                            {{'hint' | translate}}
+                        </div>
+                        <div class="item item-text-wrap">
+                            {{'quickTaskColorHint' | translate}}
+                        </div>
+                    </div>
+                    <label class="item item-input">
+                        <span class="input-label">{{'color' | translate}}</span>
+                        <button class="button" 
+                                color-picker 
+                                ng-model="formData.color" 
+                                modal-title="{{'color' | translate}}" 
+                                color-box="{{formData.color}}" 
+                                modal-class="vcc" 
+                                header-footer-class="bar-stable"
+                                ok-button="{{'save' | translate}}"
+                                cancel-button="{{'cancel' | translate}}"
+                                hide-reset="true">
+                          {{ formData.color || 'select' | translate }} 
+                        </button>
+                    </label>
+                </div>
+            </ion-slide>
+            <ion-slide>
+                <div class="card">
+                    <div class="item item-divider">
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickAchvTypeHint' | translate}}
+                    </div>
+                </div>
+                <achv-input-radio source="AchievementTypes" lable="{{'type' | translate}}" dest='formData.achv_types_id'></achv-input-radio>
+            </ion-slide>
+            <ion-slide>
+                <div class="card" ng-if="formData.achv_types_id == achvTypeIds['oneTime']">
+                    <div class="item item-divider" >
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickOneTimeHint' | translate}}
+                    </div>
+                </div>
+                <div class="card" ng-if="formData.achv_types_id == achvTypeIds['repeatable']">
+                    <div class="item item-divider" >
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickRepeatableHint' | translate}}
+                    </div>
+                </div>
+                <div class="card" ng-if="formData.achv_types_id == achvTypeIds['timed']">
+                    <div class="item item-divider">
+                        {{'hint' | translate}}
+                    </div>
+                    <div class="item item-text-wrap">
+                        {{'quickTimedHint' | translate}}
+                    </div>
+                </div>
+                <div class="list" ng-if="formData.achv_types_id != achvTypeIds['oneTime']">
+                    <div class="item range range-positive">
+                        <i class="icon ion-android-star-outline"></i>
+                        <input type="range" ng-model="formData.repetition" min="1" max="300" value='{{formData.repetition}}'>
+                        <i class="icon ion-android-star"></i>
+                    </div>
+                    <div class="item">
+                        {{'firstLevelRequirement' | translate}}{{formData.repetition}}
+                        
+                    </div>
+                </div>
+            </ion-slide>
+        </ion-slide-box>
+    </ion-content>
+    <ion-footer-bar>
+        <div class="button-bar">
+            <div class="button" ng-if='!firstSlide' ng-click='previousSlide()'>
+                {{'previous' | translate}}
+            </div>
+            <div class='button button-dark' ng-if='!lastSlide && slideValidate()' ng-click='nextSlide()'>
+                {{'next' | translate}}
+            </div>
+            <div class='button button-dark' ng-if='lastSlide' ng-click='generate()'>
+                {{'generate' | translate}}
+            </div>
+        </div>
+    </ion-footer-bar>
+    <script id="okQuickCreateModal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-energized">
+                <div class="title">{{'success' | translate}}</div>
+            </ion-header-bar>
+            <div class="margin-top-50">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{'okQuickCreate' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/achievement/{{formData.alias}}" 
+                           class='button button-block button-dark'>
+                            {{'achievementViewButton' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </ion-modal-view>
+    </script>
+</ion-view>

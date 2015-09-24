@@ -6,12 +6,12 @@ taskControllers.config(['$translatePartialLoaderProvider', function($translatePa
 
 taskControllers.controller('TaskTabsCtrl', 
 ['$scope','$stateParams', function ($scope, $stateParams) {
-    $scope.alias = $stateParams.alias;
+    $scope.alias = $stateParams.taskAlias;
 }]);
 
 taskControllers.controller('TaskMainCtrl', 
-['$rootScope', '$scope', '$q', '$stateParams', '$modal', '$translatePartialLoader', '$translate', '$sanitize', 'Tasks', 'Favourites', 'Achievements', 'History',
-    function ($rootScope, $scope, $q, $stateParams, $modal, $translatePartialLoader, $translate, $sanitize, Tasks, Favourites, Achievements, History) {
+['$rootScope', '$scope', '$q', '$stateParams', '$translatePartialLoader', '$translate', '$sanitize', 'Tasks', 'Favourites', 'Achievements', 'History', 'base64',
+    function ($rootScope, $scope, $q, $stateParams, $translatePartialLoader, $translate, $sanitize, Tasks, Favourites, Achievements, History, base64) {
         
         //Setting the translation configuration
         $translatePartialLoader.addPart('task');
@@ -39,6 +39,10 @@ taskControllers.controller('TaskMainCtrl',
             if(!task)
                 return;
             
+            $scope.imagesDir = achieveServerUrl + "resources/files/images/" 
+                                + (task.user_defined ? base64.encode($rootScope.currentUser.email) : 'system')
+                                + "/";
+                        
             $translate('taskTitle', {
                 title : ((angular.isDefined(task.locale) && angular.isDefined(task.locale[0]) && task.locale[0].title) || task.title)
             }).then(function(taskTitle){
@@ -88,7 +92,7 @@ taskControllers.controller('TaskMainCtrl',
         //calls depend on it.
         var fetchTask = function() {
             return $q(function(resolve, reject){
-                Tasks.simple({alias : $stateParams.alias}, function(resp){
+                Tasks.simple({alias : $stateParams.taskAlias}, function(resp){
                     
                     if(resp.status == 0)
                     {

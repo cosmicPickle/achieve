@@ -1,16 +1,22 @@
+<div class="card">
+    <div class="item item-divider">
+        {{'hint' | translate}}
+    </div>
+    <div class='item item-text-wrap'>
+        {{(actualParams.taskId) ? 'createAchievementHint1' : 'createAchievementHint2' | translate}}
+    </div>
+</div>
+<div class='padding'>
 <achv-modal-select 
-    lable="{{'selectCategory' | translate}}" 
-    source="Categories" 
-    deep-select="1" 
-    dest='formData.categories_id'></achv-modal-select>
-<achv-modal-select 
+    ng-if='!actualParams.taskId'
     lable="{{'selectTask' | translate}}"
-    source="Categories.Tasks"
+    source="Tasks"
     link="category"
-    deep-select="1" 
-    onlymy="0" 
+    deep-select="0" 
+    onlymy="1" 
     dest='formData.tasks_id'></achv-modal-select>
-<div ng-show="formData.tasks_id && formData.categories_id">
+</div>
+<div ng-show="formData.tasks_id">
     <div class="list">
         <label class="item item-input item-floating-label">
             <span class="input-label">{{'title' | translate}}</span>
@@ -27,6 +33,15 @@
                 {{formData.image || 'select' | translate}}
             </button>
         </label>
+        <div class='item item-image'>
+            <img />
+            <button class="button button-bar button-dark icon-left"
+                    achv-input-images
+                    image-current="formData.bg_image"
+                    ng-model="formData.bg_image">
+                    {{'viewGallery' | translate}}
+            </button>
+        </div>
         <label class="item item-input">
             <span class="input-label">{{'color' | translate}}</span>
             <button class="button" 
@@ -35,7 +50,7 @@
                     modal-title="{{'color' | translate}}" 
                     color-box="{{formData.color}}" 
                     modal-class="vcc" 
-                    header-footer-class="bar-positive"
+                    header-footer-class="bar-stable"
                     ok-button="{{'save' | translate}}"
                     cancel-button="{{'cancel' | translate}}"
                     hide-reset="true">
@@ -50,7 +65,7 @@
                     modal-title="{{'bg_color' | translate}}" 
                     color-box="{{formData.bg_color}}" 
                     modal-class="vcc" 
-                    header-footer-class="bar-positive"
+                    header-footer-class="bar-stable"
                     ok-button="{{'save' | translate}}"
                     cancel-button="{{'cancel' | translate}}"
                     hide-reset="true">

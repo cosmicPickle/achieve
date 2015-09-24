@@ -1,16 +1,89 @@
 <ion-view>
     <ion-nav-title>{{title}}</ion-nav-title>
     <ion-content>
-        <div class="card" ng-if="success">
-            <div class="item item-text-wrap balanced">
-                {{'saveSuccess' | translate}}
-            </div>
-        </div>
         <achv-include src="'assets/views/partials/personal' + providers[type] + 'Create.html'"></achv-include>
     </ion-content>
-    <ion-footer-bar class="bar-assertive">
+    <ion-footer-bar class="bar-dark">
         <div class="button-bar">
             <button class="button button-clear" ng-click="save()">{{'save' | translate}}</button>
         </div>
     </ion-footer-bar>
+    
+    <script id="okCreateModal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-energized">
+                <div class="title">{{'success' | translate}}</div>
+            </ion-header-bar>
+            <div class="margin-top-50">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{type + 'OkCreate' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/create/{{nextSteps[type].nextType}}/?taskId={{formData.id}}" 
+                           ng-if="nextSteps[type].nextType" 
+                           class='button button-block button-dark'>
+                            {{type + 'NextStep' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/{{type}}/{{formData.alias}}" 
+                           ng-if="!nextSteps[type].nextType" 
+                           class='button button-block button-dark'>
+                            {{type + 'ViewButton' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{type + 'GoToEdit' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/create/{{type}}/{{formData.id}}" 
+                           class='button button-block button-dark'>
+                            <i class='icon ion-edit'></i>      
+                            {{type + 'EditButton' | translate}} 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </ion-modal-view>
+    </script>
+    <script id="okSaveModal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-energized">
+                <div class="title">{{'success' | translate}}</div>
+            </ion-header-bar>
+            <div class="margin-top-50">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{type + 'OkEdit' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/create/{{nextSteps[type].nextType}}/?taskId={{formData.id}}" 
+                           ng-if="nextSteps[type].nextType" 
+                           class='button button-block button-dark'>
+                            {{type + 'NextStep' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/{{type}}/{{formData.alias}}" 
+                           ng-if="!nextSteps[type].nextType" 
+                           class='button button-block button-dark'>
+                            {{type + 'ViewButton' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{'continueEdit' | translate}}
+                        <button ng-click="closeOkModal()" 
+                           class='button button-block'>
+                            <i class='icon ion-ios-close-outline'></i>       
+                            {{'closeButton' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ion-modal-view>
+    </script>
 </ion-view>

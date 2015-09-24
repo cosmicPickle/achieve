@@ -12,7 +12,7 @@ class AchievementLevelsController extends AbstractController {
     protected $validation = [
         "create" => [
             'alias' => 'required|unique:achv_levels',
-            'title' => 'required|unique:achv_levels',
+            'title' => 'required',
             'achievements_id' => 'required',
             'repetition' => 'required',
         ],
@@ -23,7 +23,7 @@ class AchievementLevelsController extends AbstractController {
         ],
         "update" => [
             'alias' => 'required|unique:achv_levels',
-            'title' => 'required|unique:achv_levels',
+            'title' => 'required',
             'achievements_id' => 'required',
             'repetition' => 'required',
         ],
@@ -31,6 +31,7 @@ class AchievementLevelsController extends AbstractController {
             'id' => 'required'
         ]
     ];
+    protected $order = ["level_num", "asc"];
     
     protected function _listFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {

@@ -1,24 +1,49 @@
 <ion-modal-view>
-    <ion-header-bar class="bar bar-positive">
+    <ion-header-bar class="bar bar-energized">
         <div class="buttons">
             <button class="button" ng-click="dismissModal()">{{'cancel' | translate}}</button>
         </div>
         <div class="title">{{'selectIcon' | translate}}</div>
     </ion-header-bar>
     <ion-content>
-        <div class="margin-top-50">
+        <div>
+            <div class="list">
+                <div class="item item-input item-floating-label">
+                    <span class="input-label">{{'searchIcons' | translate}}</span>
+                    <input type="text" 
+                           ng-model="filterIcons"
+                           ng-change="changeFilterModel(filterIcons)"
+                           placeholder="{{'searchIcons' | translate}}" />
+                </div>
+            </div>
             <div ng-if="iconCurrent" class="item item-divider">{{'selected' | translate}}</div>
             <div ng-if="iconCurrent" class="item item-icon-left">
                  <i class="icon fa {{iconCurrent}}"></i>
                  {{iconCurrent}}
             </div>
-            <div ng-repeat="set in iconSets" class="list">
+            <!--<div ng-repeat="set in iconSets" class="list">
                 <div class="item item-divider">{{set.lable}}</div>
-                <div class="item item-icon-left" ng-repeat="icon in set.icons" ng-click="selectIcon(icon)">
+                <div class="item item-icon-left" ng-repeat="icon in set.icons | filter:filterIcons" ng-click="selectIcon(icon)">
                     <i class="icon fa {{icon}}"></i>
                     {{icon}}
                 </div>
-            </div>
+            </div>-->
+            <ion-list>
+                <ion-item class="item item-divider">{{'iconSelection' | translate}}</ion-item>
+                <ion-item>{{'iconSelectionHint' | translate}}</ion-item>
+                <ion-item ng-repeat="icon in scrollItems | filter:filterIcons" 
+                          item="icon"
+                          ng-click="(icon.type != 'divider') ? selectIcon(icon.icon) : null"
+                          class="item {{(icon.type == 'divider') ? 'item-divider' : 'item-icon-left'}}">
+                    
+                    <i ng-if="icon.type != 'divider'" class="icon fa {{icon.icon}}"></i>
+                    {{(icon.type == 'divider') ? icon.lable : icon.icon}}
+                </ion-item>
+                <ion-item class="text-center" ng-if="!scrollEnded">
+                    <ion-spinner></ion-spinner>
+                </ion-item>
+            </ion-list>
+            <ion-infinite-scroll ng-if="!scrollEnded" on-infinite="loadMore()" distance="10%"></ion-infinite-scroll>
         </div>
     </ion-content>
 </ion-modal-view>

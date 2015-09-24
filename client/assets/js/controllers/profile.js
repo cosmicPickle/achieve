@@ -222,7 +222,7 @@ function ($rootScope, $scope, $q, $routeParams, $route, $translatePartialLoader,
     $scope.createCalendar = function() {
         
         var time = moment($scope.endDate).startOf('day');
-        while(!time.isSame($scope.startDate))
+        while(!time.isBefore($scope.startDate))
         {
             var index = $scope.calendar.length;
             $scope.calendar[index] = {

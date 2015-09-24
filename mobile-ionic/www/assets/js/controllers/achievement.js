@@ -10,15 +10,23 @@ achievementControllers.controller('AchievementTabsCtrl',
 }]);
         
 achievementControllers.controller('AchievementMainCtrl', 
-['$rootScope', '$scope', '$q', '$stateParams', '$modal', '$translatePartialLoader','$ionicPopover', '$translate', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr',
-    function ($rootScope, $scope, $q, $stateParams, $modal, $translatePartialLoader, $ionicPopover, $translate, Favourites, Achievements, UserAchievements, History, objArr) {
+['$rootScope', '$scope', '$q', '$stateParams', '$translatePartialLoader','$ionicPopover', '$translate',  '$location', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr', 'base64',
+    function ($rootScope, $scope, $q, $stateParams, $translatePartialLoader, $ionicPopover, $translate, $location, Favourites, Achievements, UserAchievements, History, objArr, base64) {
+        
         
         //Setting the translation configuration
         $translatePartialLoader.addPart('achievement');
         
+        //The current category alias. Might be null if we are in favourites
         $scope.catAlias = $stateParams.catAlias;
         
+        //The current achievement alias
         $scope.achvAlias = $stateParams.achvAlias;
+        
+        $scope.type = $location.path().split('/')[1];
+        //The base link. This is nessecary to keep the navigation going in both 
+        //favourites and categories
+        $scope.baseLink = "";
         
         //Contains the errors
         $scope.errors = [];
@@ -66,6 +74,21 @@ achievementControllers.controller('AchievementMainCtrl',
         
         //Setting the dynamic title of the page
         $scope.$watch('achievement', function(achievement){
+            $scope.imagesDir = achieveServerUrl + "resources/files/images/" 
+                                + (achievement.user_defined ? base64.encode($rootScope.currentUser.email) : 'system')
+                                + "/";
+
+            if(achievement.bg_image)
+                $rootScope.headerCss = {
+                    background : "linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(" + $scope.imagesDir + achievement.bg_image + ")"
+                }
+            else if(achievement.color)
+                $rootScope.headerCss = {
+                    background : achievement.color
+                }
+            else
+                $rootScope.headerCss = $rootScope.defaultHeaderCss;
+            
             $translate('achievementTitle', {
                 title : ((angular.isDefined(achievement.locale) && angular.isDefined(achievement.locale[0]) && achievement.locale[0].title) || achievement.title)
             }).then(function(achievementTitle){
@@ -98,7 +121,6 @@ achievementControllers.controller('AchievementMainCtrl',
             
             if(progress.current != progress.max)
                 return;
-            
             
             fetchEarned();
             $scope.currentLevel = $scope.nextLevel;
@@ -155,6 +177,19 @@ achievementControllers.controller('AchievementMainCtrl',
                         $scope.favouriteId = 0;
                     }
                 })
+        }
+        
+        //This function is called when a new history item is added
+        $scope.addHistoryCallback = function(taskId) {
+            
+            if(taskId != $scope.achievement.task.id)
+                return;
+            
+            $scope.historyNum ++;
+            $scope.progress = {
+                current : $scope.progress.current + 1,
+                max : $scope.progress.max
+            }
         }
         
         //The promise that fetches the achievement
@@ -221,7 +256,11 @@ achievementControllers.controller('AchievementMainCtrl',
         }
             
         fetchAchievement().then(function(){
-           
+            //Setting the base link 
+            $scope.baseLink = '#/' + $scope.type + (($scope.type == 'personal') ? '/' + 'achievement' : '') 
+                                   + (($scope.catAlias) ? '/' + $scope.catAlias : '') + '/' 
+                                   + $scope.achvAlias + '/';
+            
             Favourites.list({achievement_id : $scope.achievement.id, user_id : -1}, function(resp){
                 
                 if(resp.status == 0)
@@ -241,9 +280,6 @@ achievementControllers.controller('AchievementMainCtrl',
                 
                 if(!$scope.achievement.levels.length)
                 {
-                    $translate("noLevels").then(function(err){
-                        $rootScope.errors = [err];
-                    })
                     return;
                 }
                 //Getting the current level. It is the one with max level_num from

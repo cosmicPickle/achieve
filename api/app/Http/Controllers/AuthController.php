@@ -31,7 +31,7 @@ class AuthController extends AbstractController
      */
     public function login(Request $request)
     {
-        if($request->ajax())
+        if($request->ajax() || $request->isAjax)
             return $this->_loginAjax($request);
         else
             return $this->_loginHttp($request);
@@ -67,7 +67,13 @@ class AuthController extends AbstractController
         if(!Auth::checkJWT())
             $this->_unauthorized();
         
-        $this->_success([]);
+        $this->_success([
+            'user' => [
+                'id' => Auth::user('id'),
+                'email' => Auth::user('email'),
+                'name' => Auth::user('name')
+            ]
+        ]);
     }
     
     /**
@@ -78,7 +84,6 @@ class AuthController extends AbstractController
      */
     protected function _loginAjax(Request $request)
     {
-             
         if(!$request->email || !$request->password)
             //Wrong request
             $this->_unauthorized();

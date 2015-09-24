@@ -10,7 +10,7 @@ class AchievementLevelsLangController extends AbstractController {
     protected $modelName = 'AchievementLevelsLang';
     protected $validation = [
         "create" => [
-            'title' => 'required|unique:achv_levels_lang',
+            'title' => 'required',
             'achv_levels_id' => 'required',
             'locale' => 'required',
         ],

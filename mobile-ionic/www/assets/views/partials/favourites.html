@@ -1,16 +1,9 @@
-<ion-view view-title="{{title}}">
+<ion-view>
+    <ion-nav-title>{{title}}</ion-nav-title>
     <ion-content class="padding">
-        <h3 class="page-header">{{"favAchievements" | translate}}</h3>
-        <achv-list-item ng-repeat="item in favAchievements" item="item.achievement" link-type="achievement" color-default="item.achievement.category.color">
+        <achv-list-item ng-repeat="item in favAchievements" item="item.achievement" link-type="favourites" type='achievement' color-default="item.achievement.category.color">
         </achv-list-item>
-
-        <button ng-if="loadMoreAchv" class="button button-full button-positive" ng-click='loadMoreAchievements()'>{{'loadMore' | translate}}</button>
-
-        <h3 class="page-header">{{"favTasks" | translate}}</h3>
-        <achv-list-item ng-repeat="item in favTasks" item="item.task" link-type="task" color-default="item.task.category.color">
-        </achv-list-item>
-
-        <button ng-if="loadMoreTasks" class="button button-full button-positive" ng-click='loadMoreTasks()'>{{'loadMore' | translate}}</button>
+        <button ng-if="loadMoreAchv" class="button button-full button-dark" ng-click='loadMoreAchievements()'>{{'loadMore' | translate}}</button>
     </ion-content>
 </ion-view>
     

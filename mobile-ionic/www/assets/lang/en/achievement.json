@@ -7,14 +7,16 @@
     "prevLevel": "Previous Level",
     "nextLevel": "Next Level",
     "finished": "Finished",
-    "earnedAchievements": "Earned Achievements",
+    "earnedAchievements": "Earned Levels",
     "favourite": "Favourite",
-    "toTask": "Go to task",
+    "toTask": "View task",
+    "toLevels" : "View levels",
     "performTask": "Complete Task",
     "save": "Save",
     "cancel": "Cancel",
     "invalidAchievement": "The achievement does not exist",
-    "noLevels" : "This achievement does not have any levels added",
+    "noLevels" : "Hey you haven't added any levels to this achievement. You can do that now by clicking the button bellow.",
     "createlevel" : "Create level",
-    "allLevels" : "All levels"
+    "allLevels" : "All levels",
+    "createLevelsHint" : "The more level's your achievement has the more fun and challenging it will be. Why don't you add some more?"
 }

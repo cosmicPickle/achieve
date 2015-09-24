@@ -1,7 +1,7 @@
 var utilsControllers = angular.module('utilsControllers',[]);
 
 utilsControllers.controller('AuthController', ['$scope', 'Token', function($scope, Token){
-    Token.view();
+    
 }]);
 
 utilsControllers.controller('LogoutController', ['$scope', '$cookies', '$location', 'Logout', function($scope, $cookies, $location, Logout){
@@ -23,7 +23,7 @@ utilsControllers.controller('LoginController', ['$scope', '$rootScope', '$locati
             if(resp.status < 0)
                 $rootScope.errors = resp.errors;
             else
-                $location.path('/list/category/achievements');
+                $location.path('/categories/');
         });
     }
 }]);

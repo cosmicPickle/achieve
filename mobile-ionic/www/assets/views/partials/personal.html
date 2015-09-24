@@ -1,36 +1,22 @@
 <ion-view view-title="{{'personalHead' | translate}}">
     <ion-content class="padding">
-        <a ng-href="#/personal/create/category/" >
-            <div class="card">
-                <div class="item item-icon-left">
-                    <i class="icon ion-folder"></i>
-                    {{'createCategory' | translate}}
-                </div>
+        <div class="card">
+            <div class="item item-text-wrap">
+                {{'quickCreateText' | translate}}
+                <a ng-href="#/personal/create/quick" class="button button-block button-dark item-icon-left">
+                    <i class='icon ion-flash'></i>
+                    {{'quickCreateButton' | translate}}
+                </a>
             </div>
-        </a>
-        <a ng-href="#/personal/create/task/" >
-            <div class="card">
-                <div class="item item-icon-left">
-                    <i class="icon ion-android-calendar"></i>
-                    {{'createTask' | translate}}
-                </div>
+        </div>
+        <div class="card">
+            <div class="item item-text-wrap">
+                {{'customCreateText' | translate}}
+                <a ng-href="#/personal/create/task/" class="button button-block button-dark item-icon-left">
+                    <i class='icon ion-compose'></i>
+                    {{'customCreateButton' | translate}}
+                </a>
             </div>
-        </a>
-        <a ng-href="#/personal/create/achievement/" >
-            <div class="card">
-                <div class="item item-icon-left">
-                    <i class="icon ion-android-checkmark-circle"></i>
-                    {{'createAchievement' | translate}}
-                </div>
-            </div>
-        </a>
-        <a ng-href="#/personal/create/level/" >
-            <div class="card">
-                <div class="item item-icon-left">
-                    <i class="icon ion-arrow-graph-up-right"></i>
-                    {{'createLevel' | translate}}
-                </div>
-            </div>
-        </a>
+        </div>
     </ion-content>
 </ion-view>

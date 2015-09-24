@@ -12,14 +12,13 @@ class TasksController extends AbstractController {
     protected $allowUserCreation = 1;
     protected $validation = [
         'create' => [
-            'categories_id' => 'required',
             'alias' => 'required|unique:tasks',
-            'title' => 'required|unique:tasks',
+            'title' => 'required',
         ],
         'update' => [
             'categories_id' => 'required',
             'alias' => 'required|unique:tasks',
-            'title' => 'required|unique:tasks',
+            'title' => 'required',
         ],
         'delete' => [
             'id' => 'required'

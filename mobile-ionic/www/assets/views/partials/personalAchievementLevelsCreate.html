@@ -1,18 +1,27 @@
-<achv-modal-select 
-        lable="{{'selectAchievement' | translate}}"
-        source="Categories.Achievements"
-        link="category"
-        deep-select="1" 
-        onlymy="0" 
-        dest='formData.achievements_id'
-        dest-obj='selected.achievement'></achv-modal-select>
+<div ng-if="!achievement.levels.length" class="card">
+    <div class="item item-divider">
+        {{"hint" | translate}}
+    </div>
+    <div class="item item-text-wrap">
+        {{'createLevelProcessHint' | translate}}
+    </div>
+</div>
+<div class='padding'>
+    <achv-modal-select 
+            lable="{{'selectAchievement' | translate}}"
+            source="Achievements"
+            deep-select="0" 
+            onlymy="1" 
+            dest='formData.achievements_id'
+            dest-obj='selected.achievement'></achv-modal-select>
+</div>
 <div ng-show="formData.achievements_id">
     <div class="list">
         <label class="item item-input item-floating-label">
             <span class="input-label">{{'title' | translate}}</span>
             <input type="text" name="title" value="" id="title" placeholder="{{'title' | translate}}" ng-model='formData.title' />
         </label>
-        <label class="item item-input item-floating-label">
+        <label class="item item-input item-stacked-label">
             <span class="input-label">{{'levelNum' | translate}}</span>
             <div id="level_num" class="assertive">{{(entity) ? formData.level_num : (formData.level_num = selected.achievement.levels.length + 1)}}</div>
         </label>
@@ -44,35 +53,69 @@
                 {{formData.image || 'select' | translate}}
             </button>
         </label>
-        <label class="item item-input">
-            <span class="input-label">{{'color' | translate}}</span>
-            <button class="button" 
-                    color-picker 
-                    ng-model="formData.color" 
-                    modal-title="{{'color' | translate}}" 
-                    color-box="{{formData.color}}" 
-                    modal-class="vcc" 
-                    header-footer-class="bar-positive"
-                    ok-button="{{'save' | translate}}"
-                    cancel-button="{{'cancel' | translate}}"
-                    hide-reset="true">
-              {{ formData.color || 'select' | translate }} 
-            </button>
-        </label>
-        <label class="item item-input">
-            <span class="input-label">{{'bg_color' | translate}}</span>
-            <button class="button" 
-                    color-picker 
-                    ng-model="formData.bg_color" 
-                    modal-title="{{'bg_color' | translate}}" 
-                    color-box="{{formData.bg_color}}" 
-                    modal-class="vcc" 
-                    header-footer-class="bar-positive"
-                    ok-button="{{'save' | translate}}"
-                    cancel-button="{{'cancel' | translate}}"
-                    hide-reset="true">
-              {{ formData.bg_color || 'select' | translate }} 
-            </button>
-        </label>
     </div>
 </div>
+
+<script id="levelCreateModal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-energized">
+                <div class="title">{{'success' | translate}}</div>
+            </ion-header-bar>
+            <div class="margin-top-50">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{type + 'OkCreate' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/achievement/{{selected.achievement.alias}}" 
+                           ng-if="!nextSteps[type].nextType" 
+                           class='button button-block button-dark'>
+                            {{type + 'ViewButton' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{type + 'GoToEdit' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/create/{{type}}/{{formData.id}}" 
+                           class='button button-block button-dark'>
+                            <i class='icon ion-edit'></i>      
+                            {{type + 'EditButton' | translate}} 
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </ion-modal-view>
+    </script>
+    <script id="levelEditModal.html" type="text/ng-template">
+        <ion-modal-view>
+            <ion-header-bar class="bar bar-energized">
+                <div class="title">{{'success' | translate}}</div>
+            </ion-header-bar>
+            <div class="margin-top-50">
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{type + 'OkEdit' | translate}}
+                        <a ng-click="closeOkModal()" 
+                           ng-href="#/personal/achievement/{{selected.achievement.alias}}" 
+                           ng-if="!nextSteps[type].nextType" 
+                           class='button button-block button-dark'>
+                            {{type + 'ViewButton' | translate}}
+                            <i class='icon ion-android-arrow-forward'></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="item item-text-wrap">
+                        {{'continueEdit' | translate}}
+                        <button ng-click="closeOkModal()" 
+                           class='button button-block'>
+                            <i class='icon ion-ios-close-outline'></i>       
+                            {{'closeButton' | translate}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ion-modal-view>
+    </script>

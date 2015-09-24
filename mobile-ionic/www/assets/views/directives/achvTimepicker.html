@@ -1,0 +1,71 @@
+<div class="card">
+    <div class="item item-divider">
+         {{'selectDate' | translate}}
+    </div>
+    <div class="item item-icon-left">
+        <i class="fa icon fa-clock-o"></i>{{moment}}
+    </div>
+    <div class="item item-text-wrap">
+        <div class="achv-time">
+            <div class="achv-time-input">
+                <div class="step" ng-click="stepUp('setDate', seed.getDate(), dateStep)">
+                    <i class="fa fa-2x fa-chevron-up"></i>
+                </div>
+                <div class="time-roller">
+                    <span ng-if="seed.getDate() < 10">0</span>{{seed.getDate()}}
+                </div>
+                <div class="step" ng-click="stepDown('setDate', seed.getDate(), dateStep)">
+                    <i class="fa fa-2x fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="achv-time-meridian">/</div>
+            <div class="achv-time-input">
+                <div class="step" ng-click="stepUp('setMonth', seed.getMonth(), monthStep)">
+                    <i class="fa fa-2x fa-chevron-up"></i>
+                </div>
+                <div class="time-roller">
+                    <span ng-if="seed.getMonth() + 1 < 10">0</span>{{seed.getMonth() + 1}}
+                </div>
+                <div class="step" ng-click="stepDown('setMonth', seed.getMonth(), monthStep)">
+                    <i class="fa fa-2x fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="achv-time-meridian">/</div>
+            <div class="achv-time-input">
+                <div class="step" ng-click="stepUp('setFullYear', seed.getFullYear(), yearStep)">
+                    <i class="fa fa-2x fa-chevron-up"></i>
+                </div>
+                <div class="time-roller">
+                    {{seed.getFullYear()}}
+                </div>
+                <div class="step" ng-click="stepDown('setFullYear', seed.getFullYear(), yearStep)">
+                    <i class="fa fa-2x fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="achv-time-spacer"></div>
+            <div class="achv-time-input">
+                <div class="step" ng-click="stepUp('setHours', seed.getHours(), hourStep)">
+                    <i class="fa fa-2x fa-chevron-up"></i>
+                </div>
+                <div class="time-roller">
+                    <span ng-if="seed.getHours() < 10">0</span>{{seed.getHours()}}
+                </div>
+                <div class="step" ng-click="stepDown('setHours', seed.getHours(), hourStep)">
+                    <i class="fa fa-2x fa-chevron-down"></i>
+                </div>
+            </div>
+            <div class="achv-time-meridian">:</div>
+            <div class="achv-time-input">
+                <div class="step" ng-click="stepUp('setMinutes', seed.getMinutes(), minuteStep)">
+                    <i class="fa fa-2x fa-chevron-up"></i>
+                </div>
+                <div class="time-roller">
+                    <span ng-if="seed.getMinutes() < 10">0</span>{{seed.getMinutes()}}
+                </div>
+                <div class="step" ng-click="stepUp('setMinutes', seed.getMinutes(), minuteStep)">
+                    <i class="fa fa-2x fa-chevron-down"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

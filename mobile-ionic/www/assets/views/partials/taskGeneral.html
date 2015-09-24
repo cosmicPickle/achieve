@@ -1,21 +1,30 @@
-<ion-view view-title="{{title}}">
+<ion-view>
+    <ion-nav-title>{{title}}</ion-nav-title>
     <ion-content class="padding">
         <div class="list card">
-            <div class="item item-text-wrap">
+            <div class="item item-text-wrap" ng-if="!task.bg_image">
                 <h2>{{task.locale[0].title || task.title}}</h2>
             </div>
-            <div class="item item-text-wrap text-center">
+            <div class="item item-text-wrap text-center" ng-if="!task.bg_image">
                 <i class="fa {{task.image || 'fa-image'}} fa-4x"></i>
             </div>
+            <div ng-if="task.bg_image" class="item item-image">
+                <img ng-src="{{imagesDir + task.bg_image}}">
+                <div class="list-item-overlay">
+                    <div class="list-item-overlay-title">
+                        <i class="icon fa {{task.image || 'fa-image'}} fa-3x"></i>
+                        <p>{{task.locale[0].title || task.title}}</p>
+                    </div>
+                </div>
+            </div>
             <div class="item item-body" ng-bind-html='task.locale[0].description || task.description'></div>
+            <achv-item-controls ng-if="task.user_defined" type='"task"' item='task'></achv-item-controls>
+        </div>
+        <div class="button-bar">
+            <button class="button button-full " achv-perform-task task="task">
+                <i class="icon fa fa-check-square-o add-task-history"></i>
+                {{'performTask' | translate}}
+            </button>
         </div>
     </ion-content>
-    <ion-footer-bar class="bar-assertive">
-        <div class="button-bar">
-            <div class="button button-clear button-icon" ng-click="setFavourite()" >
-                <i class="fa {{fvIcons[favourited]}} fa-2x favourite"></i>
-            </div>
-            <achv-perform-task task="task"></achv-perform-task>
-        </div>
-    </ion-footer-bar>
 </ion-view>

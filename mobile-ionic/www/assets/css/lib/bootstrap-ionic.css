@@ -2,3 +2,15 @@
     margin:0;
     padding:0;
 }
+
+.custom-nav-bar .nav-bar-block, .custom-nav-bar .bar {
+   color: inherit !important;
+   background: inherit !important;
+   background-size:   cover !important;                      
+   background-repeat: no-repeat !important;
+   background-position: center center !important;
+}
+
+.bar-energized {
+    background : #f0b840 !important;
+}

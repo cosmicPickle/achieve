@@ -47,7 +47,10 @@ class HistoryController extends AbstractController {
                 ::where('tasks_id', $request->tasks_id)
                 ->with(['levels' => function($query){
                     $query->orderBy('level_num', 'asc');
-                }], 'achieved')
+                },
+                'achieved' => function($query){
+                    $query->where('users_id', Auth::user('id'));
+                }])
                 ->get();
         
         //We are going to perform the checks for each achievement if more than one are returned
@@ -74,7 +77,6 @@ class HistoryController extends AbstractController {
                     $next = $l;
                     break;
                 }
-            
             //Current time ... duh
             $time = time();
             //It is either the time minus the timeframe of the next level or 0 if this is 

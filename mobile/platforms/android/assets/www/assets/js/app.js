@@ -118,6 +118,10 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', '$tr
         .when('/404', {
             templateUrl : 'assets/views/partials/404.html',
         })
+        .when('/login', {
+            controller : "LoginController",
+            templateUrl : "assets/views/partials/login.html"
+        })
         .when('/logout', {
             controller : 'LogoutController',
             template : "",
@@ -147,7 +151,7 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', '$tr
     //be used for the mobile version in order to allow remote requests to the API
     $httpProvider.defaults.useXDomain = true;
     $httpProvider.defaults.withCredentials = true;
-    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+    //delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
     //Registering the response interceptor to redirect to login if we get a request 
     //that is unouthorized
@@ -167,7 +171,7 @@ achieveApp.config(['$routeProvider', '$translateProvider', '$httpProvider', '$tr
             'response' : function(response) {
                 if(response.data.status == -1)
                 {
-                    window.location = window.location.origin + window.location.pathname.replace('index.html', '') + 'login.html';
+                    $location.path('/login');
                 }
                 if(response.data.status == 0)
                 {

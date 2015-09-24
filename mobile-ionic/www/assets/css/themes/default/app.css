@@ -235,3 +235,77 @@ a.stats-item-a, a.grey {
     margin:0;
     width:100%;
 }
+
+.list-item-overlay {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    background: none;
+    background: rgba(0, 0, 0, 0.3); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    resize: vertical;
+    overflow: auto;
+}
+
+.list-item-overlay-title p {
+  margin: 0;
+  color:#ffffff;
+  font-size:20px;
+}
+
+.list-item-overlay-title i {
+    color:#ffffff;
+    font-size:80px;
+}
+
+.achievement-content {
+    position:absolute;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    z-index: 0;
+    height:125%;
+    width:150%;
+    margin:-50px;
+    -webkit-filter: blur(25px);
+    -moz-filter: blur(25px);
+    -o-filter: blur(25px);
+    -ms-filter: blur(25px);
+    filter: blur(25px);
+    overflow: hidden;
+}
+
+.progress-previous, .progress-next {
+    z-index : 10;
+}
+
+.achv-time {
+    margin: 10px auto;
+    height:70px;
+    text-align:center;
+}
+.achv-time .achv-time-input {
+    display:inline-block;
+    width:50px;
+    height:70px;
+    float:left;
+}
+
+.achv-time .achv-time-spacer {
+    width:10px;
+    height:70px;
+    float:left;
+}
+
+.achv-time .achv-time-meridian { 
+    display:inline-block;
+    height:70px;
+    line-height:80px;
+    width:10px;
+    float:left;
+}

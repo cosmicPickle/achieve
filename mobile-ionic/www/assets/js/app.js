@@ -1,20 +1,16 @@
-// Ionic Starter App
+//Setting the server URL
+var achieveServerUrl = "http://95.87.205.55/dev/achieve/api/"
 
-// angular.module is a global place for creating, registering and retrieving Angular modules
-// 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
-// the 2nd parameter is an array of 'requires'
-// 'starter.services' is found in services.js
-// 'starter.controllers' is found in controllers.js
 angular.module('achieveApp', [
     'ionic', 
-    'ionic-datepicker',
     'ionic-color-picker',
     'ngRoute', 
     'ngSanitize',
     'ngCookies',
+    'angularFileUpload',
     'achieveApi',
     'achieveArrays',
-    'achieveWizard',
+    'base64ServiceProvider',
     'uiBaseDirectives',
     'uiInputDirectives',
     'achievementControllers',
@@ -24,11 +20,27 @@ angular.module('achieveApp', [
     'taskControllers',
     'personalControllers',
     'angular-svg-round-progress',
-    'ui.bootstrap',
-    'colorpicker.module',
     'pascalprecht.translate'])
 
-.run(['$rootScope', '$ionicModal', '$translatePartialLoader', '$cookies', '$location', '$ionicPlatform', function($rootScope, $ionicModal, $translatePartialLoader, $cookies, $location, $ionicPlatform){
+.run(['$rootScope', '$ionicModal', '$translatePartialLoader', '$translate', '$ionicPlatform', '$ionicLoading','$state', 'Token', function($rootScope, $ionicModal, $translatePartialLoader, $translate, $ionicPlatform, $ionicLoading, $state, Token){
+    
+    if($state.current.name != 'login')
+        Token.view({},function(resp){
+            //It's really quite surprising how I managed to code most of this without 
+            //having an idea who the user is in the frontend
+            if(resp.status > 0)
+            {
+                $rootScope.currentUser =  resp.data.user;
+            }
+        });
+    
+    //Setting the root scope header CSS
+    $rootScope.defaultHeaderCss = {
+        'background': '#f0b840',
+        'color': '#ffffff'
+    }
+    $rootScope.headerCss = $rootScope.defaultHeaderCss;
+    
     $ionicPlatform.ready(function() {
         // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
         // for form inputs)
@@ -72,102 +84,50 @@ angular.module('achieveApp', [
     }
     
     $rootScope.$watch('httpLoading', function(httpLoading){
-        $rootScope.httpLoading = httpLoading;
+        if(httpLoading)
+            $ionicLoading.show({
+                content: $translate.instant('loading'),
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+        else
+            $ionicLoading.hide();
+    });
+    
+    $rootScope.$on('$stateChangeStart', function() {
+        $ionicLoading.show({
+            content: $translate.instant('loading'),
+            animation: 'fade-in',
+            showBackdrop: true,
+            maxWidth: 200,
+            showDelay: 0
+        });
+    });
+   
+    $rootScope.$on('$ionicView.beforeLeave', function(){
+        $ionicLoading.show({
+                content: $translate.instant('loading'),
+                animation: 'fade-in',
+                showBackdrop: true,
+                maxWidth: 200,
+                showDelay: 0
+            });
+    });
+    
+    $rootScope.$on('$ionicView.enter', function(){
+        $ionicLoading.hide();
     });
 }])
-.config(['$translateProvider', '$httpProvider', '$translatePartialLoaderProvider', '$stateProvider', '$urlRouterProvider', function($translateProvider, $httpProvider, $translatePartialLoaderProvider, $stateProvider, $urlRouterProvider) {
+.config(['$translateProvider', '$httpProvider', '$translatePartialLoaderProvider', '$stateProvider', '$urlRouterProvider', '$ionicConfigProvider',
+    function($translateProvider, $httpProvider, $translatePartialLoaderProvider, $stateProvider, $urlRouterProvider, $ionicConfigProvider) {
     
+    $ionicConfigProvider.templates.maxPrefetch(0);
     $stateProvider
-    // setup an abstract state for the tabs directive
-    /*.state('list', {
-        url: '/list',
-        abstract: true,
-        cache: false,
-        templateUrl: 'assets/views/partials/listingTabs.html'
-    })
-    // Each tab has its own nav history stack:
-    .state('list.category-achievements', {
-        url: '/category/achievements/:alias',
-        cache: false,
-        views: {
-            'list-category-achievements': {
-              templateUrl: 'assets/views/partials/category.html',
-              controller: 'CategoryMainCtrl'
-            }
-        }
-    })
-    .state('list.category-tasks', {
-        url: '/category/tasks/:alias',
-        cache: false,
-        views: {
-            'list-category-tasks': {
-              templateUrl: 'assets/views/partials/category.html',
-              controller: 'CategoryMainCtrl'
-            }
-        }
-    })
-    .state('list.favourites', {
-        url: '/favourites',
-        cache: false,
-        views: {
-            'list-favourites': {
-              templateUrl: 'assets/views/partials/favourites.html',
-              controller: 'FavouritesCtrl'
-            }
-        }
-    })
-    .state('achievement', {
-        url: '/achievement/:alias',
-        cache: false,
-        abstract: true,
-        templateUrl: 'assets/views/partials/achievementTabs.html',
-        controller: 'AchievementTabsCtrl'
-    })
-    .state('achievement.general', {
-        url: '',
-        views: {
-            'achievement-general' : {
-                templateUrl: 'assets/views/partials/achievementGeneral.html',
-                controller: 'AchievementMainCtrl'
-            }
-        }
-    })
-    .state('achievement.levels', {
-        url: '/levels',
-        views: {
-            'achievement-levels' : {
-                templateUrl: 'assets/views/partials/achievementLevels.html',
-                controller: 'AchievementMainCtrl'
-            }
-        }
-    })
-    .state('task', {
-        url: '/task/:alias',
-        cache: false,
-        abstract: true,
-        templateUrl: 'assets/views/partials/taskTabs.html',
-        controller: 'TaskTabsCtrl'
-    })
-    .state('task.general', {
-        url: '',
-        views: {
-            'task-general' : {
-                templateUrl: 'assets/views/partials/taskGeneral.html',
-                controller: 'TaskMainCtrl'
-            }
-        }
-    })
-    .state('task.achievements', {
-        url: '/achievements',
-        views: {
-            'task-achievements' : {
-                templateUrl: 'assets/views/partials/taskAchievements.html',
-                controller: 'TaskMainCtrl'
-            }
-        }
-    })*/
     .state('achievements', {
         url: '',
+        abstract: true,
         templateUrl: 'assets/views/partials/categoryTabs.html'
     })
     .state('achievements.categories', {
@@ -190,8 +150,28 @@ angular.module('achieveApp', [
             }
         }
     })
+    .state('achievements.categories-achievement-task', {
+        url: '/categories/:catAlias/:achvAlias/task/:taskAlias',
+        cache: false,
+        views: {
+            'category-achievements': {
+              templateUrl: 'assets/views/partials/taskGeneral.html',
+              controller: 'TaskMainCtrl'
+            }
+        }
+    })
+    .state('achievements.categories-achievement-levels', {
+        url: '/categories/:catAlias/:achvAlias/levels',
+        cache: false,
+        views: {
+            'category-achievements': {
+              templateUrl: 'assets/views/partials/achievementLevels.html',
+              controller: 'AchievementMainCtrl'
+            }
+        }
+    })
     .state('achievements.favourites', {
-        url: '/categories/:catAlias',
+        url: '/favourites',
         cache: false,
         views: {
             'favourite-achievements': {
@@ -200,8 +180,125 @@ angular.module('achieveApp', [
             }
         }
     })
-    
-    
+    .state('achievements.favourites-achievement', {
+        url: '/favourites/:achvAlias',
+        cache: false,
+        views: {
+            'favourite-achievements': {
+                templateUrl: 'assets/views/partials/achievementGeneral.html',
+                controller: 'AchievementMainCtrl'
+            }
+        }
+    })
+    .state('achievements.favourites-achievement-task', {
+        url: '/favourites/:achvAlias/task/:taskAlias',
+        cache: false,
+        views: {
+            'favourite-achievements': {
+                templateUrl: 'assets/views/partials/taskGeneral.html',
+                controller: 'TaskMainCtrl'
+            }
+        }
+    })
+    .state('achievements.favourites-achievement-levels', {
+        url: '/favourites/:achvAlias/levels',
+        cache: false,
+        views: {
+            'favourite-achievements': {
+                templateUrl: 'assets/views/partials/achievementLevels.html',
+                controller: 'AchievementMainCtrl'
+            }
+        }
+    })
+    .state('achievements.personal', {
+        url: '/personal',
+        cache: false,
+        views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/category.html',
+                controller: 'CategoryMainCtrl'
+            }
+        }
+    })    
+    .state('achievements.personal-achievements', {
+        url: '/personal/achievement/:achvAlias',
+        cache: false,
+        views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/achievementGeneral.html',
+                controller: 'AchievementMainCtrl'
+            }
+        }
+    }) 
+    .state('achievements.personal-achievements-task', {
+        url: '/personal/achievement/:achvAlias/task/:taskAlias',
+        cache: false,
+        views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/taskGeneral.html',
+                controller: 'TaskMainCtrl'
+            }
+        }
+    })  
+    .state('achievements.personal-achievements-levels', {
+        url: '/personal/achievement/:achvAlias/levels',
+        cache: false,
+        views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/achievementLevels.html',
+                controller: 'AchievementMainCtrl'
+            }
+        }
+    }) 
+    .state('achievements.personal-create', {
+        url: '/personal/create/',
+        cache: false,
+         views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/personal.html',
+            }
+        }
+    })  
+    .state('achievements.personal-create-quick', {
+        url: '/personal/create/quick',
+        cache: false,
+         views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/personalQuickCreate.html',
+                controller: 'PersonalCreateQuickCtrl'
+            }
+        }
+    })  
+    .state('achievements.personal-create-task', {
+        url: '/personal/create/task/:id',
+        cache: false,
+         views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/personalCreate.html',
+                controller: 'PersonalCreateCtrl'
+            }
+        }
+    })  
+    .state('achievements.personal-create-achievement', {
+        url: '/personal/create/achievement/:id?:taskId',
+        cache: false,
+         views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/personalCreate.html',
+                controller: 'PersonalCreateCtrl'
+            }
+        }
+    })
+    .state('achievements.personal-create-level', {
+        url: '/personal/create/level/:id?:achvId',
+        cache: false,
+        views: {
+            'personal-achievements': {
+                templateUrl: 'assets/views/partials/personalCreate.html',
+                controller: 'PersonalCreateCtrl'
+            }
+        }
+    })
     .state('profile', {
         url: '/profile',
         abstract: true,
@@ -239,56 +336,6 @@ angular.module('achieveApp', [
         templateUrl : 'assets/views/partials/changeLocale.html',
         controller : 'LocaleController'
     })
-    .state('personal', {
-        url: '/personal/create',
-        abstract: true,
-        cache: false,
-        templateUrl: 'assets/views/partials/personalTabs.html'
-    })
-    .state('personal.create', {
-        url : "",
-        views: {
-            'personal-create': {
-              templateUrl : 'assets/views/partials/personal.html',
-            }
-        }
-    })
-    .state('personal.create-category', {
-        url : "/category/:id",
-        views: {
-            'personal-create': {
-              templateUrl: 'assets/views/partials/personalCreate.html',
-              controller: 'PersonalCreateCtrl'
-            }
-        }
-    })
-    .state('personal.create-task', {
-        url : "/task/:id",
-        views: {
-            'personal-create': {
-              templateUrl: 'assets/views/partials/personalCreate.html',
-              controller: 'PersonalCreateCtrl'
-            }
-        }
-    })
-    .state('personal.create-achievement', {
-        url : "/achievement/:id",
-        views: {
-            'personal-create': {
-              templateUrl: 'assets/views/partials/personalCreate.html',
-              controller: 'PersonalCreateCtrl'
-            }
-        }
-    })
-    .state('personal.create-level', {
-        url : "/level/:id",
-        views: {
-            'personal-create': {
-              templateUrl: 'assets/views/partials/personalCreate.html',
-              controller: 'PersonalCreateCtrl'
-            }
-        }
-    })
     .state('login', {
         url : "/login",
         templateUrl : "assets/views/partials/login.html",
@@ -301,7 +348,7 @@ angular.module('achieveApp', [
     })
 
     // if none of the above states are matched, use this as the fallback
-    //$urlRouterProvider.otherwise('/categories/');
+    $urlRouterProvider.otherwise('/categories/');
     
     $translateProvider.useLoader('$translatePartialLoader', {
         urlTemplate: 'assets/lang/{lang}/{part}.json'

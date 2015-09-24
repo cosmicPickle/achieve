@@ -1,0 +1,14 @@
+<div class="list">
+    <div class="item item-divider">
+        {{lable}}
+    </div>
+    <label class="item item-radio" ng-repeat="item in items">
+        <input type="radio" name="radio-{{lable}}" value="{{item.id}}" ng-model="dest" ng-click="select(item.id)">
+        <div class="item-content">
+            {{item.locale[0].title || item.title}}
+        </div>
+        <i class="radio-icon ion-checkmark"></i>
+    </label>
+    <div class="item item-divider">
+    </div>
+</div>

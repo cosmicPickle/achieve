@@ -1,23 +1,16 @@
 <ion-view>
     <ion-nav-title>{{title}}</ion-nav-title>
     <ion-content class="padding">
+        <div ng-if='listType == "personal"'>
+            <achv-add-new lable='createAchievement' data="{categories_id : category.id}"></achv-add-new>
+        </div>
         <div ng-if="children.length"> 
             <achv-list-item ng-repeat="item in children" item="item" link-type="categories" type='category' color-default="category.color">
             </achv-list-item>
         </div>
         <div ng-if="achievements.length"> 
-            <achv-list-item ng-repeat="item in achievements" item="item" link-type="categories/{{catAlias}}" type="achievement" color-default="category.color">
+            <achv-list-item ng-repeat="item in achievements" item="item" link-type="{{listType}}{{(listType == 'categories') ? '/' + catAlias : '/achievement'}}" type="achievement" color-default="category.color">
             </achv-list-item>
         </div>
-
-        <div ng-if="tasks.length"> 
-            <achv-list-item ng-repeat="item in tasks" item="item" link-type="task" type="task" color-default="category.color">
-            </achv-list-item>
-        </div>
-        
-        <!--<h3>{{'new' | translate}}</h3>
-        <achv-add-new type="category" data="{parent_id : category.id}"></achv-add-new>
-        <achv-add-new type="achievement" data="{categories_id : category.id}"></achv-add-new>
-        <achv-add-new type="task" data="{categories_id : category.id}"></achv-add-new>-->
     </ion-content>
 </ion-view>

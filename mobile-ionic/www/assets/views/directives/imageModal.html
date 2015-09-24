@@ -1,0 +1,23 @@
+<ion-modal-view>
+    <ion-header-bar class="bar bar-energized">
+        <div class="buttons">
+            <button class="button" ng-click="dismissModal()">{{'cancel' | translate}}</button>
+        </div>
+        <div class="title">{{'selectBgImage' | translate}}</div>
+    </ion-header-bar>
+    <ion-content>
+        <div class='card'>
+            <div class='item item-divider'>{{'uploadBgImage' | translate}}</div>
+            <div class='item item-text-wrap'>
+                <input ng-show='0' type="file" nv-file-select uploader="uploader" id='file-upload'/><br/>
+                <button class="button button-bar button-dark" type="file" ng-click='openUploadSelect()'>{{'upload' | translate}}</button>
+            </div>
+            <div class='item item-divider'>{{'orChooseGallery' | translate}}</div>
+        </div>
+        <div class="card" ng-repeat='img in images'>
+            <a class="item item-image" ng-click='selectImage(img)'>
+                <img ng-src="{{img}}">
+            </a>
+        </div>
+    </ion-content>
+</ion-modal-view>

@@ -9,11 +9,14 @@
                 <i ng-if="!day.history.length" class="fa fa-2x fa-close pull-right"></i>
             </ion-item>
         </ion-list>
-        <button class="button button-bar button-positive" ng-click='loadMore()'>{{'loadMore' | translate}}</button>
+        <button class="button button-bar button-dark" ng-click='loadMore()'>{{'loadMore' | translate}}</button>
     </ion-content>
-    <ion-footer-bar class="bar-assertive">
+    <ion-footer-bar class="bar-dark">
         <div class="button-bar">
-            <achv-perform-task reload="1"></achv-perform-task>
+            <button class="button button-clear" achv-perform-task reload="1">
+                <i class="icon fa fa-check-square-o add-task-history"></i>
+                {{'performTask' | translate}}
+            </button>
         </div>
     </ion-footer-bar>
 </ion-view>

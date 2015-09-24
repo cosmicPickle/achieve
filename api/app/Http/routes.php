@@ -16,6 +16,9 @@ $app->get('/slocale', 'LangController@setLocale');
 $app->get('/locale/view', 'LangController@getLocaleCurrent');
 $app->get('/locale/list', 'LangController@getLocaleList');
 
+$app->post('/upload', 'FileController@upload');
+$app->get('/files/list', 'FileController@getUserFiles');
+
 $app->get('/translate/view', 'LangController@getPageTranslation');
 
 $app->post('/login', 'AuthController@login');

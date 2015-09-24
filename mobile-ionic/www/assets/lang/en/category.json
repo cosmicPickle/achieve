@@ -1,10 +1,12 @@
 {
     "categoryTitle": "Category: {{title}}",
+    "personalTitle": "Your personal achievements",
     "back": "Back",
     "invalidCategory": "The category does not exist",
     "favAchievements": "Favourites Achievements",
     "favTasks": "Favourite Tasks",
     "achievements" : "Achievements",
     "tasks" : "Tasks",
-    "loadMore" : "Load More"
+    "loadMore" : "Load More",
+    "categories" : "Categories"
 }

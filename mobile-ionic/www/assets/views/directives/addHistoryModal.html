@@ -18,14 +18,8 @@
     }
 </style>
 <ion-modal-view>
-    <ion-header-bar class="bar bar-positive">
-        <div class="buttons">
-            <button class="button col" ng-click="dismissHistoryModal()">{{'cancel' | translate}}</button>
-        </div>
-        <div class="title">{{'performTask' | translate}} : {{task.locale[0].title || task.title}}</div>
-        <div class="buttons">
-            <button class="button button-positive col" ng-show="task" ng-click="saveHistory(dt)">{{'save' | translate}}</button>
-        </div>
+    <ion-header-bar class="bar bar-energized">
+        <div class="title">{{'performTask' | translate}} : {{task.locale[0].title || task.title}}</div>   
     </ion-header-bar>
     <div class="margin-top-50">
         <achv-modal-select 
@@ -36,24 +30,11 @@
             onlymy="0"
             dest-obj='task'
             callback="selectTask"></achv-modal-select>
-        <ionic-datepicker date="dt" max="maxDate" callback="selectDate">
-            <div class="card">
-                <div class="item item-divider">
-                    {{'selectDate' | translate}}
-                </div>
-                <div class="item item-text-wrap">
-                    {{ dt | date:'MMMM/dd/yyyy' }}
-                </div>
-            </div>
-        </ionic-datepicker>
-        <!--<datepicker ng-model="dt" init-date="initDate" max-date="maxDate" starting-day="1" show-weeks="true"></datepicker>-->
-        <div class="card">
-            <div class="item item-divider">
-                 {{'selectTime' | translate}}
-            </div>
-            <div class="item item-text-wrap">
-                <timepicker ng-model="dt" hour-step="1" minute-step="1" show-meridian="ismeridian"></timepicker>
-            </div>
-        </div>
+        <achv-timepicker seed="dt" hour-step="1" minute-step="15"></achv-timepicker>
+           
+    </div>
+    <div class="button-bar">
+        <button class="button col" ng-click="dismissHistoryModal()">{{'cancel' | translate}}</button>
+        <button class="button button-dark col" ng-show="task" ng-click="saveHistory(dt)">{{'save' | translate}}</button>
     </div>
 </ion-modal-view>

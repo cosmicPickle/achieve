@@ -103,12 +103,20 @@ var nodes = {
         actions : ['view']
     },
     Logout : {
-      path : 'logout',
-      actions : {
-          doLogout : {
-              method : 'GET'
-          }
-      }
+        path : 'logout',
+        actions : {
+            doLogout : {
+                method : 'GET'
+            }
+        }
+    },
+    Login : {
+        path : 'login',
+        actions : {
+            doLogin : {
+                method : 'POST'
+            }
+        }
     },
     Locale : {
         path : 'locale',
