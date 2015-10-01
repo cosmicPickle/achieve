@@ -1,0 +1,26 @@
+<div class="listing">
+    <a ng-if="userUnlockedIds.indexOf(item.achievement.id) >= 0" class="item" ng-repeat="item in favourites" ui-sref="list.favourites.achievement({achvAlias:item.achievement.alias})">
+        <div class='thumb' ng-style="{'background-image':'url(' + imagesDir + item.achievement.bg_image + ')'}">
+            <div class="overlay">
+                <i class="icon fa {{item.achievement.image || 'fa-image'}}"></i>
+                <p>{{item.achievement.locale[0].title || item.achievement.title}}</p>
+            </div>
+        </div>
+    </a>
+    <div ng-if="userUnlockedIds.indexOf(item.achievement.id) < 0" class="item" ng-repeat="item in favourites" ui-sref="list.favourites.achievement({achvAlias:item.achievement.alias})">
+        <div class='thumb' ng-style="{'background-image':'url(' + imagesDir + item.achievement.bg_image + ')'}">
+            <div class="locked-overlay">
+                <div class='costs'>
+                    {{'costs' | translate}}: {{item.achievement.unlock_energy}} <i class='icon ion-flash'></i>
+                </div>
+                <div class='available'>
+                    {{'youHave' | translate}}: {{currentUser.energy}} <i class='icon ion-flash'></i>
+                </div>
+                <i class="icon ion-locked"></i>
+                <p>{{'locked' | translate}}: {{item.achievement.locale[0].title || item.achievement.title}}</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ui-view></div>

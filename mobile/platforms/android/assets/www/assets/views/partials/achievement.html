@@ -1,0 +1,81 @@
+<script id="achievement-modal.html" type="text/ng-template">
+    <div class="modal-header ui-modal-header">
+        <div class="modal-title">
+            <button type="button" class="btn btn-clear btn-nav">
+                <i class="icon fa ion-android-arrow-back" ng-click="dismissModal()"></i>
+            </button>
+            {{title}}
+        </div>
+    </div>
+    <div class="modal-body ui-modal-body">
+        <div class="row achv-cont">
+            <div class="col-md-6 achv-description-cont">
+                <div class="achv-description-img" ng-style="{'background-image':'url(' + imagesDir + achievement.bg_image + ')'}">
+                    <div class="overlay">
+                        <i class="icon fa {{achievement.image || 'fa-image'}}"></i>
+                        <p>{{achievement.locale[0].title || achievement.title}}</p>
+                        <button class="btn btn-clear visible-xs" 
+                                ng-init="(isMobile) ? isCollapsedDesc = true : isCollapsedDesc = false" 
+                                ng-click="isCollapsedDesc = !isCollapsedDesc">
+                            <i class="icon {{isCollapsedDesc ? 'ion-arrow-left-b' : 'ion-arrow-down-b'}} ion-android-chevron-down"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="achv-description" collapse="isCollapsedDesc" ng-bind-html="achievement.locale[0].description || achievement.description"></div>
+            </div>
+            <div class="col-md-6 progress-wrap">
+                <div ng-if="userUnlockedIds.indexOf(achievement.id) < 0" class="locked-controls">
+                    <div class='costs'>
+                        {{'costs' | translate}}: {{achievement.unlock_energy}} <i class='icon ion-flash'></i>
+                    </div>
+                    <div class='available'>
+                        {{'youHave' | translate}}: {{currentUser.energy}} <i class='icon ion-flash'></i>
+                    </div>
+                    <i class="icon ion-locked"></i>
+                    <p>{{'locked' | translate}}</p>
+                    <button class="btn btn-clear unlock"><i class='fa icon ion-unlocked'></i> {{'unlock' | translate}}</button>
+                </div>
+                <div class="level-title">
+                {{'currentLevel' | translate}}{{currentLevel.locale[0].title || currentLevel.title}}
+                </div>
+                <div class="progress-body">
+                    <div class="progress-lable" ng-if="!finished">
+                        <i class="fa {{currentLevel.image || 'fa-image'}} fa-5x"></i> <br />
+                        <span translate='thisLevelProgress' translate-values='{ current : historyNum, max : nextLevel.repetition }'></span><br />
+                        <div ng-if="nextLevel.timeframe || currentLevel.timeframe">
+                            <span translate='inTheLast' translate-values='{days : nextLevel.timeframe}'></span>
+                        </div>
+                        <span ng-style="{color : achievement.color || achievement.category.color}"translate='overallProgress' translate-values='{current : totalRepCurrent + historyNum, max : totalRepNum}'></span><br />
+                    </div>
+                    <div class="progress-lable" ng-if="finished">
+                        <i class="fa {{achievement.image || 'fa-image'}} fa-5x"></i> <br />
+                        <span translate='overallProgress' translate-values='{current : totalRepNum, max : totalRepNum}'ng-style="{color : achievement.color || achievement.category.color}"></span></span><br />
+                    </div>
+                    <round-progress
+                        max="progress.max"
+                        current="progress.current"
+                        color="{{colors.color}}"
+                        bgcolor="{{colors.bg_color}}"
+                        radius="100"
+                        stroke="10"
+                        semi="false"
+                        rounded="false"
+                        clockwise="true"
+                        responsive="true"
+                        duration="800"
+                        animation="easeInOutQuart"></round-progress>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="achv-controls">
+                    <button class="btn btn-clear" ng-click="setFavourite()">
+                        <i class="icon fa {{fvIcons[favourited]}}"></i> {{'favourite' | translate}}
+                    </button>
+                    <button class="btn btn-clear" ng-click="performTask()">
+                        <i class="icon fa ion-android-checkbox-outline"></i> {{'performTask' | translate}}
+                    </button>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

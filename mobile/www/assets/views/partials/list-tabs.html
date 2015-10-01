@@ -1,0 +1,17 @@
+<div class="ui-tabs">
+    <a class="ui-tab-link ui-tab-link-first col-md-offset-4 col-md-2 col-xs-6 {{setActiveState('category')}}"
+       ui-sref='list.category'>
+        <i class='icon ion-android-checkmark-circle'></i>
+        {{'categories' | translate}}
+    </a>
+    <a class="ui-tab-link ui-tab-link-last col-md-3 col-xs-6 {{setActiveState('favourites')}}"
+       ui-sref='list.favourites'>
+        <i class='icon ion-heart'></i>
+        {{'favourites' | translate}}
+    </a>
+    <div class='clearfix'></div>
+</div>
+
+<div class='container'>
+    <div ui-view></div>
+</div>

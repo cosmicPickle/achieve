@@ -1,0 +1,11 @@
+<div class="modal-header ui-modal-header ui-modal-header-error">
+    <div class="modal-title">
+        <button type="button" class="btn btn-clear btn-nav" ng-click="dismissErrorsModal()">
+            <i class="icon fa ion-android-arrow-back"></i>
+        </button>
+        {{'errors' | translate}}
+    </div>
+</div>
+<div class="modal-body">
+    <div class="alert alert-danger" ng-repeat="err in errors">{{err}}</div>
+</div>
