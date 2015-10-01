@@ -1,5 +1,5 @@
 //Setting the server URL
-var achieveServerUrl = "http://95.87.205.55/dev/achieve/api/"
+var achieveServerUrl = "http://95.87.205.55/dev/achieve/v.0.0.1/api/"
 
 angular.module('achieveApp', [
     'ionic', 
