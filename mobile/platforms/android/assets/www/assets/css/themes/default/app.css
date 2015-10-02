@@ -301,6 +301,20 @@ ul.side-menu li.side-menu-title {
     text-align:center;
 }
 
+.achv-description-img > .mobile-tutorial {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background:transparent;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+    text-align:center;
+}
+
 .locked-controls {
     z-index: 1000;
 }
@@ -548,6 +562,7 @@ ul.side-menu li.side-menu-title {
 }
 
 @media (max-width: 767px) { 
+    
     .landing-image-cont > .landing-image {
         width:100%;
         height:150px;
@@ -556,6 +571,25 @@ ul.side-menu li.side-menu-title {
     .landing-image-cont > .landing-image > .overlay > p {
         font-size:30px;
     }
+    
+    .register-form > .form-group
+    {
+        margin-bottom:0;
+    }
+    
+    .register-form > .form-group > .register-input {
+        padding:0 3px;
+    }
+    
+    .register-form input {
+        border-radius: 0;
+        border-left:0;
+        border-right:0;
+        border-bottom:0;
+        line-height:45px;
+        height:45px;
+    }
+
     
     .listing {
         margin-top:10px;

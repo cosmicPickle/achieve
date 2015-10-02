@@ -5,10 +5,9 @@
                 class='thumb' 
                 ng-style="{'background-image':'url(' + imagesDir + item.bg_image + ')'}"
                 achv-tutorial='0'
-                at-text="categoryTip"
                 at-start-on='currentUser.temporary'
-                at-sref="list.category"
-                at-sref-params='{catAlias:item.alias}'>
+                at-state="list.category"
+                at-text="categoryTip">
                     <div class="overlay">
                        <i class="icon fa {{item.image || 'fa-image'}}"></i>
                        <p>{{item.locale[0].title || item.title}}</p>
@@ -39,25 +38,27 @@
         <div ng-if="userUnlockedIds.indexOf(item.id) < 0" class="item" ng-repeat="item in achievements" ui-sref="list.category.achievement({achvAlias:item.alias})">
             <div class='thumb' 
                  ng-style="{'background-image':'url(' + imagesDir + item.bg_image + ')'}"
-                 achv-tutorial='0'
-                 at-text="lockedTip"
+                 achv-tutorial='10'
                  at-start-on='currentUser.temporary && item.alias == "complete_tutorial"'
+                 at-state="list.category"
+                 at-text="lockedTip"
                  at-void="1">
                 <div class="locked-overlay" 
                      at-if='currentUser.temporary && item.alias == "complete_tutorial"'
-                     achv-tutorial='3'
+                     achv-tutorial='13'
                      at-text="moreInfoTip"
-                     at-sref='list.category.achievement'
-                     at-sref-params='{achvAlias:item.alias}'>
+                     at-state="list.category">
                     <div at-if='currentUser.temporary && item.alias == "complete_tutorial"' class='costs'
-                         achv-tutorial='1'
+                         achv-tutorial='11'
+                         at-state="list.category"
                          at-text="energyReqTip"
                          at-void="1">
                         {{'costs' | translate}}: {{item.unlock_energy}} <i class='icon ion-flash'></i>
                     </div>
                     
                     <div at-if='currentUser.temporary && item.alias == "complete_tutorial"' class='available'
-                         achv-tutorial='2'
+                         achv-tutorial='12'
+                         at-state="list.category"
                          at-text="userEnergyTip"
                          at-void="1">
                         {{'youHave' | translate}}: {{currentUser.energy}} <i class='icon ion-flash'></i>

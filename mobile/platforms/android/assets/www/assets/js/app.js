@@ -25,6 +25,11 @@ achieveApp.config(['$translateProvider', '$httpProvider', '$translatePartialLoad
             templateUrl: "assets/views/partials/landing.html",
             controller : "LandingCtrl"
         })
+        .state('register', {
+            url: '/register',
+            templateUrl: "assets/views/partials/register.html",
+            controller : "RegisterCtrl"
+        })
         .state('list', {
             url: "/list",
             abstract: true,
@@ -110,10 +115,11 @@ achieveApp.config(['$translateProvider', '$httpProvider', '$translatePartialLoad
             }
         };
     }]);
-}]).run(['$rootScope', '$modal', '$state', '$window', '$location', 'Token', function($rootScope, $modal, $state, $window, $location, Token){
+}]).run(['$rootScope', '$modal', '$state', '$window', '$location', 'Token', 'Users', function($rootScope, $modal, $state, $window, $location, Token, Users){
     
-    var anonArea = ['#/landing', '#/login'];
+    var anonArea = ['/landing', '/login'];
     
+    //Let's get the user data unless this is an authorization free zone
     $rootScope.$watch(function(){
         return $location.path();
     }, function(path){
@@ -128,8 +134,22 @@ achieveApp.config(['$translateProvider', '$httpProvider', '$translatePartialLoad
                 if(resp.status > 0)
                 {
                     $rootScope.currentUser =  resp.data.user;
+                    
+                    if($rootScope.currentUser.temporary  && $rootScope.currentUser.completed_tutorial)
+                        $state.go('register');
                 }
             });
+    });
+    
+    //We need to watch if the tutorial is complete to update the user
+    $rootScope.$on('completeTutorial',function(){
+        Users.update({
+            'id' : -1,
+            'completed_tutorial' : 1
+        }, function(resp){
+            if(resp.status)
+                $state.go('register');
+        });
     });
     
     

@@ -16,8 +16,30 @@ utilsControllers.controller('LandingCtrl',
 }]);
 
 utilsControllers.controller('RegisterCtrl', 
-['$rootScope', '$scope', '$state', '$translate',
-    function ($rootScope, $scope, $state, $translate) {
+['$rootScope', '$scope', '$state', '$translate', 'Users',
+    function ($rootScope, $scope, $state, $translate, Users) {
         
         $rootScope.title = $translate.instant('register');
+        $scope.formData = {
+            register : 1,
+            temporary : 0,
+            email : "",
+            password : "",
+            re_password : ""
+        };
+        
+        $rootScope.$watch('currentUser', function(user){
+            if(!user)
+                return;
+            
+           $scope.formData.id = user.id;
+           
+            $scope.register = function() {
+                Users.update($scope.formData, function(resp){
+                    if(resp.status)
+                        $state.go('list.category');
+                });
+            };
+        });
+
 }]);

@@ -27,5 +27,9 @@
     "favouriteTip" : "You can click here to favourite your achievement. It will appear in your Favourites tab.",
     "completeTip" : "You are almost done! Click here to complete this achievement",
     "doneTip" : "Great! You have completed the tutorial. Click here to continue.",
-    "register" : "Register"
+    "register" : "Register",
+    "registerText" : "You successfully completed the tutorial. To continue achieving please fill register your account.",
+    "email" : "E-mail",
+    "password" : "Password",
+    "re_password" : "Confirm Password"
 }

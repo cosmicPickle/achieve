@@ -5,8 +5,8 @@ categoryControllers.config(['$translatePartialLoaderProvider', function($transla
 }]);
 
 achievementControllers.controller('AchievementMainCtrl', 
-['$rootScope', '$scope', '$q', '$stateParams', '$modal', '$state', '$translate', '$sanitize', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'objArr',
-    function ($rootScope, $scope, $q, $stateParams, $modal, $state, $translate, $sanitize, Favourites, Achievements, UserAchievements, History, objArr) {
+['$rootScope', '$scope', '$q', '$stateParams', '$modal', '$state', '$translate', '$sanitize', 'Favourites', 'Achievements', 'UserAchievements', 'History', 'UnlockedAchievements', 'objArr',
+    function ($rootScope, $scope, $q, $stateParams, $modal, $state, $translate, $sanitize, Favourites, Achievements, UserAchievements, History, UnlockedAchievements, objArr) {
 
         //Contains the errors
         $scope.errors = [];
@@ -60,6 +60,12 @@ achievementControllers.controller('AchievementMainCtrl',
             $rootScope.title = $scope.title;
         });
         
+        //If this is a temporary user we need to emit the complete tutorial event
+        //Right after the last step of the tutorial
+        $rootScope.$on('startTutorialStep29', function(){
+            $rootScope.$emit('completeTutorial');
+        });
+        
         //Only the ids of the unlocked achievements for easier searching
         $scope.userUnlockedIds = null;
         $rootScope.$watch('currentUser', function(user){
@@ -70,7 +76,7 @@ achievementControllers.controller('AchievementMainCtrl',
             $scope.userUnlockedIds = user.unlocked.map(function(val){
                 return val.id;
             });
-        });
+        }, true);
         
         //We need to watch the progress in order to go to a new level should the
         //progress reaches 100%
@@ -168,6 +174,19 @@ achievementControllers.controller('AchievementMainCtrl',
             });
         };
         
+        $scope.unlock = function() {
+            UnlockedAchievements.create({
+                users_id : -1,
+                achievements_id : $scope.achievement.id,
+            }, function(resp){
+                if(resp.status)
+                {
+                    $rootScope.currentUser.unlocked[$rootScope.currentUser.unlocked.length] = $scope.achievement;
+                    $rootScope.currentUser.energy -= $scope.achievement.unlock_energy;
+                }
+            });
+        }
+        
         //The promise that fetches the achievement
         var fetchAchievement = function() {
             return $q(function(resolve, reject){
@@ -255,12 +274,11 @@ achievementControllers.controller('AchievementMainCtrl',
                 
                 $scope.openModal = function() {
                     $scope.modalInstance = $modal.open({
-                        animation: true,
+                        animation: !$rootScope.currentUser.temporary,
                         templateUrl: 'achievement-modal.html',
                         scope : $scope,
                         size : 'md',
                         controller : ['$scope', function($scope) {
-
                             //Dismisses a modal window
                             $scope.dismissModal = function() {
                                 $scope.modalInstance.dismiss('canceled')

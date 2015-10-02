@@ -18,9 +18,13 @@ class UsersController extends AbstractController {
             'email' => 'required|unique:users',
             'name' => 'required',
             'password' => 'required|same:re_password',
-            're_password' => 'required',
+            're_password' => 'required|required_with:password',
         ],
-        "update" => [],
+        "update" => [
+            'email' => 'required_with:register|unique:users',
+            'password' => 'required_with:register|same:re_password',
+            're_password' => 'required_with:password',
+        ],
         "delete" => [
             'id' => 'required'
         ]

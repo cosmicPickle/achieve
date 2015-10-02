@@ -182,6 +182,7 @@ achievementControllers.controller('AchievementMainCtrl',
                 if(resp.status)
                 {
                     $rootScope.currentUser.unlocked[$rootScope.currentUser.unlocked.length] = $scope.achievement;
+                    $rootScope.currentUser.energy -= $scope.achievement.unlock_energy;
                 }
             });
         }

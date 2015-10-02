@@ -31,9 +31,10 @@ uiBaseDirectives.directive('achvTutorial', ['$rootScope', '$window', '$state', '
                 $scope.focused.width(element.outerWidth());
                 $scope.focused.css({
                     'position' : 'absolute',
-                    'top' : element.offset().top,
-                    'left' : element.offset().left,
+                    'top' : element.offset().top - 3,
+                    'left' : element.offset().left - 3,
                     'box-shadow' : '0 0 0 99999px rgba(0, 0, 0, .8)',
+                    'border' : '3px solid #eeaf28',
                     'z-index' : 9000
                 });      
                 

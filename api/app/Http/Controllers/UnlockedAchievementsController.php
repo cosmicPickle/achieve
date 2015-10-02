@@ -23,6 +23,32 @@ class UnlockedAchievementsController extends AbstractController {
         ]
     ];
     
+    protected function _addCreateValidation(Request $request)
+    {
+        $this->userEnergy = Auth::user('energy', FALSE);
+        $this->unlockEnergy = (new \App\Http\Models\Achievements)->select('unlock_energy')->where('id', $request->achievements_id)->first()->unlock_energy;
+        
+        if($this->userEnergy < $this->unlockEnergy)
+            $this->_fail ([trans('responses.not_enough_energy')]);
+    }
+    
+    protected function _afterCreate(Request $request, $insert_id)
+    {
+        if($request->user == -1 || !$request->user)
+        {
+            $all = $request->all();
+            $all['user'] = Auth::user('id');
+            $request->replace($all);
+        }
+        
+        
+        $user = new \App\Http\Models\Users;
+        $user->where('id', $request->user)
+             ->update([
+                'energy' => $this->userEnergy - $this->unlockEnergy
+             ]);
+    }
+    
     protected function _listFilter(\Illuminate\Database\Eloquent\Builder $query, Request $request)
     {
         if($request->achievement)

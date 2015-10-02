@@ -84,6 +84,10 @@ var nodes = {
         path : 'user/achievements',
         actions : ['list', 'create', 'update', 'delete']
     },
+    UnlockedAchievements : {
+        path : 'unlocked/achievements',
+        actions : ['list', 'create', 'update', 'delete']
+    },
     UserGroups : {
         path : 'user/groups',
         actions : ['list', 'view', 'create', 'update', 'delete']
