@@ -27,14 +27,14 @@ uiBaseDirectives.directive('achvTutorial', ['$rootScope', '$window', '$state', '
             
             $scope.refocus = function(element, attrs) {
                 
-                $scope.focused.height(element.outerHeight());
-                $scope.focused.width(element.outerWidth());
+                $scope.focused.height(element.outerHeight() - 4);
+                $scope.focused.width(element.outerWidth() - 4);
                 $scope.focused.css({
                     'position' : 'absolute',
-                    'top' : element.offset().top - 3,
-                    'left' : element.offset().left - 3,
+                    'top' : element.offset().top,
+                    'left' : element.offset().left,
                     'box-shadow' : '0 0 0 99999px rgba(0, 0, 0, .8)',
-                    'border' : '3px solid #eeaf28',
+                    'border' : '2px solid #eeaf28',
                     'z-index' : 9000
                 });      
                 
