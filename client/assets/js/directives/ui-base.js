@@ -20,7 +20,7 @@ uiBaseDirectives.directive('achvTutorial', ['$rootScope', '$window', '$state', '
             //The text of the tip
             atText: '@',
             //The position of the tip. (Default 'bottom')
-            atTipPosition: '@'
+            atTipPosition: '@',
         },
         template : '',
         controller : ['$scope', function($scope){
@@ -72,6 +72,14 @@ uiBaseDirectives.directive('achvTutorial', ['$rootScope', '$window', '$state', '
                         'top' : element.offset().top,
                         'left' : element.offset().left + element.outerWidth() + 10,
                     }
+                
+                if($scope.atTipPosition == 'in')
+                {
+                    tipPos = {
+                        'bottom' : angular.element('body').height() - (element.offset().top + element.outerHeight() - 10),
+                        'left' : element.offset().left,
+                    }
+                }
                 
                 $scope.tip.css(tipPos);
                 

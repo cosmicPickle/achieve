@@ -26,7 +26,6 @@ achievementControllers.controller('AchievementMainCtrl',
         //The icons for a favourite and not favourite achievements
         $scope.fvIcons = ['fa-heart-o', 'fa-heart'];
 
-        
         //The levels earned by the user
         $scope.earnedLevels = [];
         
@@ -92,8 +91,13 @@ achievementControllers.controller('AchievementMainCtrl',
             fetchEarned();
             
             if($scope.nextLevel)
+            {
                 //We also need to update the user's energy if they have leveled up
                 $rootScope.currentUser.energy += $scope.nextLevel.energy_reward;  
+                
+                //Let's notify the user
+                $scope.openPointsModal($scope.nextLevel.energy_reward, 'levelUp');
+            }
             
             $scope.currentLevel = $scope.nextLevel;
             if($scope.currentLevel)
@@ -118,6 +122,27 @@ achievementControllers.controller('AchievementMainCtrl',
          * A few helper functions follow
          * 
          */
+        
+        //This function creates a modal with energy rewards
+        $scope.openPointsModal = function(energy, reason) {
+            var pointsModal = $modal.open({
+                animation: !$rootScope.currentUser.temporary,
+                templateUrl: 'achievement-points-modal.html',
+                scope : $scope.$new(true),
+                size : 'md',
+                controller : ['$scope', function($scope) {
+                    
+                    $scope.energy = energy;
+                    $scope.reason = reason;
+                    
+                    //Dismisses a modal window
+                    $scope.dismissPointsModal = function() {
+                        pointsModal.dismiss('canceled');
+                    };
+
+                }]
+            }); 
+        };
         
         //Modifies the achievement's favourite status. Also makes a call to the backend
         //to update the info
@@ -170,6 +195,9 @@ achievementControllers.controller('AchievementMainCtrl',
                     
                     //We need to update the user's energy
                     $rootScope.currentUser.energy += $scope.achievement.energy_reward;
+                    
+                    //Let's notify the user they got some points
+                    $scope.openPointsModal($scope.achievement.energy_reward, 'completedTask');
                 }
             });
         };

@@ -16,40 +16,6 @@ and open the template in the editor.
         <link rel="stylesheet" type="text/css" href="assets/css/lib/ionicons.min.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/lib/flag-icon.min.css" />
         <link rel="stylesheet" type="text/css" href="assets/css/themes/default/app.css" />
-    </head>
-    <body>
-        <pageslide ps-open="sideMenuOpen" ps-side="right" ps-push="1" ps-cloak="1" ps-speed="0.2">
-            <ul class="side-menu">
-                <li class="side-menu-title">{{'navigation' | translate}}</li>
-                <li><a ui-sref="list.category" ng-click='toggleSideMenu()'>{{'categories' | translate}}</a></li>
-                <li><a ui-sref="list.favourites" ng-click='toggleSideMenu()'>{{'favourites' | translate}}</a></li>
-                <li ng-if="currentUser && !currentUser.temporary"><a ui-sref="profile" ng-click='toggleSideMenu()'>{{'profile' | translate}}</a></li>
-            </ul>
-        </pageslide>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-1 navbar-col">
-                        <!-- Brand and toggle get grouped for better mobile display -->
-                        <button type="button" class="btn btn-clear btn-nav visible-xs visible-md visible-lg" ng-if="history.length > 1" ng-click="goBack()">
-                            <i class="icon fa ion-android-arrow-back"></i>
-                        </button>
-                    </div>
-                    <div class="col-xs-10">
-                        <a class="navbar-brand navbar-logo visible-md visible-lg" href="#"><i class="icon ion-fireball"></i> Achieve</a>
-                        <div class="navbar-brand navbar-title">{{title || 'home' | translate}}</div>
-                    </div>
-                    <div class="pull-right">
-                        <button type="button" ng-click="toggleSideMenu()" class="btn btn-clear btn-nav btn-menu visible-xs visible-md visible-lg navbar-right">
-                            <i class="icon fa ion-android-menu"></i
-                        </button>
-                    </div>
-                </div>
-            </div><!-- /.container-fluid -->
-        </nav>
-        <div class="container-fluid container-main">
-            <div ui-view></div>
-        </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.4/angular-resource.js"></script>
@@ -75,5 +41,39 @@ and open the template in the editor.
         <script src="assets/js/services/arrays.js"></script>
         
         <script src="assets/js/directives/ui-base.js"></script>
+    </head>
+    <body>
+    <pageslide ps-open="sideMenuOpen" ps-side="right" ps-push="1" ps-cloak="1" ps-speed="0.2" ng-cloak="true">
+            <ul class="side-menu">
+                <li class="side-menu-title">{{'navigation' | translate}}</li>
+                <li><a ui-sref="list.category" ng-click='toggleSideMenu()'>{{'categories' | translate}}</a></li>
+                <li><a ui-sref="list.favourites" ng-click='toggleSideMenu()'>{{'favourites' | translate}}</a></li>
+                <li ng-if="currentUser && !currentUser.temporary"><a ui-sref="profile" ng-click='toggleSideMenu()'>{{'profile' | translate}}</a></li>
+            </ul>
+        </pageslide>
+        <nav class="navbar navbar-inverse navbar-fixed-top" ng-cloak="true">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-1 navbar-col">
+                        <!-- Brand and toggle get grouped for better mobile display -->
+                        <button type="button" class="btn btn-clear btn-nav visible-xs visible-md visible-lg" ng-if="history.length > 1" ng-click="goBack()">
+                            <i class="icon fa ion-android-arrow-back"></i>
+                        </button>
+                    </div>
+                    <div class="col-xs-10">
+                        <a class="navbar-brand navbar-logo visible-md visible-lg" href="#"><i class="icon ion-fireball"></i> Achieve</a>
+                        <div class="navbar-brand navbar-title">{{title || 'home' | translate}}</div>
+                    </div>
+                    <div class="pull-right">
+                        <button type="button" ng-click="toggleSideMenu()" class="btn btn-clear btn-nav btn-menu visible-xs visible-md visible-lg navbar-right">
+                            <i class="icon fa ion-android-menu"></i
+                        </button>
+                    </div>
+                </div>
+            </div><!-- /.container-fluid -->
+        </nav>
+        <div class="container-fluid container-main">
+            <div ui-view></div>
+        </div>
     </body>
 </html>

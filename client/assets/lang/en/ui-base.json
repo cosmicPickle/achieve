@@ -26,10 +26,13 @@
     "thisLevelTip" : "This shows how many times you have completed the achievement this level and how many times you have completed it across all levels. Click to continue.",
     "favouriteTip" : "You can click here to favourite your achievement. It will appear in your Favourites tab.",
     "completeTip" : "You are almost done! Click here to complete this achievement",
-    "doneTip" : "Great! You have completed the tutorial. Click here to continue.",
+    "doneTip" : "Great! You have completed the tutorial. You even earned some energy. Click anywhere to continue.",
     "register" : "Register",
     "registerText" : "You successfully completed the tutorial. To continue achieving please fill register your account.",
     "email" : "E-mail",
     "password" : "Password",
-    "re_password" : "Confirm Password"
+    "re_password" : "Confirm Password",
+    "earnedEnergy" : "You just earned some energy! ",
+    "levelUp" : "Level up!",
+    "completedTask" : "Task Completed!"
 }
